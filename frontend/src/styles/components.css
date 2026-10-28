@@ -1695,9 +1695,12 @@ body.is-resizing-sidebar * {
   border-radius: var(--radius-xl);
   max-width: 600px;
   width: 100%;
-  max-height: 88vh;
-  overflow-y: auto;
-  padding: 1.85rem;
+  /* Use viewport-relative max height accounting for header/footer chrome */
+  max-height: min(88vh, calc(100dvh - 2rem));
+  /* Flex-column so header, body, and actions each occupy their own slot */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* clipping done per-section */
   position: relative;
   animation: modalScale 200ms cubic-bezier(0.16, 1, 0.3, 1);
   color: var(--text-main);
@@ -1709,9 +1712,36 @@ body.is-resizing-sidebar * {
   max-width: 760px;
 }
 
-/* Body wrapper inside modal */
+/* ── Modal inner sections ────────────────────────────────────────────────── */
+
+/* Header: fixed, never scrolls away */
+.modal-header {
+  flex-shrink: 0;
+  padding: 1.35rem 1.85rem 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* Body: the only scrollable region */
 .modal-body {
+  flex: 1 1 auto;
   overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.35rem 1.85rem;
+  -webkit-overflow-scrolling: touch;
+  /* Custom scrollbar to match design */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 58, 43, 0.28) transparent;
+}
+.modal-body::-webkit-scrollbar { width: 5px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb {
+  background: rgba(139, 58, 43, 0.28);
+  border-radius: 10px;
+}
+
+/* Prevent body scroll while modal is open */
+body.modal-open {
+  overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -1736,15 +1766,6 @@ body.is-resizing-sidebar * {
   }
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--border-light);
-}
-
 .modal-title {
   font-size: 1.25rem;
   font-weight: 800;
@@ -1762,6 +1783,7 @@ body.is-resizing-sidebar * {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
   transition: all var(--transition-fast);
 }
 
@@ -1771,14 +1793,17 @@ body.is-resizing-sidebar * {
   border-color: var(--color-terracotta-border);
 }
 
+/* Actions bar: fixed at bottom of modal, never scrolls away */
 .modal-actions {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.75rem;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
+  padding: 0.9rem 1.85rem 1.35rem;
   border-top: 1px solid var(--border-light);
+  background: #ffffff;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
 }
 
 /* --------------------------------------------------------------------------
