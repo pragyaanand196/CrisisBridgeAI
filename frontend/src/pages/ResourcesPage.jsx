@@ -23,7 +23,14 @@ export function ResourcesPage() {
   const [zonesLoading, setZonesLoading] = useState(false);
   const [zonesError, setZonesError] = useState(null);
 
-  // Modal
+  // Edit Capacity Modal State
+  const [isCapacityModalOpen, setIsCapacityModalOpen] = useState(false);
+  const [editingResource, setEditingResource] = useState(null);
+  const [newOccupancy, setNewOccupancy] = useState('');
+  const [savingCapacity, setSavingCapacity] = useState(false);
+  const [capacityError, setCapacityError] = useState(null);
+
+  // Add Resource Modal
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [form, setForm] = useState({
@@ -143,6 +150,77 @@ export function ResourcesPage() {
     }
   };
 
+  const handleOpenCapacityModal = (res) => {
+    setEditingResource(res);
+    setNewOccupancy(String(res.capacity_occupied ?? 0));
+    setCapacityError(null);
+    setIsCapacityModalOpen(true);
+  };
+
+  const handleCloseCapacityModal = () => {
+    setIsCapacityModalOpen(false);
+    setEditingResource(null);
+    setCapacityError(null);
+    setSavingCapacity(false);
+  };
+
+  const handleSaveCapacity = async (e) => {
+    e.preventDefault();
+    if (!editingResource) return;
+
+    const rawVal = String(newOccupancy).trim();
+    if (rawVal === '') {
+      setCapacityError('Occupancy count is required.');
+      return;
+    }
+
+    if (!/^\d+$/.test(rawVal)) {
+      setCapacityError('Occupancy count must be a non-negative whole number (no decimals or symbols).');
+      return;
+    }
+
+    const parsed = Number(rawVal);
+    if (!Number.isInteger(parsed)) {
+      setCapacityError('Occupancy count must be a valid whole number.');
+      return;
+    }
+
+    if (parsed < 0) {
+      setCapacityError('Occupancy count cannot be negative.');
+      return;
+    }
+
+    if (parsed > editingResource.capacity_total) {
+      setCapacityError(`Occupancy count cannot exceed total capacity of ${editingResource.capacity_total}.`);
+      return;
+    }
+
+    // Unchanged check: avoid unnecessary duplicate updates
+    if (parsed === editingResource.capacity_occupied) {
+      addToast('Occupancy count unchanged. No update necessary.', 'info');
+      handleCloseCapacityModal();
+      return;
+    }
+
+    setSavingCapacity(true);
+    setCapacityError(null);
+    try {
+      const updated = await api.updateResourceCapacity(editingResource.id, parsed);
+      addToast(
+        `Capacity for '${updated.name}' updated to ${updated.capacity_occupied} / ${updated.capacity_total} occupants (${updated.status.toUpperCase()}).`,
+        'success'
+      );
+      handleCloseCapacityModal();
+      loadData();
+    } catch (err) {
+      console.error('Failed to update capacity:', err);
+      setCapacityError(err.message || 'Failed to update capacity.');
+      addToast(err.message || 'Failed to update capacity.', 'danger');
+    } finally {
+      setSavingCapacity(false);
+    }
+  };
+
   if (loading) {
     return <LoadingSpinner text="Loading emergency resources..." fullPage />;
   }
@@ -214,7 +292,7 @@ export function ResourcesPage() {
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '0.65rem' }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginBottom: 4 }}>
-                    <span className={`badge ${res.status === 'Open' ? 'badge-stable' : 'badge-extreme'}`} style={{ fontSize: '0.7rem' }}>
+                    <span className={`badge ${res.status?.toLowerCase() === 'open' ? 'badge-stable' : 'badge-extreme'}`} style={{ fontSize: '0.7rem' }} id={`badge-resource-status-${res.id}`}>
                       {res.status}
                     </span>
                     {res.response_zone_name ? (
@@ -245,18 +323,34 @@ export function ResourcesPage() {
               <div className="card-item-meta" style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', margin: '0.5rem 0 1rem' }}>
                 <div><strong className="meta-highlight">Category:</strong> {res.resource_type}</div>
                 <div><MapPin size={13} style={{ display: 'inline', marginRight: 4, color: 'var(--color-terracotta)' }} /> {res.address}</div>
-                <div><strong className="meta-highlight">Current Capacity:</strong> {res.capacity_occupied || 0} / {res.capacity_total || 0} occupants</div>
+                <div id={`resource-capacity-display-${res.id}`}>
+                  <strong className="meta-highlight">Current Capacity:</strong> {res.capacity_occupied ?? 0} / {res.capacity_total ?? 0} occupants
+                </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto' }}>
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto', flexWrap: 'wrap' }}>
                 <a
                   href={`tel:${res.contact_phone}`}
                   className="btn btn-outline btn-sm"
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, minWidth: '130px' }}
                 >
                   <Phone size={14} color="var(--color-terracotta)" />
                   <span>Call ({res.contact_phone})</span>
                 </a>
+                {isAuthority && (
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    id={`btn-edit-capacity-${res.id}`}
+                    onClick={() => handleOpenCapacityModal(res)}
+                    style={{ borderColor: 'var(--color-terracotta)', color: 'var(--color-terracotta)', fontWeight: 600 }}
+                    title="Edit occupied capacity"
+                    aria-label={`Edit capacity for ${res.name}`}
+                  >
+                    <Edit size={14} />
+                    <span>Edit Capacity</span>
+                  </button>
+                )}
                 {res.latitude != null && res.longitude != null && (
                   <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${res.latitude},${res.longitude}`}
@@ -479,6 +573,112 @@ export function ResourcesPage() {
             </button>
           </div>
         </form>
+      </Modal>
+
+      {/* Edit Capacity Modal for Authorities */}
+      <Modal
+        isOpen={isCapacityModalOpen}
+        onClose={handleCloseCapacityModal}
+        title="Edit Resource Capacity"
+      >
+        {editingResource && (
+          <form onSubmit={handleSaveCapacity} style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
+            <div style={{
+              padding: '0.9rem 1.1rem',
+              background: 'var(--bg-surface-subtle)',
+              borderRadius: '8px',
+              border: '1px solid var(--border-medium)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.45rem'
+            }}>
+              <div style={{ fontSize: '0.95rem' }}>
+                <strong style={{ color: 'var(--color-espresso-dark)' }}>Resource:</strong>{' '}
+                <span style={{ fontWeight: 700, color: 'var(--color-espresso-base)' }} id="modal-resource-name">{editingResource.name}</span>
+              </div>
+              <div style={{ fontSize: '0.86rem', color: 'var(--color-warm-brown)', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                <span>Total Capacity: <strong id="modal-total-capacity">{editingResource.capacity_total} occupants</strong></span>
+                <span>Currently Occupied: <strong id="modal-current-occupancy">{editingResource.capacity_occupied ?? 0} occupants</strong></span>
+                <span>
+                  Current Status:{' '}
+                  <span className={`badge ${editingResource.status?.toLowerCase() === 'open' ? 'badge-stable' : 'badge-extreme'}`} style={{ fontSize: '0.68rem', padding: '1px 8px' }}>
+                    {editingResource.status}
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            {capacityError && (
+              <div id="capacity-error-alert" style={{
+                padding: '0.65rem 0.85rem',
+                background: 'rgba(239, 68, 68, 0.08)',
+                borderRadius: '6px',
+                border: '1px solid var(--status-extreme)',
+                fontSize: '0.84rem',
+                color: 'var(--status-extreme)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}>
+                <AlertTriangle size={15} style={{ flexShrink: 0 }} />
+                <span>{capacityError}</span>
+              </div>
+            )}
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="input-edit-capacity-occupied">
+                Updated Occupancy Count <span className="required-star">*</span>
+              </label>
+              <input
+                type="number"
+                id="input-edit-capacity-occupied"
+                className="form-input"
+                min={0}
+                max={editingResource.capacity_total}
+                step={1}
+                value={newOccupancy}
+                onChange={(e) => {
+                  setNewOccupancy(e.target.value);
+                  if (capacityError) setCapacityError(null);
+                }}
+                placeholder={`Enter 0 to ${editingResource.capacity_total}`}
+                required
+                autoFocus
+              />
+              <small style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '5px', display: 'block', lineHeight: 1.45 }}>
+                Enter a whole number between 0 and {editingResource.capacity_total}.
+                {Number.isInteger(Number(newOccupancy)) && Number(newOccupancy) >= 0 && Number(newOccupancy) <= editingResource.capacity_total && (
+                  <span style={{ marginLeft: 6 }}>
+                    Resulting availability status will automatically be{' '}
+                    <strong style={{ color: Number(newOccupancy) === editingResource.capacity_total ? 'var(--status-extreme)' : 'var(--status-stable)' }}>
+                      {Number(newOccupancy) === editingResource.capacity_total ? 'CLOSED' : 'OPEN'}
+                    </strong>.
+                  </span>
+                )}
+              </small>
+            </div>
+
+            <div className="modal-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
+              <button
+                type="button"
+                className="btn btn-outline"
+                id="btn-cancel-capacity-edit"
+                onClick={handleCloseCapacityModal}
+                disabled={savingCapacity}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                id="btn-save-capacity-submit"
+                disabled={savingCapacity}
+              >
+                {savingCapacity ? 'Saving...' : 'Save Changes'}
+              </button>
+            </div>
+          </form>
+        )}
       </Modal>
     </div>
   );

@@ -122,6 +122,11 @@ export const api = {
   getCitizenResources: () => request('/citizen/resources'),
   createResource: (resData) => request('/resources', { method: 'POST', body: JSON.stringify(resData) }),
   updateResource: (id, resData) => request(`/resources/${id}`, { method: 'PUT', body: JSON.stringify(resData) }),
+  updateResourceCapacity: (id, capacity_occupied) =>
+    request(`/resources/${id}/capacity`, {
+      method: 'PATCH',
+      body: JSON.stringify({ capacity_occupied })
+    }),
   deleteResource: (id) => request(`/resources/${id}`, { method: 'DELETE' }),
 
   // Analytics

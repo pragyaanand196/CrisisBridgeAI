@@ -1,5 +1,5 @@
-from pydantic import BaseModel
-from typing import Optional, List
+from pydantic import BaseModel, field_validator
+from typing import Optional, List, Any
 from datetime import datetime
 
 class ResourceCreate(BaseModel):
@@ -23,6 +23,35 @@ class ResourceUpdate(BaseModel):
     capacity_occupied: Optional[int] = None
     status: Optional[str] = None
     response_zone_id: Optional[int] = None
+
+class ResourceCapacityUpdate(BaseModel):
+    capacity_occupied: int
+
+    @field_validator("capacity_occupied", mode="before")
+    @classmethod
+    def validate_whole_number(cls, v):
+        if v is None:
+            raise ValueError("Occupancy count cannot be empty.")
+        if isinstance(v, bool):
+            raise ValueError("Occupancy count must be a valid whole number.")
+        if isinstance(v, float):
+            if not v.is_integer():
+                raise ValueError("Occupancy count must be a non-negative whole number (decimals are not permitted).")
+            v = int(v)
+        if isinstance(v, str):
+            v_str = v.strip()
+            if not v_str:
+                raise ValueError("Occupancy count cannot be empty.")
+            if "." in v_str:
+                raise ValueError("Occupancy count must be a non-negative whole number (decimals are not permitted).")
+            if not v_str.isdigit() and not (v_str.startswith("-") and v_str[1:].isdigit()):
+                raise ValueError("Occupancy count must be a valid non-negative whole number.")
+            v = int(v_str)
+        if not isinstance(v, int):
+            raise ValueError("Occupancy count must be an integer.")
+        if v < 0:
+            raise ValueError("Occupancy count cannot be negative.")
+        return v
 
 class ResourceOut(BaseModel):
     id: int

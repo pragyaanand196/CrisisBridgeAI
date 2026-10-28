@@ -5,7 +5,7 @@ from backend.app.schemas.citizen import CitizenResponseCreate, CitizenResponseOu
 from backend.app.schemas.assistance import AssistanceRequestCreate, AssistanceRequestUpdate, AssistanceRequestOut
 from backend.app.schemas.notification import AuthorityNotificationOut, NotificationCountOut
 from backend.app.schemas.verification import VerificationReportCreate, VerificationReportReview, VerificationReportOut, ClarificationPublish
-from backend.app.schemas.resource import ResourceCreate, ResourceUpdate, ResourceOut
+from backend.app.schemas.resource import ResourceCreate, ResourceUpdate, ResourceCapacityUpdate, ResourceOut
 from backend.app.schemas.analytics import WTAScoreBreakdown, GapAlert, ZoneHealthMatrix, SystemOverviewMetrics
 from backend.app.schemas.audit import AuditLogOut, PostDisasterReportOut
 
@@ -17,7 +17,7 @@ __all__ = [
     "AssistanceRequestCreate", "AssistanceRequestUpdate", "AssistanceRequestOut",
     "AuthorityNotificationOut", "NotificationCountOut",
     "VerificationReportCreate", "VerificationReportReview", "VerificationReportOut", "ClarificationPublish",
-    "ResourceCreate", "ResourceUpdate", "ResourceOut",
+    "ResourceCreate", "ResourceUpdate", "ResourceCapacityUpdate", "ResourceOut",
     "WTAScoreBreakdown", "GapAlert", "ZoneHealthMatrix", "SystemOverviewMetrics",
     "AuditLogOut", "PostDisasterReportOut"
 ]

@@ -70,7 +70,7 @@ def get_citizen_emergency_resources(
     matched_zone_ids = [z.id for z in matched_zones]
     resources = db.query(Resource).filter(
         Resource.response_zone_id.in_(matched_zone_ids),
-        Resource.status != "Closed"
+        Resource.status != "Deactivated"
     ).order_by(Resource.created_at.desc()).all()
 
     # Enrich resources with zone labels

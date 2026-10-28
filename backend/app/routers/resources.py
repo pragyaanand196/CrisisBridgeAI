@@ -6,7 +6,13 @@ from backend.app.models.user import User
 from backend.app.models.resource import Resource
 from backend.app.models.response_zone import ResponseZone
 from backend.app.models.warning import Warning
-from backend.app.schemas.resource import ResourceCreate, ResourceUpdate, ResourceOut, EligibleZoneOut
+from backend.app.schemas.resource import (
+    ResourceCreate,
+    ResourceUpdate,
+    ResourceCapacityUpdate,
+    ResourceOut,
+    EligibleZoneOut
+)
 from backend.app.services.auth_service import require_authority, get_current_user
 from backend.app.services.geo_service import get_citizen_eligible_response_zones
 from backend.app.services.audit_service import log_audit_event
@@ -83,7 +89,8 @@ def list_resources(
     Returns resources with strict authorization and citizen zone filtering:
     - Authority and Administrator: Can view all resources or filter by zone.
     - Citizen: Strictly filtered to resources in the citizen's matched Response Zone(s).
-      Citizens never receive unassigned resources or resources from other zones.
+      Citizens see both OPEN and CLOSED facilities in their zone (so they know when shelters are full),
+      but never receive unassigned resources, administrative deactivations, or resources from other zones.
     - Unauthenticated: Returns empty list to prevent unauthorized leaks.
     """
     if not current_user:
@@ -97,10 +104,10 @@ def list_resources(
             return []
 
         matched_zone_ids = [z.id for z in matched_zones]
-        # Citizens only see resources assigned to their valid zone membership and in active/visible status
+        # Citizens only see resources assigned to their valid zone membership and not administratively deactivated
         query = query.filter(
             Resource.response_zone_id.in_(matched_zone_ids),
-            Resource.status != "Closed"
+            Resource.status != "Deactivated"
         )
 
         if zone_id:
@@ -130,8 +137,24 @@ async def create_resource(
 ):
     """
     Creates an emergency facility/resource assigned to a valid Response Zone.
-    Validates that the selected response zone exists in the database.
+    Validates capacity bounds and automatically derives Open/Closed status.
     """
+    if res_in.capacity_total < 0:
+        raise HTTPException(
+            status_code=422,
+            detail="Total capacity cannot be negative."
+        )
+    if res_in.capacity_occupied < 0:
+        raise HTTPException(
+            status_code=422,
+            detail="Occupied capacity cannot be negative."
+        )
+    if res_in.capacity_occupied > res_in.capacity_total:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Occupied capacity ({res_in.capacity_occupied}) cannot exceed total capacity ({res_in.capacity_total})."
+        )
+
     assigned_zone_id = None
     if res_in.response_zone_id is not None and res_in.response_zone_id > 0:
         zone = db.query(ResponseZone).filter(ResponseZone.id == res_in.response_zone_id).first()
@@ -141,6 +164,14 @@ async def create_resource(
                 detail=f"Response Zone with ID {res_in.response_zone_id} does not exist."
             )
         assigned_zone_id = zone.id
+
+    # Automatically derive status if not administratively marked as Deactivated/Maintenance
+    resource_status = res_in.status
+    if resource_status not in ["Deactivated", "Maintenance"]:
+        if res_in.capacity_occupied >= res_in.capacity_total:
+            resource_status = "Closed"
+        else:
+            resource_status = "Open"
 
     new_res = Resource(
         response_zone_id=assigned_zone_id,
@@ -152,7 +183,7 @@ async def create_resource(
         contact_phone=res_in.contact_phone.strip(),
         capacity_total=res_in.capacity_total,
         capacity_occupied=res_in.capacity_occupied,
-        status=res_in.status,
+        status=resource_status,
         verified_by_authority=True
     )
     db.add(new_res)
@@ -165,7 +196,7 @@ async def create_resource(
         entity_type="Resource",
         entity_id=new_res.id,
         user=current_user,
-        summary=f"Added verified {new_res.resource_type}: '{new_res.name}' (Zone #{new_res.response_zone_id or 'Unassigned'})"
+        summary=f"Added verified {new_res.resource_type}: '{new_res.name}' (Zone #{new_res.response_zone_id or 'Unassigned'}, Capacity: {new_res.capacity_occupied}/{new_res.capacity_total}, Status: {new_res.status})"
     )
 
     # Real-time WebSocket broadcast to all connected clients
@@ -174,12 +205,97 @@ async def create_resource(
             "resource_id": new_res.id,
             "name": new_res.name,
             "response_zone_id": new_res.response_zone_id,
+            "capacity_occupied": new_res.capacity_occupied,
+            "capacity_total": new_res.capacity_total,
             "status": new_res.status
         })
-    except Exception as e:
+    except Exception:
         pass
 
     return enrich_resource_out(new_res, db)
+
+
+@router.patch("/{resource_id}/capacity", response_model=ResourceOut)
+async def update_resource_capacity(
+    resource_id: int,
+    cap_in: ResourceCapacityUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_authority)
+):
+    """
+    Updates the occupied capacity of an existing emergency resource.
+    Strictly validates:
+    - User must be authenticated authority/admin (enforced by require_authority).
+    - Resource ID must exist (404 if not found).
+    - Occupancy count must be a non-negative whole number (<= capacity_total).
+    Automatically calculates availability status:
+    - If capacity_occupied == capacity_total -> status = 'Closed'
+    - If capacity_occupied < capacity_total -> status = 'Open'
+    Preserves administrative deactivation/maintenance status if present.
+    Synchronizes across WebSocket and logs audit event.
+    """
+    res = db.query(Resource).filter(Resource.id == resource_id).first()
+    if not res:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Resource with ID {resource_id} not found."
+        )
+
+    new_occupied = cap_in.capacity_occupied
+
+    if new_occupied < 0:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Occupied capacity cannot be negative."
+        )
+
+    if new_occupied > res.capacity_total:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"Occupied count ({new_occupied}) cannot exceed total capacity ({res.capacity_total})."
+        )
+
+    # Check if unchanged — prevent unnecessary duplicate updates
+    if new_occupied == res.capacity_occupied:
+        return enrich_resource_out(res, db)
+
+    old_occupied = res.capacity_occupied
+    old_status = res.status
+    res.capacity_occupied = new_occupied
+
+    # Automatically derive Open / Closed availability status
+    # Administrative deactivation or maintenance is preserved
+    if res.status not in ["Deactivated", "Maintenance"]:
+        if new_occupied >= res.capacity_total:
+            res.status = "Closed"
+        else:
+            res.status = "Open"
+
+    db.commit()
+    db.refresh(res)
+
+    log_audit_event(
+        db=db,
+        event_type="RESOURCE_CAPACITY_UPDATED",
+        entity_type="Resource",
+        entity_id=res.id,
+        user=current_user,
+        summary=f"Updated capacity of '{res.name}': {old_occupied} -> {new_occupied}/{res.capacity_total} occupants (Status: {old_status} -> {res.status})"
+    )
+
+    try:
+        await ws_manager.broadcast("RESOURCE_UPDATED", {
+            "resource_id": res.id,
+            "name": res.name,
+            "response_zone_id": res.response_zone_id,
+            "capacity_occupied": res.capacity_occupied,
+            "capacity_total": res.capacity_total,
+            "status": res.status
+        })
+    except Exception:
+        pass
+
+    return enrich_resource_out(res, db)
 
 
 @router.put("/{resource_id}", response_model=ResourceOut)
@@ -191,7 +307,8 @@ async def update_resource(
 ):
     """
     Updates an existing emergency resource.
-    Validates response_zone_id if provided.
+    Validates capacity bounds and response_zone_id if provided.
+    Automatically synchronizes Open/Closed status when capacity changes.
     """
     res = db.query(Resource).filter(Resource.id == resource_id).first()
     if not res:
@@ -211,6 +328,27 @@ async def update_resource(
             update_dict["response_zone_id"] = zone.id
         else:
             update_dict["response_zone_id"] = None
+
+    target_total = update_dict.get("capacity_total", res.capacity_total)
+    if "capacity_total" in update_dict and target_total < 0:
+        raise HTTPException(status_code=422, detail="Total capacity cannot be negative.")
+
+    if "capacity_occupied" in update_dict:
+        new_occ = update_dict["capacity_occupied"]
+        if new_occ is not None:
+            if new_occ < 0:
+                raise HTTPException(status_code=422, detail="Occupied capacity cannot be negative.")
+            if new_occ > target_total:
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"Occupied count ({new_occ}) cannot exceed total capacity ({target_total})."
+                )
+            # Synchronize status if not explicitly overriding status or administratively deactivated
+            if "status" not in update_dict and res.status not in ["Deactivated", "Maintenance"]:
+                if new_occ >= target_total:
+                    update_dict["status"] = "Closed"
+                else:
+                    update_dict["status"] = "Open"
 
     for field, val in update_dict.items():
         setattr(res, field, val)
@@ -232,9 +370,11 @@ async def update_resource(
             "resource_id": res.id,
             "name": res.name,
             "response_zone_id": res.response_zone_id,
+            "capacity_occupied": res.capacity_occupied,
+            "capacity_total": res.capacity_total,
             "status": res.status
         })
-    except Exception as e:
+    except Exception:
         pass
 
     return enrich_resource_out(res, db)
