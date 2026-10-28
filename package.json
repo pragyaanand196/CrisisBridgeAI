@@ -1,0 +1,23 @@
+{
+  "name": "crisisbridge-ai",
+  "version": "1.0.0",
+  "description": "CrisisBridge AI — AI-Powered Disaster Communication and Response Verification Platform",
+  "private": true,
+  "scripts": {
+    "start:backend": "python backend/run.py",
+    "start:frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && npm run build",
+    "test:backend": "python backend/test_backend.py"
+  },
+  "keywords": [
+    "disaster-management",
+    "cap-v1.2",
+    "emergency-alerting",
+    "response-zones",
+    "warning-to-action",
+    "fastapi",
+    "react"
+  ],
+  "author": "CrisisBridge AI Team",
+  "license": "UNLICENSED"
+}

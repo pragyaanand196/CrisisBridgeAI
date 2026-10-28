@@ -1,0 +1,1775 @@
+/* ==========================================================================
+   CrisisBridge AI — Specialized Page Layouts & Glassmorphic Themes
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Landing Page & Hero Section
+   -------------------------------------------------------------------------- */
+.landing-page {
+  position: relative;
+  z-index: 2;
+}
+
+.landing-hero {
+  background: linear-gradient(135deg, #22120c 0%, #3d2015 50%, #22120c 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 58, 43, 0.40);
+  color: #ffffff;
+  padding: 4.5rem 1.5rem 4rem;
+  border-radius: var(--radius-xl);
+  margin-bottom: 2.75rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(34, 18, 12, 0.40), 0 0 40px rgba(139, 58, 43, 0.15);
+}
+
+.landing-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #8b3a2b, #c2410c, #fdba74, #8b3a2b);
+  background-size: 200% 100%;
+  animation: shimmerBorder 8s linear infinite;
+}
+
+@keyframes shimmerBorder {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(139, 58, 43, 0.20);
+  border: 1px solid rgba(253, 186, 116, 0.50);
+  color: #fdba74;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 16px rgba(139, 58, 43, 0.25);
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  color: #ffffff;
+  font-weight: 900;
+  line-height: 1.15;
+  max-width: 900px;
+  margin: 0 auto 1.25rem;
+  letter-spacing: -0.025em;
+  background: linear-gradient(135deg, #fef3ed 30%, #fdba74 70%, #fde68a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.25rem;
+  }
+
+  .landing-hero {
+    padding: 3rem 1.25rem;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1.18rem;
+  color: rgba(255, 220, 190, 0.80);
+  max-width: 740px;
+  margin: 0 auto 2.25rem;
+  line-height: 1.65;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.15rem;
+  flex-wrap: wrap;
+}
+
+/* Workflow Section */
+.workflow-section {
+  margin-bottom: 3.5rem;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 2.25rem;
+}
+
+.section-tag {
+  color: #fdba74;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+  display: inline-block;
+  background: rgba(139, 58, 43, 0.12);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(139, 58, 43, 0.25);
+}
+
+.workflow-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.35rem;
+}
+
+.step-card {
+  background: var(--bg-surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-glass-medium);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.step-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-terracotta-border);
+  box-shadow: 0 12px 30px rgba(34, 18, 12, 0.12);
+}
+
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(139, 58, 43, 0.15), rgba(194, 65, 12, 0.20));
+  border: 1px solid rgba(139, 58, 43, 0.35);
+  color: var(--color-terracotta);
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.step-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-espresso-dark);
+  margin-bottom: 0.5rem;
+}
+
+.step-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* Role Entrances Grid */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.role-card {
+  background: var(--bg-surface-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass-medium);
+  border-radius: var(--radius-xl);
+  padding: 2.25rem 1.85rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all var(--transition-fast);
+}
+
+.role-card:hover {
+  border-color: var(--color-terracotta-border);
+  box-shadow: var(--shadow-lg), 0 0 24px rgba(139, 58, 43, 0.12);
+  transform: translateY(-3px);
+}
+
+.role-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   Citizen Emergency Portal & Active Warning Card
+   -------------------------------------------------------------------------- */
+.citizen-alert-hero {
+  background: rgba(250, 247, 242, 0.95);
+  border-radius: var(--radius-xl);
+  padding: 2.25rem;
+  margin-bottom: 2rem;
+  border: 2px solid var(--border-medium);
+  box-shadow: 0 8px 28px rgba(34, 18, 12, 0.08);
+  position: relative;
+}
+
+.citizen-alert-hero.extreme {
+  border-color: var(--status-extreme-border);
+  box-shadow: 0 8px 28px rgba(34, 18, 12, 0.08), 0 0 20px rgba(185, 28, 28, 0.10);
+  background: linear-gradient(135deg, #fff7f7 0%, #ffffff 100%);
+}
+
+.citizen-alert-hero.severe {
+  border-color: var(--status-severe-border);
+  box-shadow: 0 8px 28px rgba(34, 18, 12, 0.08), 0 0 20px rgba(194, 65, 12, 0.10);
+  background: linear-gradient(135deg, #fffaf5 0%, #ffffff 100%);
+}
+
+.citizen-alert-hero.moderate {
+  border-color: var(--status-moderate-border);
+  box-shadow: 0 8px 28px rgba(34, 18, 12, 0.08), 0 0 20px rgba(180, 83, 9, 0.10);
+  background: linear-gradient(135deg, #fffdf0 0%, #ffffff 100%);
+}
+
+.citizen-alert-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Citizen Response Grid (5 Distinct Action Buttons) */
+.citizen-response-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.75rem 0;
+}
+
+.citizen-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.35rem 1rem;
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  font-size: 0.98rem;
+  gap: 0.45rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border-width: 2px;
+  border-style: solid;
+  backdrop-filter: blur(12px);
+}
+
+/* Subtitles inside each response card use lighter weight so they read
+   as supporting captions rather than competing with the button label. */
+.citizen-action-btn small {
+  font-weight: 500;
+  opacity: 0.88;            /* slightly muted relative to the button's themed color */
+  line-height: 1.35;
+}
+
+.citizen-action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.citizen-action-btn:active {
+  transform: translateY(0);
+}
+
+/* 1. Understand Button — dark green text on light green tint; AA contrast ≥ 4.5 */
+.btn-understand {
+  background: rgba(16, 185, 129, 0.10);
+  color: #065f46;         /* emerald-900 — 7.1:1 on white */
+  border-color: #10b981;
+}
+
+.btn-understand svg {
+  color: #059669;         /* icon slightly lighter but still AA */
+}
+
+.btn-understand:hover {
+  background: rgba(16, 185, 129, 0.20);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.30);
+  color: #022c22;
+}
+
+/* 2. Safe Button — dark cyan text on light cyan tint */
+.btn-safe {
+  background: rgba(6, 182, 212, 0.10);
+  color: #164e63;         /* sky-900 — 8.6:1 on white */
+  border-color: #06b6d4;
+}
+
+.btn-safe svg {
+  color: #0e7490;
+}
+
+.btn-safe:hover {
+  background: rgba(6, 182, 212, 0.22);
+  box-shadow: 0 0 18px rgba(6, 182, 212, 0.30);
+  color: #0c4a6e;
+}
+
+/* 3. Don't Understand Button — dark amber text on light amber tint */
+.btn-dont-understand {
+  background: rgba(245, 158, 11, 0.10);
+  color: #78350f;         /* amber-900 — 9.4:1 on white */
+  border-color: #f59e0b;
+}
+
+.btn-dont-understand svg {
+  color: #b45309;
+}
+
+.btn-dont-understand:hover {
+  background: rgba(245, 158, 11, 0.22);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.30);
+  color: #451a03;
+}
+
+/* 4. Need Help Button — dark red text on light red tint */
+.btn-help {
+  background: rgba(239, 68, 68, 0.10);
+  color: #7f1d1d;         /* red-900 — 9.5:1 on white */
+  border-color: #ef4444;
+}
+
+.btn-help svg {
+  color: #b91c1c;
+}
+
+.btn-help:hover {
+  background: rgba(239, 68, 68, 0.22);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.35);
+  color: #450a0a;
+}
+
+/* 5. Not In Area Button — warm-neutral muted: dark espresso text on warm tint */
+.btn-not-in-area {
+  background: rgba(92, 74, 66, 0.08);     /* warm brown tint; fits cream card */
+  color: var(--color-espresso-base);      /* #2c1a14 — AA compliant on white (16:1) */
+  border-color: var(--border-strong);    /* #c9b9a8 — warm neutral border */
+}
+
+.btn-not-in-area svg {
+  color: var(--color-warm-brown);        /* #5c4a42 — warm muted icon */
+}
+
+.btn-not-in-area:hover {
+  background: rgba(92, 74, 66, 0.15);
+  border-color: var(--color-terracotta-border);
+  color: var(--color-espresso-dark);
+}
+
+/* Audio Speech Bar — warm espresso background (fits warm design system) so
+   white label text (#f8fafc) remains AA-compliant (contrast > 16:1). */
+.audio-speech-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-espresso-base);  /* #2c1a14 — warm dark, consistent with site header */
+  border: 1px solid rgba(139, 58, 43, 0.45); /* warm terracotta border accent */
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(34, 18, 12, 0.12);
+  user-select: none;            /* prevents accidental text-selection highlight */
+  -webkit-user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Authority Command Center
+   -------------------------------------------------------------------------- */
+.authority-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Authority Dashboard Container Query Anchor */
+.authority-dashboard {
+  container-type: inline-size;
+  container-name: authority-dash;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* ── Hero Section with Flood Rescue Convoy Background Photograph ── */
+.authority-hero-section {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1.75rem;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #1a0f0b;
+  box-shadow: 0 8px 30px rgba(44, 26, 20, 0.12);
+}
+
+.authority-hero-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-image: url('/flood-rescue-convoy.png');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.authority-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(to right, rgba(20, 10, 7, 0.92) 0%, rgba(20, 10, 7, 0.84) 42%, rgba(20, 10, 7, 0.35) 75%, rgba(20, 10, 7, 0.12) 100%),
+    linear-gradient(to bottom, transparent 60%, rgba(246, 242, 236, 0.95) 95%, #f6f2ec 100%);
+}
+
+.authority-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 1.5rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.authority-top-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.authority-top-actions-bar .back-btn {
+  color: #ffffff !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.authority-top-actions-bar .back-btn:hover {
+  color: #fde68a !important;
+}
+
+.hero-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(20, 10, 8, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 0.38rem 0.95rem;
+  border-radius: 9999px;
+  font-size: 0.84rem;
+  backdrop-filter: blur(8px);
+}
+
+.hero-user-name {
+  color: #ffffff;
+}
+
+.hero-user-role {
+  color: #fdba74;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.btn-hero-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #8b3a2b;
+  border: 1px solid #8b3a2b;
+  color: #ffffff !important;
+  padding: 0.38rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(139, 58, 43, 0.35);
+}
+
+.btn-hero-logout:hover {
+  background: #a84232;
+  border-color: #a84232;
+}
+
+/* Override for bell when placed inside the dark authority hero image panel.
+   Restores white icon and semi-dark background since the surface is dark there. */
+.authority-hero-section .btn-notification-bell {
+  background: rgba(20, 10, 8, 0.55) !important;
+  border: 1px solid rgba(255, 255, 255, 0.30) !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+  width: 38px;
+  height: 38px;
+}
+
+.authority-hero-section .btn-notification-bell:hover {
+  background: rgba(20, 10, 8, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35) !important;
+}
+
+.authority-header-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.authority-title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.authority-page-title {
+  font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.operational-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(180, 83, 9, 0.45);
+  color: #fef3c7;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.operational-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+}
+
+.authority-subtitle {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1rem;
+  margin: 0.4rem 0 0;
+  max-width: 800px;
+}
+
+/* ── 4 KPI Metric Summary Cards ── */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.15rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+  .metric-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metric-card {
+  background: #ffffff;
+  border: 1px solid #ede5da;
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem;
+  box-shadow: 0 4px 16px rgba(44, 26, 20, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(44, 26, 20, 0.1);
+}
+
+.metric-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.25rem;
+}
+
+.metric-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff1ed;
+  border: 1px solid #fed7cc;
+  color: #8b3a2b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metric-label-text {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #6b5a52;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.metric-value-number {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #1a0f0a;
+  line-height: 1.1;
+}
+
+.metric-sub-text {
+  font-size: 0.78rem;
+  color: #7a6b63;
+}
+
+/* ── Communication Gap Alert Banners ── */
+.gap-alerts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.75rem;
+  width: 100%;
+}
+
+.gap-alert-card {
+  background: #fff8f5;
+  border: 1px solid #f9d5cb;
+  border-radius: 12px;
+  padding: 1.15rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  box-shadow: 0 2px 8px rgba(139, 58, 43, 0.04);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.gap-alert-card:hover {
+  border-color: #ea580c;
+}
+
+.gap-alert-icon-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gap-alert-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.gap-alert-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.gap-alert-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #22120c;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.gap-alert-badge {
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.gap-badge-high {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.gap-badge-standard {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.gap-alert-explanation {
+  font-size: 0.84rem;
+  color: #5a4840;
+  margin: 0.2rem 0;
+}
+
+.gap-alert-recommendation {
+  font-size: 0.82rem;
+  margin-top: 0.2rem;
+}
+
+.gap-recommendation-label {
+  color: #8b3a2b;
+  font-weight: 700;
+}
+
+.gap-recommendation-text {
+  color: #8b3a2b;
+}
+
+.gap-alert-action-btn {
+  background: #8b3a2b;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 1.15rem;
+  font-weight: 600;
+  font-size: 0.84rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(139, 58, 43, 0.25);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.gap-alert-action-btn:hover {
+  background: #a84232;
+}
+
+@media (max-width: 680px) {
+  .gap-alert-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .gap-alert-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ── Active Warning Summary Card ── */
+.active-warning-summary-card {
+  background: #f9f9fa;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #8b3a2b;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 2px 10px rgba(44, 26, 20, 0.06);
+}
+
+.active-warning-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.active-warning-info {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.active-warning-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.active-warning-code {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.active-warning-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0.4rem 0 0.25rem;
+}
+
+.active-warning-meta {
+  font-size: 0.85rem;
+  color: #4a5568;
+  margin: 0;
+  font-weight: 400;
+}
+
+.meta-highlight {
+  font-weight: 700;
+  color: #22120c;
+}
+
+.active-warning-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .active-warning-actions {
+    width: 100%;
+  }
+
+  .active-warning-actions>* {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+.btn-view-warning {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.btn-view-warning:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* ── 2-Column Grid: Map & Response Zones Matrix ── */
+.authority-grid-2col {
+  display: grid;
+  grid-template-columns: 46% 54%;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: stretch;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1100px) {
+  .authority-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.response-map-panel {
+  background: #ffffff;
+  border: 1px solid #ede5da;
+  border-radius: 12px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 4px 16px rgba(44, 26, 20, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.map-legend {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: #6b5a52;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f4eee6;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-stable {
+  background: #10b981;
+}
+
+.dot-attention {
+  background: #f59e0b;
+}
+
+.dot-critical {
+  background: #ef4444;
+}
+
+.dot-gap {
+  background: #a855f7;
+}
+
+.dot-surge {
+  background: #3b82f6;
+}
+
+
+.wta-gauge-container {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  padding: 0.9rem 1.25rem;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+}
+
+.wta-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 900;
+  font-family: var(--font-family-heading);
+  flex-shrink: 0;
+}
+
+.wta-high {
+  background: var(--status-stable-bg);
+  color: var(--status-stable);
+  border: 2px solid var(--status-stable-border);
+}
+
+.wta-med {
+  background: var(--status-moderate-bg);
+  color: var(--status-moderate);
+  border: 2px solid var(--status-moderate-border);
+}
+
+.wta-low {
+  background: var(--status-extreme-bg);
+  color: var(--status-extreme);
+  border: 2px solid var(--status-extreme-border);
+}
+
+/* --------------------------------------------------------------------------
+   Authentication Screens (Login / Register Card)
+   -------------------------------------------------------------------------- */
+.auth-container {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+   Post-Disaster Report & Print Styles
+   -------------------------------------------------------------------------- */
+.report-header {
+  border-bottom: 2px solid var(--border-light);
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.report-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.15rem;
+  margin: 1.5rem 0;
+  background: var(--bg-surface-subtle);
+  padding: 1.35rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+@media (max-width: 640px) {
+  .report-meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0.95rem;
+    gap: 0.85rem;
+  }
+}
+
+.audit-timeline {
+  position: relative;
+  padding-left: 2rem;
+  border-left: 2px solid var(--border-medium);
+  margin-top: 1.5rem;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -2.55rem;
+  top: 0.2rem;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-terracotta);
+  border: 3px solid var(--bg-page);
+  box-shadow: 0 0 8px rgba(139, 58, 43, 0.35);
+}
+
+/* Print Media Output (Official Incident Report) */
+@media print {
+
+  .navbar,
+  .footer,
+  .abstract-gradient-bg,
+  .no-print,
+  .back-btn,
+  .btn,
+  .mobile-menu-btn,
+  .toast-container {
+    display: none !important;
+  }
+
+  body,
+  html,
+  #root,
+  .main-content {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .report-meta-grid {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+
+  .table-container {
+    overflow: visible !important;
+  }
+
+  .table th,
+  .table td {
+    padding: 6px 10px !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #000000 !important;
+  }
+}
+
+/* ==========================================================================
+   Citizen Portal Redesign - Warm-Toned Dashboard Theming & Layout
+   ========================================================================== */
+
+.citizen-portal-container {
+  width: 100%;
+  min-width: 0;
+  position: relative;
+  background-color: #faf5ee;
+}
+
+/* -----------------------------------------------------------------------------
+   CONTINUOUS BACKGROUND WRAPPER
+   The flood-rescue photo lives here and extends behind BOTH the hero title area
+   AND the overlapping location card. The bottom gradient fades it into #faf5ee.
+   There is NO overflow:hidden clipping - the image bleeds through naturally.
+----------------------------------------------------------------------------- */
+.citizen-photo-band {
+  position: relative;
+  width: 100%;
+  padding-bottom: 7.5rem;
+  background-color: #1a0f0b;
+}
+
+/* The actual photograph */
+.citizen-photo-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/flood-rescue-convoy.jpg');
+  background-size: cover;
+  background-position: 62% 38%;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Gradient overlays */
+.citizen-photo-band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 5, 3, 0.82) 0%,
+      rgba(12, 5, 3, 0.58) 28%,
+      rgba(12, 5, 3, 0.18) 55%,
+      transparent 78%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(8, 4, 2, 0.28) 0%,
+      transparent 22%,
+      transparent 48%,
+      rgba(250, 245, 238, 0.50) 68%,
+      rgba(250, 245, 238, 0.85) 84%,
+      #faf5ee 100%
+    );
+  pointer-events: none;
+}
+
+/* Hero Content */
+.citizen-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 1.65rem 2.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.citizen-top-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.citizen-top-actions-bar .back-btn {
+  color: #ffffff !important;
+  background: rgba(16, 7, 4, 0.54) !important;
+  border: 1px solid rgba(255, 255, 255, 0.30) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.20) !important;
+  padding: 0.35rem 0.9rem !important;
+  font-size: 0.83rem !important;
+  font-weight: 500 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  cursor: pointer !important;
+  border-radius: 9999px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  transition: all 0.15s ease !important;
+}
+.citizen-top-actions-bar .back-btn:hover {
+  background: rgba(16, 7, 4, 0.74) !important;
+  border-color: rgba(255, 255, 255, 0.48) !important;
+  color: #fdba74 !important;
+}
+
+.citizen-hero-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.citizen-hero-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(16, 7, 4, 0.54);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  color: #ffffff;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.83rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.20);
+}
+.citizen-hero-user-name {
+  color: #ffffff;
+  font-weight: 600;
+}
+.citizen-hero-user-role {
+  color: #fdba74;
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.btn-citizen-hero-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(122, 40, 26, 0.88);
+  border: 1px solid rgba(180, 80, 60, 0.55);
+  color: #ffffff !important;
+  padding: 0.35rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(122, 40, 26, 0.30);
+}
+.btn-citizen-hero-logout:hover {
+  background: rgba(160, 60, 42, 0.96);
+}
+
+.citizen-hero-title-block {
+  margin-top: 1.4rem;
+}
+
+.citizen-portal-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.28rem 0;
+  line-height: 1.1;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+}
+
+.citizen-portal-subtitle {
+  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0;
+  font-weight: 400;
+  max-width: 560px;
+  line-height: 1.55;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.38);
+}
+
+/* Main Body Content */
+.citizen-portal-body {
+  position: relative;
+  z-index: 10;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 2.75rem 4rem;
+  box-sizing: border-box;
+}
+
+/* Registered Location Card - overlaps the photo band with negative margin */
+.citizen-location-card {
+  margin-top: -5.8rem;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(228, 215, 202, 0.88);
+  border-radius: 18px;
+  padding: 1.2rem 1.8rem;
+  box-shadow:
+    0 6px 22px rgba(44, 26, 20, 0.11),
+    0 1px 4px rgba(44, 26, 20, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  position: relative;
+  z-index: 12;
+}
+
+.citizen-location-left {
+  display: flex;
+  align-items: center;
+  gap: 1.05rem;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.citizen-location-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.citizen-location-icon-wrapper.is-active {
+  background: #7a281a;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(122, 40, 26, 0.30);
+}
+.citizen-location-icon-wrapper.is-unconfigured {
+  background: #d97706;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.30);
+}
+
+.citizen-location-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.citizen-location-header-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 1px;
+}
+
+.citizen-location-tag {
+  font-size: 0.69rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #8b3a2b;
+  letter-spacing: 0.07em;
+}
+
+.citizen-active-status-badge {
+  background: #e6f7ef;
+  color: #059669;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  text-transform: uppercase;
+}
+
+.citizen-location-name {
+  font-size: 1.2rem;
+  color: #22120c;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.citizen-location-subtext {
+  font-size: 0.80rem;
+  color: #6b5a52;
+  margin-top: 1px;
+}
+
+.btn-citizen-change-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  background: transparent;
+  border: 1px solid #d4c5b6;
+  color: #22120c;
+  padding: 0.44rem 1.1rem;
+  border-radius: 9999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn-citizen-change-location:hover {
+  background: #fdfbf7;
+  border-color: #b5a494;
+  color: #7a281a;
+}
+
+.citizen-unconfigured-notice {
+  margin-top: 1.25rem;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.citizen-requests-section {
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+.citizen-section-heading-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.citizen-section-title {
+  font-size: 1.2rem;
+  color: #22120c;
+  margin: 0;
+  font-weight: 700;
+}
+.citizen-requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.citizen-request-card {
+  background: #ffffff;
+  border: 1px solid #ede5da;
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 16px rgba(44, 26, 20, 0.04);
+}
+
+.citizen-warning-panel {
+  margin-top: 1.5rem;
+  background: rgba(255, 253, 250, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(232, 220, 208, 0.88);
+  border-radius: 20px;
+  box-shadow:
+    0 4px 22px rgba(44, 26, 20, 0.07),
+    0 1px 4px rgba(44, 26, 20, 0.04);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.citizen-warning-empty-state {
+  padding: 3.75rem 2rem 6.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 260px;
+}
+
+.citizen-empty-shield-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e8f9f1;
+  border: 1.5px solid #bbf7d0;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.14);
+}
+
+.citizen-empty-heading {
+  font-size: 1.28rem;
+  font-weight: 700;
+  color: #22120c;
+  margin: 0 0 0.32rem 0;
+  letter-spacing: -0.01em;
+}
+
+.citizen-empty-desc {
+  font-size: 0.87rem;
+  color: #6b5a52;
+  margin: 0;
+  max-width: 460px;
+  line-height: 1.55;
+}
+
+.citizen-empty-wave-decoration {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 88px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.citizen-wave-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.citizen-active-warnings-stack {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.citizen-shelters-card {
+  margin-top: 1.5rem;
+  background: rgba(255, 253, 250, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(232, 220, 208, 0.88);
+  border-radius: 20px;
+  box-shadow:
+    0 4px 22px rgba(44, 26, 20, 0.07),
+    0 1px 4px rgba(44, 26, 20, 0.04);
+  padding: 1.6rem 2rem;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.citizen-shelters-card hr.citizen-shelters-divider {
+  border: none;
+  border-top: 1px solid #ede5da;
+  margin: 0.65rem 0 1rem 0;
+}
+
+.citizen-shelters-header-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 0;
+}
+
+.citizen-shelters-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+  z-index: 2;
+}
+
+.citizen-shelters-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #22120c;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.citizen-shelters-subtitle {
+  font-size: 0.81rem;
+  color: #6b5a52;
+  margin-top: 2px;
+}
+
+.citizen-shelter-illustration {
+  position: absolute;
+  right: -4px;
+  top: -12px;
+  pointer-events: none;
+  opacity: 0.88;
+}
+
+.citizen-shelters-empty {
+  color: #8c7e75;
+  font-size: 0.86rem;
+  margin: 0;
+  padding: 0.6rem 0;
+}
+
+.citizen-resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.citizen-resource-item {
+  background: #fdfbf7;
+  border: 1px solid #ede5da;
+  border-radius: 12px;
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(44, 26, 20, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.citizen-resource-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(44, 26, 20, 0.09);
+}
+.citizen-resource-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.citizen-resource-name {
+  font-size: 0.95rem;
+  color: #22120c;
+  font-weight: 700;
+}
+.citizen-resource-detail {
+  font-size: 0.81rem;
+  color: #6b5a52;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.citizen-resource-label {
+  color: #8b3a2b;
+  font-weight: 600;
+}
+.citizen-resource-icon {
+  color: #8b3a2b;
+  flex-shrink: 0;
+}
+.citizen-resource-call-btn {
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 1100px) {
+  .citizen-hero-content {
+    padding: 1.5rem 1.75rem 1.8rem;
+  }
+  .citizen-portal-body {
+    padding: 0 1.75rem 3rem;
+  }
+  .citizen-portal-heading {
+    font-size: 2.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .citizen-photo-band {
+    padding-bottom: 6rem;
+  }
+  .citizen-hero-content {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+  .citizen-portal-heading {
+    font-size: 2rem;
+  }
+  .citizen-portal-subtitle {
+    font-size: 0.91rem;
+  }
+  .citizen-location-card {
+    padding: 1rem 1.2rem;
+    margin-top: -4.5rem;
+  }
+  .citizen-portal-body {
+    padding: 0 1rem 2.5rem;
+  }
+  .citizen-shelter-illustration {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .citizen-top-actions-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .citizen-hero-actions-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .citizen-portal-heading {
+    font-size: 1.75rem;
+  }
+  .citizen-location-left {
+    width: 100%;
+  }
+  .btn-citizen-change-location {
+    width: 100%;
+    justify-content: center;
+  }
+  .citizen-warning-empty-state {
+    padding: 3rem 1rem 5.5rem;
+  }
+}
