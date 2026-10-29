@@ -373,7 +373,11 @@ export function ResourcesPage() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         title="Add Emergency Facility"
-        size="lg"
+        overlayClassName="facility-modal-overlay"
+        contentClassName="facility-modal-dialog"
+        headerClassName="facility-modal-header"
+        bodyClassName="facility-modal-body"
+        actionsClassName="facility-modal-actions"
         actions={
           <>
             <button
@@ -381,6 +385,7 @@ export function ResourcesPage() {
               className="btn btn-outline"
               onClick={() => setIsAddModalOpen(false)}
               disabled={modalLoading}
+              id="btn-cancel-facility-modal"
             >
               Cancel
             </button>
@@ -399,221 +404,234 @@ export function ResourcesPage() {
         <form
           id="add-facility-form"
           onSubmit={handleCreateResource}
-          style={{ display: 'flex', flexDirection: 'column', gap: '0' }}
+          style={{ display: 'flex', flexDirection: 'column', gap: 0 }}
         >
           {/* Section A — Facility Information */}
-          <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '0 0 0.75rem' }}>
-            A — Facility Information
-          </p>
+          <div className="facility-form-section">
+            <div className="facility-form-section-title">A. Facility Information</div>
 
-          <div className="form-group" style={{ marginBottom: '0.9rem' }}>
-            <label className="form-label" htmlFor="resource-name-input">
-              Facility Name <span style={{ color: 'var(--color-terracotta)' }}>*</span>
-            </label>
-            <input
-              type="text"
-              id="resource-name-input"
-              className="form-input"
-              placeholder="e.g. Civic Auditorium Relief Shelter"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              required
-            />
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem', marginBottom: '0.9rem' }}>
-            <div className="form-group" style={{ margin: 0 }}>
-              <label className="form-label" htmlFor="resource-type-select">
-                Resource Type <span style={{ color: 'var(--color-terracotta)' }}>*</span>
+            {/* Facility Name (Full Width) */}
+            <div className="facility-form-group">
+              <label className="facility-form-label" htmlFor="resource-name-input">
+                Facility Name <span className="req">*</span>
               </label>
-              <select
-                id="resource-type-select"
-                className="form-select"
-                value={form.resource_type}
-                onChange={(e) => setForm({ ...form, resource_type: e.target.value })}
-              >
-                <option value="Shelter">Evacuation Shelter</option>
-                <option value="Hospital">Hospital / Medical Post</option>
-                <option value="Relief Camp">Relief Camp</option>
-                <option value="Food/Water Distribution">Food / Water Point</option>
-                <option value="First Aid Post">First Aid Post</option>
-              </select>
+              <input
+                type="text"
+                id="resource-name-input"
+                className="form-input"
+                placeholder="e.g. Civic Auditorium Relief Shelter"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                required
+              />
             </div>
 
-            <div className="form-group" style={{ margin: 0 }}>
-              <label className="form-label" htmlFor="resource-status-select">Availability Status</label>
-              <select
-                id="resource-status-select"
-                className="form-select"
-                value={form.status}
-                onChange={(e) => setForm({ ...form, status: e.target.value })}
-              >
-                <option value="Open">Open (Active)</option>
-                <option value="Full">Full (At Max Capacity)</option>
-                <option value="En Route">En Route</option>
-                <option value="Closed">Closed</option>
-              </select>
-            </div>
-          </div>
+            {/* Resource Type & Availability Status (Side-by-Side) */}
+            <div className="facility-form-grid-2">
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="resource-type-select">
+                  Resource Type <span className="req">*</span>
+                </label>
+                <select
+                  id="resource-type-select"
+                  className="form-select"
+                  value={form.resource_type}
+                  onChange={(e) => setForm({ ...form, resource_type: e.target.value })}
+                >
+                  <option value="Shelter">Evacuation Shelter</option>
+                  <option value="Hospital">Hospital / Medical Post</option>
+                  <option value="Relief Camp">Relief Camp</option>
+                  <option value="Food/Water Distribution">Food / Water Point</option>
+                  <option value="First Aid Post">First Aid Post</option>
+                </select>
+              </div>
 
-          <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-            <label className="form-label" htmlFor="resource-address-input">
-              Street Address / Landmark <span style={{ color: 'var(--color-terracotta)' }}>*</span>
-            </label>
-            <input
-              type="text"
-              id="resource-address-input"
-              className="form-input"
-              placeholder="e.g. 45 East Riverway Blvd, Bailey Road"
-              value={form.address}
-              onChange={(e) => setForm({ ...form, address: e.target.value })}
-              required
-            />
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="resource-status-select">
+                  Availability Status
+                </label>
+                <select
+                  id="resource-status-select"
+                  className="form-select"
+                  value={form.status}
+                  onChange={(e) => setForm({ ...form, status: e.target.value })}
+                >
+                  <option value="Open">Open (Active)</option>
+                  <option value="Full">Full (At Max Capacity)</option>
+                  <option value="En Route">En Route</option>
+                  <option value="Closed">Closed</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Street Address / Landmark (Full Width) */}
+            <div className="facility-form-group no-mb">
+              <label className="facility-form-label" htmlFor="resource-address-input">
+                Street Address / Landmark <span className="req">*</span>
+              </label>
+              <input
+                type="text"
+                id="resource-address-input"
+                className="form-input"
+                placeholder="e.g. 45 East Riverway Blvd, Bailey Road"
+                value={form.address}
+                onChange={(e) => setForm({ ...form, address: e.target.value })}
+                required
+              />
+            </div>
           </div>
 
           {/* Section B — Location Coordinates */}
-          <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '0 0 0.75rem' }}>
-            B — Location Coordinates
-          </p>
+          <div className="facility-form-section">
+            <div className="facility-form-section-title">B. Location Coordinates</div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem', marginBottom: '1.25rem' }}>
-            <div className="form-group" style={{ margin: 0 }}>
-              <label className="form-label" htmlFor="resource-lat-input">Latitude</label>
-              <input
-                type="number"
-                step="any"
-                id="resource-lat-input"
-                className="form-input"
-                placeholder="e.g. 25.6039"
-                value={form.latitude}
-                onChange={(e) => setForm({ ...form, latitude: e.target.value })}
-              />
-            </div>
-            <div className="form-group" style={{ margin: 0 }}>
-              <label className="form-label" htmlFor="resource-lng-input">Longitude</label>
-              <input
-                type="number"
-                step="any"
-                id="resource-lng-input"
-                className="form-input"
-                placeholder="e.g. 85.1065"
-                value={form.longitude}
-                onChange={(e) => setForm({ ...form, longitude: e.target.value })}
-              />
+            {/* Latitude & Longitude (Side-by-Side) */}
+            <div className="facility-form-grid-2" style={{ marginBottom: 0 }}>
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="resource-lat-input">
+                  Latitude
+                </label>
+                <input
+                  type="number"
+                  step="any"
+                  id="resource-lat-input"
+                  className="form-input"
+                  placeholder="e.g. 25.6039"
+                  value={form.latitude}
+                  onChange={(e) => setForm({ ...form, latitude: e.target.value })}
+                />
+              </div>
+
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="resource-lng-input">
+                  Longitude
+                </label>
+                <input
+                  type="number"
+                  step="any"
+                  id="resource-lng-input"
+                  className="form-input"
+                  placeholder="e.g. 85.1065"
+                  value={form.longitude}
+                  onChange={(e) => setForm({ ...form, longitude: e.target.value })}
+                />
+              </div>
             </div>
           </div>
 
           {/* Section C — Capacity & Contact */}
-          <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '0 0 0.75rem' }}>
-            C — Capacity &amp; Contact
-          </p>
+          <div className="facility-form-section">
+            <div className="facility-form-section-title">C. Capacity &amp; Contact</div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem', marginBottom: '0.9rem' }}>
-            <div className="form-group" style={{ margin: 0 }}>
-              <label className="form-label" htmlFor="resource-capacity-total-input">
-                Total Capacity <span style={{ fontWeight: 400, color: 'var(--text-muted)', fontSize: '0.8rem' }}>(max occupants)</span>
-              </label>
-              <input
-                type="number"
-                id="resource-capacity-total-input"
-                className="form-input"
-                min={1}
-                value={form.capacity_total}
-                onChange={(e) => setForm({ ...form, capacity_total: e.target.value })}
-              />
+            {/* Total Capacity & Current Occupancy (Side-by-Side) */}
+            <div className="facility-form-grid-2">
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="resource-capacity-total-input">
+                  Total Capacity <span className="hint">(max occupants)</span>
+                </label>
+                <input
+                  type="number"
+                  id="resource-capacity-total-input"
+                  className="form-input"
+                  min={1}
+                  value={form.capacity_total}
+                  onChange={(e) => setForm({ ...form, capacity_total: e.target.value })}
+                />
+              </div>
+
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="resource-capacity-occupied-input">
+                  Current Occupancy <span className="hint">(current count)</span>
+                </label>
+                <input
+                  type="number"
+                  id="resource-capacity-occupied-input"
+                  className="form-input"
+                  min={0}
+                  value={form.capacity_occupied}
+                  onChange={(e) => setForm({ ...form, capacity_occupied: e.target.value })}
+                />
+              </div>
             </div>
 
-            <div className="form-group" style={{ margin: 0 }}>
-              <label className="form-label" htmlFor="resource-capacity-occupied-input">
-                Current Occupancy <span style={{ fontWeight: 400, color: 'var(--text-muted)', fontSize: '0.8rem' }}>(current count)</span>
+            {/* Emergency Helpline Number (Full Width) */}
+            <div className="facility-form-group no-mb">
+              <label className="facility-form-label" htmlFor="resource-phone-input">
+                Emergency Helpline Number <span className="req">*</span>
               </label>
               <input
-                type="number"
-                id="resource-capacity-occupied-input"
+                type="tel"
+                id="resource-phone-input"
                 className="form-input"
-                min={0}
-                value={form.capacity_occupied}
-                onChange={(e) => setForm({ ...form, capacity_occupied: e.target.value })}
+                placeholder="e.g. +91 98765 43210"
+                value={form.contact_phone}
+                onChange={(e) => setForm({ ...form, contact_phone: e.target.value })}
+                required
               />
             </div>
-          </div>
-
-          <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-            <label className="form-label" htmlFor="resource-phone-input">
-              Emergency Helpline Number <span style={{ color: 'var(--color-terracotta)' }}>*</span>
-            </label>
-            <input
-              type="tel"
-              id="resource-phone-input"
-              className="form-input"
-              placeholder="e.g. +91 98765 43210"
-              value={form.contact_phone}
-              onChange={(e) => setForm({ ...form, contact_phone: e.target.value })}
-              required
-            />
           </div>
 
           {/* Section D — Response Zone Assignment */}
-          <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '0 0 0.75rem' }}>
-            D — Response Zone Assignment
-          </p>
+          <div className="facility-form-section" style={{ marginBottom: 0 }}>
+            <div className="facility-form-section-title">D. Response Zone Assignment</div>
 
-          <div className="form-group" style={{ marginBottom: '0.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-              <label className="form-label" htmlFor="assign-response-zone-select" style={{ margin: 0 }}>
-                Assign to Response Zone <span style={{ fontWeight: 400, color: 'var(--text-muted)', fontSize: '0.8rem' }}>(optional)</span>
-              </label>
-              {zonesLoading && (
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                  <RefreshCw size={12} className="spin" /> Loading…
-                </span>
-              )}
-            </div>
+            <div className="facility-form-group no-mb">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                <label className="facility-form-label" htmlFor="assign-response-zone-select" style={{ margin: 0 }}>
+                  Assign to Response Zone <span className="hint">(optional)</span>
+                </label>
+                {zonesLoading && (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                    <RefreshCw size={12} className="spin" /> Loading…
+                  </span>
+                )}
+              </div>
 
-            {zonesError ? (
-              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(239, 68, 68, 0.08)', borderRadius: '6px', border: '1px solid var(--status-extreme)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-                <span style={{ color: 'var(--status-extreme)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                  <AlertTriangle size={14} />
-                  <span>Failed to load response zones: {zonesError}</span>
-                </span>
-                <button
-                  type="button"
-                  className="btn btn-outline btn-sm"
-                  style={{ padding: '2px 8px', fontSize: '0.75rem' }}
-                  onClick={loadEligibleZones}
+              {zonesError ? (
+                <div className="facility-zone-box">
+                  <span style={{ color: 'var(--status-extreme)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <AlertTriangle size={14} />
+                    <span>Failed to load response zones: {zonesError}</span>
+                  </span>
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    onClick={loadEligibleZones}
+                    disabled={zonesLoading}
+                  >
+                    Retry
+                  </button>
+                </div>
+              ) : (
+                <select
+                  id="assign-response-zone-select"
+                  className="form-select"
+                  value={form.response_zone_id || ''}
+                  onChange={(e) => setForm({ ...form, response_zone_id: e.target.value ? parseInt(e.target.value, 10) : null })}
                   disabled={zonesLoading}
                 >
-                  Retry
-                </button>
-              </div>
-            ) : (
-              <select
-                id="assign-response-zone-select"
-                className="form-select"
-                value={form.response_zone_id || ''}
-                onChange={(e) => setForm({ ...form, response_zone_id: e.target.value ? parseInt(e.target.value, 10) : null })}
-                disabled={zonesLoading}
-              >
-                <option value="">— No specific zone (Unassigned / Not visible to citizens) —</option>
-                {zones.map((z) => (
-                  <option key={z.id} value={z.id}>
-                    {z.display_label || `${z.name} (${z.code})`}
-                    {z.warning_status ? ` — [${z.warning_status}${z.is_distributed ? ' • Distributed' : ''}]` : ''}
-                  </option>
-                ))}
-              </select>
-            )}
+                  <option value="">— No specific zone (Unassigned / Not visible to citizens) —</option>
+                  {zones.map((z) => (
+                    <option key={z.id} value={z.id}>
+                      {z.display_label || `${z.name} (${z.code})`}
+                      {z.warning_status ? ` — [${z.warning_status}${z.is_distributed ? ' • Distributed' : ''}]` : ''}
+                    </option>
+                  ))}
+                </select>
+              )}
 
-            {!zonesLoading && !zonesError && zones.length === 0 && (
-              <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>
-                No active response zones found. Facility will be saved as unassigned.
-              </small>
-            )}
-            {!zonesLoading && !zonesError && zones.length > 0 && (
-              <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>
-                Assigning a facility to a response zone makes it visible to citizens registered in that zone.
-              </small>
-            )}
+              {!zonesLoading && !zonesError && zones.length === 0 && (
+                <small className="facility-zone-helper">
+                  No active response zones found. Facility will be saved as unassigned.
+                </small>
+              )}
+              {!zonesLoading && !zonesError && zones.length > 0 && (
+                <small className="facility-zone-helper">
+                  Assigning a facility to a response zone makes it visible to citizens registered in that zone.
+                </small>
+              )}
+            </div>
           </div>
         </form>
       </Modal>

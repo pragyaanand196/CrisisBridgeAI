@@ -1,19 +1,40 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 /**
  * Modal — scrollable dialog with a fixed header and optional fixed action footer.
+ * Rendered via createPortal to document.body to prevent layout clipping and
+ * stacking context occlusion by parent containers or page footers.
  *
  * Props:
- *   isOpen    — whether the modal is visible
- *   onClose   — called when Escape is pressed or backdrop is clicked
- *   title     — heading text in the pinned header
- *   children  — scrollable body content
- *   actions   — optional node rendered in a pinned footer bar (Cancel / Save buttons)
- *   size      — 'md' (600px max-width) | 'lg' (760px max-width)
- *   hideClose — suppress the × button
+ *   isOpen            — whether the modal is visible
+ *   onClose           — called when Escape is pressed or backdrop is clicked
+ *   title             — heading text in the pinned header
+ *   children          — scrollable body content
+ *   actions           — optional node rendered in a pinned footer bar (Cancel / Save buttons)
+ *   size              — 'md' (600px max-width) | 'lg' (760px max-width)
+ *   hideClose         — suppress the × button
+ *   overlayClassName  — additional class names for overlay backdrop
+ *   contentClassName  — additional class names for modal content dialog
+ *   headerClassName   — additional class names for header
+ *   bodyClassName     — additional class names for body
+ *   actionsClassName  — additional class names for actions bar
  */
-export function Modal({ isOpen, onClose, title, children, actions, size = 'md', hideClose = false }) {
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  actions,
+  size = 'md',
+  hideClose = false,
+  overlayClassName = '',
+  contentClassName = '',
+  headerClassName = '',
+  bodyClassName = '',
+  actionsClassName = ''
+}) {
   // Lock page scroll while modal is visible
   useEffect(() => {
     if (isOpen) {
@@ -39,15 +60,20 @@ export function Modal({ isOpen, onClose, title, children, actions, size = 'md', 
 
   if (!isOpen) return null;
 
-  return (
-    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
+  const modalNode = (
+    <div
+      className={`modal-overlay${overlayClassName ? ` ${overlayClassName}` : ''}`}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
       <div
-        className={`modal-content${size === 'lg' ? ' modal-content-lg' : ''}`}
+        className={`modal-content${size === 'lg' ? ' modal-content-lg' : ''}${contentClassName ? ` ${contentClassName}` : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Pinned header ─────────────────────────────────────────── */}
         <div
-          className="modal-header"
+          className={`modal-header${headerClassName ? ` ${headerClassName}` : ''}`}
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
         >
           <h3 className="modal-title" style={{ margin: 0 }}>{title}</h3>
@@ -64,13 +90,16 @@ export function Modal({ isOpen, onClose, title, children, actions, size = 'md', 
         </div>
 
         {/* ── Scrollable body ───────────────────────────────────────── */}
-        <div className="modal-body">{children}</div>
+        <div className={`modal-body${bodyClassName ? ` ${bodyClassName}` : ''}`}>{children}</div>
 
         {/* ── Pinned action footer (optional) ──────────────────────── */}
         {actions && (
-          <div className="modal-actions">{actions}</div>
+          <div className={`modal-actions${actionsClassName ? ` ${actionsClassName}` : ''}`}>{actions}</div>
         )}
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalNode, document.body) : modalNode;
 }
+
