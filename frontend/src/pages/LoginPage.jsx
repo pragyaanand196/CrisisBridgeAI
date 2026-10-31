@@ -51,68 +51,104 @@ export function LoginPage() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="card" style={{ maxWidth: 460, width: '100%', padding: '2.5rem 2.25rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--gradient-primary)', color: '#ffffff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', boxShadow: '0 0 24px rgba(139, 58, 43, 0.45)', border: '1px solid rgba(255, 255, 255, 0.3)' }}>
-            <Shield size={30} />
-          </div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-espresso-dark)', margin: '0 0 0.5rem 0' }}>CrisisBridge AI</h1>
-          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: 0 }}>
-            Sign in to access disaster warnings and emergency response systems
-          </p>
-        </div>
+    <div className="login-page-wrapper">
+      {/* Full-screen blurred disaster response background photograph */}
+      <div className="login-bg-media" aria-hidden="true" />
+      {/* Subtle dark translucent overlay */}
+      <div className="login-bg-overlay" aria-hidden="true" />
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-            <label className="form-label" htmlFor="login-email">
-              Email Address <span className="required-star">*</span>
-            </label>
-            <div style={{ position: 'relative' }}>
-              <input
-                id="login-email"
-                type="email"
-                className="form-input"
-                placeholder="name@agency.gov or personal email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-              />
+      {/* Login Card Container */}
+      <div className="login-content-container">
+        <div className="login-card">
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--gradient-primary)', color: '#ffffff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', boxShadow: '0 0 24px rgba(139, 58, 43, 0.45)', border: '1px solid rgba(255, 255, 255, 0.3)' }}>
+              <Shield size={30} />
             </div>
+            <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-espresso-dark)', margin: '0 0 0.5rem 0' }}>CrisisBridge AI</h1>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.45 }}>
+              Sign in to access disaster warnings and emergency response systems
+            </p>
           </div>
 
-          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-            <label className="form-label" htmlFor="login-password">
-              Password <span className="required-star">*</span>
-            </label>
-            <input
-              id="login-password"
-              type="password"
-              className="form-input"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-            />
+          <form onSubmit={handleSubmit}>
+            <div className="form-group" style={{ marginBottom: '1.25rem' }}>
+              <label className="form-label" htmlFor="login-email">
+                Email Address <span className="required-star">*</span>
+              </label>
+              <div style={{ position: 'relative' }}>
+                <Mail
+                  size={18}
+                  style={{
+                    position: 'absolute',
+                    left: '14px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: 'var(--text-muted)',
+                    pointerEvents: 'none',
+                    zIndex: 1
+                  }}
+                />
+                <input
+                  id="login-email"
+                  type="email"
+                  className="form-input"
+                  style={{ paddingLeft: '2.6rem' }}
+                  placeholder="name@agency.gov or personal email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                />
+              </div>
+            </div>
+
+            <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+              <label className="form-label" htmlFor="login-password">
+                Password <span className="required-star">*</span>
+              </label>
+              <div style={{ position: 'relative' }}>
+                <Lock
+                  size={18}
+                  style={{
+                    position: 'absolute',
+                    left: '14px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: 'var(--text-muted)',
+                    pointerEvents: 'none',
+                    zIndex: 1
+                  }}
+                />
+                <input
+                  id="login-password"
+                  type="password"
+                  className="form-input"
+                  style={{ paddingLeft: '2.6rem' }}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="current-password"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-primary btn-block btn-lg"
+              disabled={loading}
+            >
+              <LogIn size={18} />
+              <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
+            </button>
+          </form>
+
+          <div style={{ marginTop: '1.75rem', textAlign: 'center', fontSize: '0.88rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border-light)', paddingTop: '1.25rem' }}>
+            Don't have an account?{' '}
+            <Link to="/register" style={{ fontWeight: 600, color: 'var(--color-terracotta)', textDecoration: 'none' }}>
+              Create Account
+            </Link>
           </div>
-
-          <button
-            type="submit"
-            className="btn btn-primary btn-block btn-lg"
-            disabled={loading}
-          >
-            <LogIn size={18} />
-            <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
-          </button>
-        </form>
-
-        <div style={{ marginTop: '1.75rem', textAlign: 'center', fontSize: '0.88rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border-light)', paddingTop: '1.25rem' }}>
-          Don't have an account?{' '}
-          <Link to="/register" style={{ fontWeight: 600, color: 'var(--color-terracotta)', textDecoration: 'none' }}>
-            Create Account
-          </Link>
         </div>
       </div>
     </div>

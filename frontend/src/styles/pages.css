@@ -1045,6 +1045,92 @@
   z-index: 2;
 }
 
+/* ==========================================================================
+   CrisisBridge AI — Login Page Full-Screen Disaster Response Background
+   ========================================================================== */
+.login-page-wrapper {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 2;
+}
+
+/* Disaster Response Background Photograph Layer */
+.login-bg-media {
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background-image: url('/disaster-rescue-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 72% center;
+  filter: blur(5px);
+  transform: scale(1.04);
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* Subtle Dark Translucent Overlay */
+.login-bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 10, 8, 0.24);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Login Content Container ensuring responsive centering & vertical scroll */
+.login-content-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 480px;
+  padding: 2.5rem 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+/* Login Card following reference design */
+.login-card {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.35), 0 8px 24px -6px rgba(0, 0, 0, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  padding: 2.5rem 2.25rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .login-bg-media {
+    background-position: 78% center;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-content-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .login-card {
+    padding: 2rem 1.5rem;
+    border-radius: 18px;
+  }
+}
+
+
 /* --------------------------------------------------------------------------
    Post-Disaster Report & Print Styles
    -------------------------------------------------------------------------- */
