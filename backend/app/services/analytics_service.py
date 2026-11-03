@@ -35,16 +35,20 @@ def compute_zone_metrics(zone: ResponseZone, db: Session) -> Dict[str, Any]:
     # Delivery records in this zone
     delivery_records = db.query(NotificationDeliveryRecord).filter(
         NotificationDeliveryRecord.response_zone_id == zone.id,
+        NotificationDeliveryRecord.warning_id == zone.warning_id,
         NotificationDeliveryRecord.warning_version == zone.warning.version if zone.warning else 1
     ).all()
     
-    targeted_count = len(delivery_records) if delivery_records else zone.targeted_count
+    targeted_count = len(delivery_records)
     delivered_count = sum(1 for r in delivery_records if r.status in ["delivered", "acknowledged", "understood", "needs_help", "not_in_this_area"])
-    if not delivery_records and zone.delivery_count > 0:
-        delivered_count = zone.delivery_count
+    failure_count = sum(1 for r in delivery_records if r.status == "delivery_failed")
 
     # Fetch live counts from citizen responses in this zone
-    responses = db.query(CitizenResponse).filter(CitizenResponse.response_zone_id == zone.id).all()
+    responses = db.query(CitizenResponse).filter(
+        CitizenResponse.response_zone_id == zone.id,
+        CitizenResponse.warning_id == zone.warning_id,
+        CitizenResponse.warning_version == zone.warning.version if zone.warning else 1
+    ).all()
     total_responses = len(responses)
 
     understand_count = sum(1 for r in responses if r.response_type == "understand")
@@ -56,6 +60,7 @@ def compute_zone_metrics(zone: ResponseZone, db: Session) -> Dict[str, Any]:
     # Active assistance requests in this zone
     active_assistance = db.query(AssistanceRequest).filter(
         AssistanceRequest.response_zone_id == zone.id,
+        AssistanceRequest.warning_id == zone.warning_id,
         AssistanceRequest.status.in_(["Pending", "Acknowledged", "Dispatched"])
     ).all()
     active_help_count = len(active_assistance)
@@ -77,7 +82,7 @@ def compute_zone_metrics(zone: ResponseZone, db: Session) -> Dict[str, Any]:
     dont_understand_rate = round((dont_understand_count / effective_responses) * 100, 1) if effective_responses > 0 else 0.0
     assistance_rate = round((active_help_count / effective_responses) * 100, 1) if effective_responses > 0 else 0.0
     no_response_rate = round((no_response_count / max(1, effective_delivery)) * 100, 1) if effective_delivery > 0 else 0.0
-    failure_rate = round((max(0, zone.failure_count) / max(1, effective_delivery)) * 100, 1) if effective_delivery > 0 else 0.0
+    failure_rate = round((failure_count / max(1, effective_delivery)) * 100, 1) if effective_delivery > 0 else 0.0
 
     # Calculate Warning-to-Action (WTA) Score (0.0 to 100.0)
     raw_wta = (0.40 * understanding_rate) + (0.30 * min(100.0, ack_rate)) + (0.30 * (100.0 - no_response_rate))
@@ -132,6 +137,7 @@ def compute_zone_metrics(zone: ResponseZone, db: Session) -> Dict[str, Any]:
     # Update zone model
     zone.targeted_count = targeted_count
     zone.delivery_count = effective_delivery
+    zone.failure_count = failure_count
     zone.no_response_count = no_response_count
     zone.situation_status = situation
     zone.wta_score = wta_score

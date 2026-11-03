@@ -5,10 +5,24 @@ import { Shield, ArrowRight, AlertOctagon, HelpCircle } from 'lucide-react';
 export function SituationMatrix({ zones = [], onSelectZone }) {
   if (!zones || zones.length === 0) {
     return (
-      <div className="card">
-        <p style={{ textAlign: 'center', color: '#64748b', padding: '1.5rem' }}>
-          No Response Zones currently monitored. Create or distribute an official warning to establish zones.
-        </p>
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div className="card-header">
+          <h3 className="card-title">
+            <Shield size={18} color="var(--color-terracotta, #8b3a2b)" />
+            <span>Response Zones Status</span>
+          </h3>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary, #6b5a52)' }}>
+            Live operational situation and warning-to-action scores
+          </span>
+        </div>
+        <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '1.5rem 1rem' }}>
+          <p style={{ margin: '0 0 0.5rem', color: 'var(--text-main)', fontWeight: 600 }}>
+            No response zones available.
+          </p>
+          <p style={{ margin: 0 }}>
+            Response-zone information will appear here when relevant zones are created through the warning management workflow.
+          </p>
+        </div>
       </div>
     );
   }
@@ -71,10 +85,10 @@ export function SituationMatrix({ zones = [], onSelectZone }) {
                         <span className={`wta-circle ${getWTAGaugeClass(z.wta_score ?? 0)}`} style={{ width: 34, height: 34, fontSize: '0.85rem' }}>
                           {Math.round(z.wta_score ?? 0)}
                         </span>
-                        <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>/100</span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>/100</span>
                       </div>
                     ) : (
-                      <span style={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 600 }}>N/A</span>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>N/A</span>
                     )}
                   </td>
                   <td className="col-understanding">
@@ -83,7 +97,7 @@ export function SituationMatrix({ zones = [], onSelectZone }) {
                       if (z.eligible_citizens_count === undefined || z.eligible_citizens_count === null) {
                         return (
                           <>
-                            <span style={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 600 }}>N/A</span>
+                            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>N/A</span>
                             <div style={{ fontSize: '0.75rem', color: '#f43f5e' }}>Data unavailable</div>
                           </>
                         );
@@ -96,8 +110,8 @@ export function SituationMatrix({ zones = [], onSelectZone }) {
                       if (denom === 0) {
                         return (
                           <>
-                            <strong style={{ fontSize: '0.95rem', color: '#cbd5e1' }}>0/0</strong>
-                            <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>No eligible citizens</div>
+                            <strong style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>0/0</strong>
+                            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>No eligible citizens</div>
                           </>
                         );
                       }
@@ -139,7 +153,7 @@ export function SituationMatrix({ zones = [], onSelectZone }) {
                       <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>N/A</span>
                     )}
                   </td>
-                  <td className="col-action" style={{ fontSize: '0.84rem', color: '#cbd5e1', lineHeight: 1.45 }}>
+                  <td className="col-action" style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: 1.45 }}>
                     {z.operational_recommendation || (hasEligibleData ? 'Continuous monitoring active.' : 'Awaiting official warning distribution.')}
                   </td>
                   <td className="col-details">

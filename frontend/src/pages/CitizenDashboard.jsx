@@ -135,7 +135,7 @@ export function CitizenDashboard() {
         response_zone_id: payload.response_zone_id,
         response_type: 'need_help',
         feedback_notes: `Need ${payload.category} assistance for ${payload.headcount} people at ${payload.location_description}`
-      }).catch(() => {});
+      }).catch(() => { });
 
       setRespondingState((prev) => ({
         ...prev,
@@ -222,9 +222,10 @@ export function CitizenDashboard() {
 
   return (
     <div className="citizen-portal-container">
-      {/* ── Continuous Photo Band: photo fades into cream via CSS pseudo-elements ── */}
+      {/* ── Compact Hero Banner: fixed-height landscape strip with location card inside ── */}
       <div className="citizen-photo-band" aria-label="Citizen Portal Hero">
         <div className="citizen-hero-content">
+          {/* Top bar: Back button left, user info + logout right */}
           <div className="citizen-top-actions-bar">
             <BackButton fallbackPath="/" label="Back to Home" />
 
@@ -249,69 +250,71 @@ export function CitizenDashboard() {
             </div>
           </div>
 
+          {/* Middle: Page heading and subtitle */}
           <div className="citizen-hero-title-block">
             <h1 className="citizen-portal-heading">Citizen Portal</h1>
             <p className="citizen-portal-subtitle">
               Emergency warnings and response updates for your area
             </p>
           </div>
+
+          {/* Bottom overlay: Registered Location Card — sits inside the banner */}
+          <div className="citizen-location-card">
+            <div className="citizen-location-left">
+              <div
+                className={`citizen-location-icon-wrapper ${hasLocation ? 'is-active' : 'is-unconfigured'}`}
+                aria-hidden="true"
+              >
+                <MapPin size={22} />
+              </div>
+              <div className="citizen-location-info">
+                <div className="citizen-location-header-row">
+                  <span className="citizen-location-tag">
+                    YOUR REGISTERED LOCATION
+                  </span>
+                  {hasLocation && (
+                    <span className="citizen-active-status-badge">
+                      ACTIVE
+                    </span>
+                  )}
+                </div>
+                <strong className="citizen-location-name">
+                  {user?.location_name || 'No location configured'}
+                </strong>
+                <span className="citizen-location-subtext">
+                  {hasLocation
+                    ? `${[user?.district, user?.city, user?.state].filter(Boolean).join(', ') || 'Registered Location'} • You will receive warnings active for this location`
+                    : 'Please set your location to receive warnings for your area'}
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="btn-citizen-change-location"
+              onClick={() => {
+                setPendingLocation({
+                  location_name: user?.location_name || '',
+                  latitude: user?.latitude || null,
+                  longitude: user?.longitude || null,
+                  district: user?.district || '',
+                  city: user?.city || '',
+                  state: user?.state || '',
+                  postal_code: user?.postal_code || '',
+                  is_confirmed: Boolean(user?.latitude && user?.longitude && user?.location_name)
+                });
+                setIsLocationModalOpen(true);
+              }}
+            >
+              <Edit3 size={15} />
+              <span>{hasLocation ? 'Change Location' : 'Set Location'}</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* ── Main Body Content Overlapping Lower Hero ── */}
+      {/* ── Main Body Content: warning section starts directly below banner ── */}
       <div className="citizen-portal-body">
-        {/* ── Registered Location Card ── */}
-        <div className="citizen-location-card">
-          <div className="citizen-location-left">
-            <div
-              className={`citizen-location-icon-wrapper ${hasLocation ? 'is-active' : 'is-unconfigured'}`}
-              aria-hidden="true"
-            >
-              <MapPin size={22} />
-            </div>
-            <div className="citizen-location-info">
-              <div className="citizen-location-header-row">
-                <span className="citizen-location-tag">
-                  YOUR REGISTERED LOCATION
-                </span>
-                {hasLocation && (
-                  <span className="citizen-active-status-badge">
-                    ACTIVE
-                  </span>
-                )}
-              </div>
-              <strong className="citizen-location-name">
-                {user?.location_name || 'No location configured'}
-              </strong>
-              <span className="citizen-location-subtext">
-                {hasLocation
-                  ? `${[user?.district, user?.city, user?.state].filter(Boolean).join(', ') || 'Registered Location'} • You will receive warnings active for this location`
-                  : 'Please set your location to receive warnings for your area'}
-              </span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="btn-citizen-change-location"
-            onClick={() => {
-              setPendingLocation({
-                location_name: user?.location_name || '',
-                latitude: user?.latitude || null,
-                longitude: user?.longitude || null,
-                district: user?.district || '',
-                city: user?.city || '',
-                state: user?.state || '',
-                postal_code: user?.postal_code || '',
-                is_confirmed: Boolean(user?.latitude && user?.longitude && user?.location_name)
-              });
-              setIsLocationModalOpen(true);
-            }}
-          >
-            <Edit3 size={15} />
-            <span>{hasLocation ? 'Change Location' : 'Set Location'}</span>
-          </button>
-        </div>
 
         {/* Location Not Configured Notice */}
         {!hasLocation && (
@@ -353,12 +356,12 @@ export function CitizenDashboard() {
                     className="citizen-request-card"
                     style={{
                       borderLeft: isResolved
-                        ? '4px solid #10b981'
+                        ? '4px solid var(--status-stable, #10b981)'
                         : isDispatched
-                        ? '4px solid #0284c7'
-                        : isAcknowledged
-                        ? '4px solid #8b3a2b'
-                        : '4px solid #d97706'
+                          ? '4px solid var(--color-terracotta, #8b3a2b)'
+                          : isAcknowledged
+                            ? '4px solid #732f22'
+                            : '4px solid var(--status-warning, #d97706)'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '0.75rem' }}>
@@ -433,14 +436,14 @@ export function CitizenDashboard() {
 
                     {/* DISPATCHED: ACTIONABLE CITIZEN VERIFICATION PROMPT */}
                     {isDispatched && (
-                      <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '1rem', marginTop: '0.5rem' }}>
+                      <div style={{ background: 'var(--bg-surface-subtle)', border: '1px solid var(--border-medium)', borderRadius: '8px', padding: '1rem', marginTop: '0.5rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem' }}>
-                          <Truck size={20} color="#0284c7" />
+                          <Truck size={20} color="var(--status-minor)" />
                           <div>
-                            <strong style={{ fontSize: '0.92rem', color: '#0f172a' }}>
+                            <strong style={{ fontSize: '0.92rem', color: 'var(--color-espresso-dark)' }}>
                               Rescue Unit Dispatched: {req.dispatched_unit_notes || 'Response Team'}
                             </strong>
-                            <span style={{ fontSize: '0.78rem', color: '#64748b', display: 'block' }}>
+                            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'block' }}>
                               Dispatched at {new Date(req.dispatched_at || req.updated_at || Date.now()).toLocaleTimeString()}
                             </span>
                           </div>
@@ -484,12 +487,12 @@ export function CitizenDashboard() {
                             </button>
                           </div>
                         ) : (
-                          <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '0.75rem' }}>
-                            <h5 style={{ fontSize: '0.92rem', color: '#0f172a', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: '0.75rem' }}>
+                            <h5 style={{ fontSize: '0.92rem', color: 'var(--color-espresso-dark)', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: 6 }}>
                               <Radio size={16} color="#8b3a2b" />
                               <span>Has assistance reached your location?</span>
                             </h5>
-                            <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '0.75rem' }}>
+                            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
                               Please confirm if emergency teams or supplies have arrived.
                             </p>
 
@@ -593,7 +596,7 @@ export function CitizenDashboard() {
         title={hasLocation ? 'Change Registered Location' : 'Set Your Location'}
         size="lg"
       >
-        <p style={{ fontSize: '0.86rem', color: '#cbd5e1', marginBottom: '1rem' }}>
+        <p style={{ fontSize: '0.86rem', color: 'var(--text-muted, #6e5c53)', marginBottom: '1rem' }}>
           Search for your city, town, or village — or click directly on the map.
           Once you see the green <strong>"Location Confirmed"</strong> badge, click{' '}
           <strong>Save Location</strong> to apply the change.

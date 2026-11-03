@@ -116,10 +116,10 @@ export function AdminDashboard() {
       {activeTab === 'thresholds' && (
         <div className="card" style={{ maxWidth: 700 }}>
           <h3 className="card-title" style={{ marginBottom: '1rem' }}>
-            <Sliders size={18} color="#0284c7" />
+            <Sliders size={18} color="var(--color-terracotta)" />
             <span>Alert & Threshold Settings</span>
           </h3>
-          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '1.5rem' }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
             Adjust the percentage and count thresholds that trigger gap alerts.
           </p>
 
@@ -206,7 +206,7 @@ export function AdminDashboard() {
       {activeTab === 'users' && (
         <div className="card">
           <h3 className="card-title" style={{ marginBottom: '1rem' }}>
-            <Users size={18} color="#0284c7" />
+            <Users size={18} color="var(--color-terracotta)" />
             <span>Registered Users</span>
           </h3>
 
@@ -252,7 +252,7 @@ export function AdminDashboard() {
       {activeTab === 'audit' && (
         <div className="card">
           <h3 className="card-title" style={{ marginBottom: '1rem' }}>
-            <FileText size={18} color="#0284c7" />
+            <FileText size={18} color="var(--color-terracotta)" />
             <span>System Audit Logs</span>
           </h3>
 

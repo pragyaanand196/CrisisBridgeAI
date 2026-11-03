@@ -235,7 +235,7 @@ export function AuthorityWarningDetail() {
                 Status: {warning.status}
               </span>
               <span className="badge badge-standard">Version {warning.version}.0</span>
-              <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>CAP ID: {warning.identifier}</span>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>CAP ID: {warning.identifier}</span>
             </div>
 
             <h1 className="page-title" style={{ fontSize: '1.75rem', margin: '4px 0 8px 0' }}>
@@ -345,7 +345,7 @@ export function AuthorityWarningDetail() {
               <Activity size={18} color="#0284c7" />
               <span>Response Situation Summary</span>
             </h3>
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               Evaluated from citizen responses and delivery status
             </span>
           </div>
@@ -355,30 +355,30 @@ export function AuthorityWarningDetail() {
         </div>
 
         {situationConditions.length === 0 ? (
-          <p style={{ color: '#64748b', fontSize: '0.88rem' }}>No active operational signals evaluated yet.</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>No active operational signals evaluated yet.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {situationConditions.map((cond, idx) => {
-              let bg = 'rgba(20, 11, 42, 0.75)';
-              let border = 'rgba(168, 85, 247, 0.25)';
-              let iconColor = '#38bdf8';
-              let titleColor = '#ffffff';
+              let bg = 'var(--bg-surface-subtle, #faf7f2)';
+              let border = 'var(--border-light, #ece3d8)';
+              let iconColor = 'var(--color-terracotta)';
+              let titleColor = 'var(--color-espresso-dark)';
 
               if (cond.severity === 'Critical') {
-                bg = 'rgba(45, 15, 20, 0.85)';
-                border = 'rgba(239, 68, 68, 0.35)';
-                iconColor = '#f43f5e';
-                titleColor = '#fca5a5';
+                bg = 'var(--status-extreme-bg, #fee2e2)';
+                border = 'var(--status-extreme-border, #fca5a5)';
+                iconColor = 'var(--status-extreme, #b91c1c)';
+                titleColor = 'var(--status-extreme, #b91c1c)';
               } else if (cond.severity === 'High') {
-                bg = 'rgba(45, 25, 10, 0.85)';
-                border = 'rgba(245, 158, 11, 0.35)';
-                iconColor = '#fbbf24';
-                titleColor = '#fde68a';
+                bg = 'var(--status-warning-bg, #fef3c7)';
+                border = 'var(--status-warning-border, #fcd34d)';
+                iconColor = 'var(--status-warning, #b45309)';
+                titleColor = 'var(--status-warning, #b45309)';
               } else if (cond.severity === 'Stable') {
-                bg = 'rgba(10, 35, 20, 0.85)';
-                border = 'rgba(34, 197, 94, 0.35)';
-                iconColor = '#4ade80';
-                titleColor = '#bbf7d0';
+                bg = 'var(--status-stable-bg, #dcfce7)';
+                border = 'var(--status-stable-border, #86efac)';
+                iconColor = 'var(--status-stable, #15803d)';
+                titleColor = 'var(--status-stable, #15803d)';
               }
 
               return (
@@ -411,16 +411,16 @@ export function AuthorityWarningDetail() {
                         {cond.title}
                       </strong>
                       {cond.evidence_metric && (
-                        <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#38bdf8', background: 'rgba(56, 189, 248, 0.12)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(56, 189, 248, 0.25)' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-terracotta)', background: '#faeee9', padding: '2px 8px', borderRadius: '4px', border: '1px solid #e7cdbf' }}>
                           Evidence: {cond.evidence_metric}
                         </span>
                       )}
                     </div>
-                    <p style={{ fontSize: '0.86rem', color: '#cbd5e1', margin: '0 0 4px 0', lineHeight: 1.5 }}>
+                    <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', margin: '0 0 4px 0', lineHeight: 1.5 }}>
                       {cond.description}
                     </p>
-                    <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-                      <strong style={{ color: '#38bdf8' }}>Recommended Action:</strong> {cond.recommendation}
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                      <strong style={{ color: 'var(--color-terracotta)' }}>Recommended Action:</strong> {cond.recommendation}
                     </div>
                   </div>
                 </div>
@@ -449,74 +449,74 @@ export function AuthorityWarningDetail() {
 
           {/* 2. Notification Attempted */}
           <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #818cf8' }}>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>2. Attempted</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>2. Attempted</span>
             <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#818cf8', margin: '4px 0' }}>
               {analytics.notification_attempted ?? 0}
             </div>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Notifications dispatched</span>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Notifications dispatched</span>
           </div>
 
           {/* 3. Delivered */}
           <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #10b981' }}>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>3. Delivered</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>3. Delivered</span>
             <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#10b981', margin: '4px 0' }}>
               {analytics.delivered_count ?? 0}
             </div>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Delivered successfully</span>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Delivered successfully</span>
           </div>
 
           {/* 4. Delivery Failed */}
           <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #f43f5e' }}>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>4. Failed</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>4. Failed</span>
             <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#f43f5e', margin: '4px 0' }}>
               {analytics.failed_count ?? 0}
             </div>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Delivery errors</span>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Delivery errors</span>
           </div>
 
           {/* 5. Understood */}
           <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #4ade80' }}>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>5. Understood</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>5. Understood</span>
             <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#4ade80', margin: '4px 0' }}>
               {analytics.understood_count ?? 0}
             </div>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Understood & Safe</span>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Understood & Safe</span>
           </div>
 
           {/* 6. Don't Understand */}
           <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #fbbf24' }}>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>6. Don't Understand</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>6. Don't Understand</span>
             <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#fbbf24', margin: '4px 0' }}>
               {analytics.dont_understand_count ?? 0}
             </div>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Understanding gap</span>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Understanding gap</span>
           </div>
 
           {/* 7. Help Requests */}
           <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #f43f5e' }}>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>7. Need Help</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>7. Need Help</span>
             <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#f43f5e', margin: '4px 0' }}>
               {analytics.help_requested_count ?? 0}
             </div>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Assistance requests</span>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Assistance requests</span>
           </div>
 
           {/* 8. Not in Area */}
           <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #c084fc' }}>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>8. Not in Area</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>8. Not in Area</span>
             <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#c084fc', margin: '4px 0' }}>
               {analytics.not_in_area_count ?? 0}
             </div>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Outside target zone</span>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Outside target zone</span>
           </div>
 
           {/* 9. No Response */}
-          <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #94a3b8' }}>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>9. No Response</span>
-            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#cbd5e1', margin: '4px 0' }}>
+          <div className="card" style={{ padding: '1rem', borderLeft: '4px solid var(--text-muted)' }}>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>9. No Response</span>
+            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--border-medium)', margin: '4px 0' }}>
               {analytics.no_response_count ?? 0}
             </div>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Awaiting response</span>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Awaiting response</span>
           </div>
         </div>
       </div>
@@ -529,7 +529,7 @@ export function AuthorityWarningDetail() {
               <MapPin size={18} color="#0284c7" />
               <span>Target Areas & Response Zones Map</span>
             </h3>
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               Target boundaries and operational status
             </span>
           </div>
@@ -600,14 +600,14 @@ export function AuthorityWarningDetail() {
               <Shield size={18} color="#0284c7" />
               <span>Response Zones Summary</span>
             </h3>
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               Citizen response breakdown across response zones
             </span>
           </div>
         </div>
 
         {(!warning.response_zones || warning.response_zones.length === 0) ? (
-          <p style={{ color: '#64748b', fontSize: '0.88rem', padding: '1rem 0' }}>No response zones configured for this warning.</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', padding: '1rem 0' }}>No response zones configured for this warning.</p>
         ) : (
           <div className="table-container">
             <table className="table">
@@ -640,12 +640,12 @@ export function AuthorityWarningDetail() {
                       <span style={{ color: '#d97706', fontWeight: 600 }}>{zone.dont_understand_count ?? 0}</span>
                     </td>
                     <td>
-                      <span style={{ color: zone.help_request_count > 0 ? '#dc2626' : '#64748b', fontWeight: zone.help_request_count > 0 ? 700 : 400 }}>
+                      <span style={{ color: zone.help_request_count > 0 ? '#dc2626' : 'var(--text-muted)', fontWeight: zone.help_request_count > 0 ? 700 : 400 }}>
                         {zone.help_request_count ?? 0}
                       </span>
                     </td>
                     <td>
-                      <span style={{ color: zone.not_in_area_count > 0 ? '#9333ea' : '#64748b' }}>
+                      <span style={{ color: zone.not_in_area_count > 0 ? '#9333ea' : 'var(--text-muted)' }}>
                         {zone.not_in_area_count ?? 0}
                       </span>
                     </td>
@@ -672,14 +672,14 @@ export function AuthorityWarningDetail() {
               <UserCheck size={18} color="#0284c7" />
               <span>Citizen Responses ({citizenResponses.length} Received)</span>
             </h3>
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               Responses submitted by targeted citizens (Version {warning.version}.0)
             </span>
           </div>
 
           {/* Filters */}
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.82rem', color: '#64748b' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.82rem', color: 'var(--text-muted)' }}>
               <Filter size={14} />
               <span>Type:</span>
             </div>
@@ -712,7 +712,7 @@ export function AuthorityWarningDetail() {
 
         {filteredResponses.length === 0 ? (
           <EmptyState
-            icon={<UserCheck size={36} color="#64748b" />}
+            icon={<UserCheck size={36} color="var(--text-muted)" />}
             title="No citizen responses received yet."
             description={analytics.total_targeted === 0 ? "No registered citizens found in this warning area." : "Awaiting responses from targeted citizens in this region."}
           />
@@ -753,7 +753,7 @@ export function AuthorityWarningDetail() {
                       <td>
                         <strong>{r.display_identifier}</strong>
                         {r.feedback_notes && (
-                          <div style={{ fontSize: '0.78rem', color: '#64748b', fontStyle: 'italic', marginTop: 2 }}>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 2 }}>
                             "{r.feedback_notes}"
                           </div>
                         )}
@@ -766,12 +766,12 @@ export function AuthorityWarningDetail() {
                       <td>{r.zone_name || 'General Zone'}</td>
                       <td>{r.target_area_name || warning.area_name}</td>
                       <td>
-                        <span style={{ fontSize: '0.8rem', color: '#475569' }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                           {r.delivery_channel || 'Web'} • {r.language_used?.toUpperCase() || 'EN'}
                         </span>
                       </td>
                       <td>
-                        <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                           {r.created_at ? new Date(r.created_at).toLocaleString() : 'N/A'}
                         </span>
                         {r.updated_at && (
@@ -793,7 +793,7 @@ export function AuthorityWarningDetail() {
                             )}
                           </div>
                         ) : (
-                          <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>None</span>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>None</span>
                         )}
                       </td>
                     </tr>
@@ -813,14 +813,14 @@ export function AuthorityWarningDetail() {
               <History size={18} color="#0284c7" />
               <span>Situation Timeline</span>
             </h3>
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               Chronological event progression
             </span>
           </div>
         </div>
 
         {timelineEvents.length === 0 ? (
-          <p style={{ color: '#64748b', fontSize: '0.88rem', padding: '1rem 0' }}>No timeline events recorded yet.</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', padding: '1rem 0' }}>No timeline events recorded yet.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', padding: '0.5rem 0' }}>
             {timelineEvents.map((evt) => (
@@ -830,7 +830,7 @@ export function AuthorityWarningDetail() {
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: '12px',
-                  borderLeft: '2px solid #e2e8f0',
+                  borderLeft: '2px solid var(--border-light)',
                   paddingLeft: '1rem',
                   position: 'relative'
                 }}
@@ -872,7 +872,7 @@ export function AuthorityWarningDetail() {
       <div className="card" style={{ marginBottom: '1.75rem' }}>
         <div className="card-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Sparkles size={18} color="#7c3aed" />
+            <Sparkles size={18} color="var(--color-terracotta)" />
             <h3 className="card-title">Citizen Messages & Retrieved Guidance</h3>
           </div>
           <span className={`badge ${isApproved ? 'badge-stable' : 'badge-attention'}`}>
@@ -881,20 +881,20 @@ export function AuthorityWarningDetail() {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem' }}>
-          <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '1rem' }}>
-            <strong style={{ fontSize: '0.9rem', color: '#1e293b', display: 'block', marginBottom: 6 }}>
+          <div style={{ background: 'var(--bg-surface-subtle)', border: '1px solid var(--border-light)', borderRadius: '8px', padding: '1rem' }}>
+            <strong style={{ fontSize: '0.9rem', color: 'var(--color-espresso-dark)', display: 'block', marginBottom: 6 }}>
               English Message:
             </strong>
-            <p style={{ fontSize: '0.88rem', color: '#334155', lineHeight: 1.6, whiteSpace: 'pre-wrap', margin: 0 }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap', margin: 0 }}>
               {warning.ai_simplified_en || warning.recommended_instructions}
             </p>
           </div>
 
-          <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '1rem' }}>
-            <strong style={{ fontSize: '0.9rem', color: '#1e293b', display: 'block', marginBottom: 6 }}>
+          <div style={{ background: 'var(--bg-surface-subtle)', border: '1px solid var(--border-light)', borderRadius: '8px', padding: '1rem' }}>
+            <strong style={{ fontSize: '0.9rem', color: 'var(--color-espresso-dark)', display: 'block', marginBottom: 6 }}>
               हिंदी (Hindi) Message:
             </strong>
-            <p style={{ fontSize: '0.88rem', color: '#334155', lineHeight: 1.6, whiteSpace: 'pre-wrap', margin: 0 }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap', margin: 0 }}>
               {warning.ai_simplified_hi || 'Generating Hindi translation upon approval...'}
             </p>
           </div>
@@ -906,9 +906,9 @@ export function AuthorityWarningDetail() {
           try { sources = JSON.parse(warning.rag_sources_json); } catch (e) { sources = []; }
           if (!sources || sources.length === 0) return null;
           return (
-            <div style={{ marginTop: '1rem', background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px', padding: '0.85rem 1rem' }}>
+            <div style={{ marginTop: '1rem', background: 'var(--status-minor-bg)', border: '1px solid var(--status-minor-border)', borderRadius: '8px', padding: '0.85rem 1rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '6px' }}>
-                <strong style={{ fontSize: '0.86rem', color: '#0369a1', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <strong style={{ fontSize: '0.86rem', color: 'var(--status-minor)', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Sparkles size={16} color="#0284c7" />
                   <span>Retrieved Safety Guidance (RAG Sources)</span>
                 </strong>
@@ -922,18 +922,18 @@ export function AuthorityWarningDetail() {
                 {sources.map((s, idx) => {
                   const relevancePct = s.score ? Math.round(s.score * 100) : null;
                   return (
-                    <details key={idx} style={{ background: '#ffffff', border: '1px solid #e0f2fe', borderRadius: '6px', padding: '0.4rem 0.6rem', fontSize: '0.8rem' }}>
-                      <summary style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#0369a1', fontWeight: 600 }}>
+                    <details key={idx} style={{ background: '#ffffff', border: '1px solid var(--status-minor-border)', borderRadius: '6px', padding: '0.4rem 0.6rem', fontSize: '0.8rem' }}>
+                      <summary style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'var(--status-minor)', fontWeight: 600 }}>
                         <span>• {s.doc_title || s.source_agency} — {s.topic || s.disaster_type}</span>
                         {relevancePct && (
-                          <span style={{ fontSize: '0.7rem', color: '#0284c7', background: '#f0f9ff', padding: '1px 6px', borderRadius: '4px', border: '1px solid #bae6fd' }}>
+                          <span style={{ fontSize: '0.7rem', color: 'var(--status-minor)', background: 'var(--status-minor-bg)', padding: '1px 6px', borderRadius: '4px', border: '1px solid var(--status-minor-border)' }}>
                             {relevancePct}% Match
                           </span>
                         )}
                       </summary>
                       {s.text && (
-                        <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px dashed #cbd5e1', fontSize: '0.78rem', color: '#334155', whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>
-                          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: 2 }}>
+                        <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px dashed var(--border-medium)', fontSize: '0.78rem', color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>
+                          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: 2 }}>
                             Agency: {s.source_agency}
                           </div>
                           {s.text.trim()}
@@ -975,7 +975,7 @@ export function AuthorityWarningDetail() {
             </p>
           </div>
 
-          <div style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '1.25rem', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', display: 'flex', flexDirection: 'column', gap: 4 }}>
             <div><strong>Affected Region:</strong> {warning.area_name}</div>
             <div><strong>Target Areas:</strong> {warning.target_areas?.length || 1} defined boundaries</div>
             <div><strong>Channels:</strong> Web Broadcast, Simulated SMS, Push Notifications</div>
@@ -1010,7 +1010,7 @@ export function AuthorityWarningDetail() {
         title={`Update Warning (Create Version ${warning.version + 1}.0)`}
       >
         <form onSubmit={handleCreateVersion}>
-          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '1rem' }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
             Creating a new version preserves previous targeting and response records of Version {warning.version}.0 in the history.
           </p>
 

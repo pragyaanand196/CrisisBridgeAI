@@ -260,9 +260,9 @@ export function RegisterPage() {
           </button>
         </form>
 
-        <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.88rem', color: '#94a3b8' }}>
+        <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.88rem', color: 'var(--text-muted)' }}>
           Already registered?{' '}
-          <Link to="/login" style={{ fontWeight: 600, color: '#38bdf8' }}>
+          <Link to="/login" style={{ fontWeight: 600, color: 'var(--color-terracotta)' }}>
             Sign In
           </Link>
         </div>

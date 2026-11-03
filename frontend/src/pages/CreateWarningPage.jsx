@@ -64,15 +64,16 @@ export function CreateWarningPage() {
         <BackButton fallbackPath="/authority" label="Back to Authority Dashboard" />
       </div>
 
-      {/* Dedicated Page Header: High-Contrast Dark Purple Banner */}
+      {/* Dedicated Page Header: Unified Warm Surface Banner with Restrained Terracotta Accent */}
       <div
         className="card warning-banner-card"
         style={{
           marginBottom: '1.75rem',
           padding: '1.75rem 2rem',
-          background: 'linear-gradient(135deg, #1b0e36 0%, #2a154a 100%)',
-          borderColor: 'rgba(168, 85, 247, 0.45)',
-          boxShadow: '0 8px 30px rgba(27, 14, 54, 0.3)',
+          background: '#ffffff',
+          border: '1px solid var(--border-light, #ece3d8)',
+          borderLeft: '4px solid var(--color-terracotta, #8b3a2b)',
+          boxShadow: 'var(--shadow-card, 0 2px 10px rgba(44, 26, 20, 0.04))',
           borderRadius: 'var(--radius-lg)'
         }}
       >
@@ -83,23 +84,23 @@ export function CreateWarningPage() {
                 width: 52,
                 height: 52,
                 borderRadius: '14px',
-                background: 'rgba(239, 68, 68, 0.22)',
-                border: '1.5px solid rgba(248, 113, 113, 0.55)',
+                background: 'var(--color-terracotta-light, #faf0eb)',
+                border: '1px solid var(--color-terracotta-border, #ead5cb)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#fca5a5',
-                boxShadow: '0 0 24px rgba(239, 68, 68, 0.35)',
+                color: 'var(--color-terracotta, #8b3a2b)',
+                boxShadow: '0 2px 8px rgba(139, 58, 43, 0.12)',
                 flexShrink: 0
               }}
             >
               <AlertTriangle size={28} />
             </div>
             <div style={{ minWidth: 0 }}>
-              <h1 style={{ fontSize: '1.65rem', fontWeight: 800, color: '#ffffff', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.25 }}>
+              <h1 style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--color-espresso-dark, #22120c)', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.25 }}>
                 Create Official Disaster Warning
               </h1>
-              <p style={{ fontSize: '0.92rem', color: '#e0d5f2', margin: '6px 0 0 0', lineHeight: 1.5, fontWeight: 500 }}>
+              <p style={{ fontSize: '0.92rem', color: 'var(--color-warm-brown, #5c4a42)', margin: '6px 0 0 0', lineHeight: 1.5, fontWeight: 500 }}>
                 Define disaster parameters, establish targeted response boundaries, and generate verified emergency broadcasts.
               </p>
             </div>
@@ -112,17 +113,17 @@ export function CreateWarningPage() {
                 alignItems: 'center',
                 gap: '0.4rem',
                 fontSize: '0.78rem',
-                fontWeight: 800,
+                fontWeight: 700,
                 padding: '0.4rem 0.85rem',
                 borderRadius: '9999px',
-                background: 'rgba(220, 38, 38, 0.28)',
-                color: '#fecaca',
-                border: '1px solid rgba(248, 113, 113, 0.6)',
+                background: 'var(--status-extreme-bg, #fee2e2)',
+                color: 'var(--status-extreme, #b91c1c)',
+                border: '1px solid var(--status-extreme-border, #fca5a5)',
                 textTransform: 'uppercase',
-                letterSpacing: '0.05em'
+                letterSpacing: '0.04em'
               }}
             >
-              <Radio size={14} style={{ display: 'inline', color: '#f87171' }} />
+              <Radio size={14} style={{ display: 'inline', color: 'var(--status-extreme, #b91c1c)' }} />
               Live Broadcasting Protocol
             </span>
             <span
@@ -131,17 +132,17 @@ export function CreateWarningPage() {
                 alignItems: 'center',
                 gap: '0.4rem',
                 fontSize: '0.78rem',
-                fontWeight: 800,
+                fontWeight: 700,
                 padding: '0.4rem 0.85rem',
                 borderRadius: '9999px',
-                background: 'rgba(22, 101, 52, 0.38)',
-                color: '#bbf7d0',
-                border: '1px solid rgba(74, 222, 128, 0.6)',
+                background: 'var(--status-stable-bg, #dcfce7)',
+                color: 'var(--status-stable, #15803d)',
+                border: '1px solid var(--status-stable-border, #86efac)',
                 textTransform: 'uppercase',
-                letterSpacing: '0.05em'
+                letterSpacing: '0.04em'
               }}
             >
-              <ShieldCheck size={14} style={{ display: 'inline', color: '#4ade80' }} />
+              <ShieldCheck size={14} style={{ display: 'inline', color: 'var(--status-stable, #15803d)' }} />
               Authorized Access
             </span>
           </div>

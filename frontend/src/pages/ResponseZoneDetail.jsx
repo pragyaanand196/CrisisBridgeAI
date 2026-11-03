@@ -36,7 +36,7 @@ export function ResponseZoneDetail() {
       <div>
         <BackButton fallbackPath="/authority" label="Back to Dashboard" />
         <div className="card">
-          <p style={{ textAlign: 'center', color: '#64748b' }}>Response Zone not found.</p>
+          <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Response Zone not found.</p>
         </div>
       </div>
     );
@@ -137,7 +137,7 @@ export function ResponseZoneDetail() {
         <div className="card" style={{ padding: '1.25rem' }}>
           <div className="card-header">
             <h3 className="card-title">
-              <MapPin size={18} color="#38bdf8" />
+              <MapPin size={18} color="var(--color-terracotta)" />
               <span>Zone Perimeter & Assigned Facilities</span>
             </h3>
           </div>

@@ -11,10 +11,10 @@ export function Footer() {
       <div className="footer-container">
         <div className="footer-brand">
           <h4>
-            <Shield size={20} color="#0284c7" />
+            <Shield size={20} color="var(--color-terracotta)" />
             <span>CrisisBridge AI</span>
           </h4>
-          <p style={{ fontSize: '0.88rem', color: '#94a3b8', lineHeight: 1.6, maxWidth: '320px' }}>
+          <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, maxWidth: '320px' }}>
             Disaster warning delivery and citizen response verification platform for emergency authorities and local communities.
           </p>
         </div>
@@ -41,10 +41,10 @@ export function Footer() {
 
         <div className="footer-section">
           <h5>Standards & Review</h5>
-          <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '0.75rem' }}>
             Common Alerting Protocol (CAP v1.2) compatible. Mandatory authority approval on all citizen messages.
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.78rem', color: '#38bdf8' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.78rem', color: 'var(--color-terracotta)', fontWeight: 600 }}>
             <Lock size={14} />
             <span>Role-Based Access Control</span>
           </div>

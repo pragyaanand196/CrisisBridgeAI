@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Shield, Menu, User, LogOut, LogIn } from 'lucide-react';
 import { NotificationDropdown } from './NotificationDropdown';
 
-export function TopHeader({ onOpenSidebar, isSidebarOpen }) {
+export function TopHeader({ onOpenSidebar, isSidebarOpen, dashboardMobileOnly = false }) {
   const { user, logout, isAuthority, isAdmin, isCitizen } = useAuth();
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export function TopHeader({ onOpenSidebar, isSidebarOpen }) {
   };
 
   return (
-    <header className="top-header" role="banner">
+    <header className={`top-header${dashboardMobileOnly ? ' top-header--dashboard-mobile' : ''}`} role="banner">
       <div className="top-header-container">
         {/* Left: Mobile Sidebar Toggle & Compact Branding */}
         <div className="top-header-left">

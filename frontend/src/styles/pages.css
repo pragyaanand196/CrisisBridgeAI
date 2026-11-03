@@ -614,6 +614,82 @@
   max-width: 800px;
 }
 
+@media (max-width: 768px) {
+  .authority-hero-content {
+    padding: 1.15rem;
+    gap: 1.15rem;
+  }
+
+  .authority-top-actions-bar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .hero-actions-right {
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.45rem;
+  }
+
+  .hero-user-pill {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hero-user-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .btn-hero-logout {
+    min-height: 42px;
+  }
+
+  .authority-page-title {
+    font-size: 2.1rem;
+    overflow-wrap: anywhere;
+  }
+
+  .authority-subtitle {
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 480px) {
+  .authority-hero-content {
+    padding: 0.9rem;
+    gap: 0.9rem;
+  }
+
+  .authority-top-actions-bar {
+    align-items: flex-start;
+  }
+
+  .hero-actions-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hero-user-pill {
+    flex: 1 1 0;
+    overflow: hidden;
+    padding: 0.35rem 0.55rem;
+  }
+
+  .hero-user-role {
+    white-space: nowrap;
+  }
+
+  .authority-page-title {
+    font-size: 1.7rem;
+  }
+}
+
 /* ── 4 KPI Metric Summary Cards ── */
 .metric-grid {
   display: grid;
@@ -1246,19 +1322,21 @@
 }
 
 /* -----------------------------------------------------------------------------
-   CONTINUOUS BACKGROUND WRAPPER
-   The flood-rescue photo lives here and extends behind BOTH the hero title area
-   AND the overlapping location card. The bottom gradient fades it into #faf5ee.
-   There is NO overflow:hidden clipping - the image bleeds through naturally.
+   COMPACT HERO BANNER
+   Fixed-height landscape strip. The flood-rescue photo fills it via ::before.
+   A left-to-right dark gradient and a subtle bottom fade ensure text legibility.
+   The location card sits as an in-banner overlay pinned to the bottom edge.
+   overflow: hidden keeps the card from bleeding outside the banner height.
 ----------------------------------------------------------------------------- */
 .citizen-photo-band {
   position: relative;
   width: 100%;
-  padding-bottom: 7.5rem;
+  min-height: 330px;
+  overflow: hidden;
   background-color: #1a0f0b;
 }
 
-/* The actual photograph */
+/* The actual photograph — object-fit: cover via background-size: cover */
 .citizen-photo-band::before {
   content: '';
   position: absolute;
@@ -1270,7 +1348,7 @@
   z-index: 0;
 }
 
-/* Gradient overlays */
+/* Gradient overlays: left dark vignette for text contrast + subtle bottom fade */
 .citizen-photo-band::after {
   content: '';
   position: absolute;
@@ -1280,36 +1358,36 @@
     linear-gradient(
       90deg,
       rgba(12, 5, 3, 0.82) 0%,
-      rgba(12, 5, 3, 0.58) 28%,
-      rgba(12, 5, 3, 0.18) 55%,
-      transparent 78%
+      rgba(12, 5, 3, 0.60) 28%,
+      rgba(12, 5, 3, 0.20) 58%,
+      transparent 80%
     ),
     linear-gradient(
       180deg,
-      rgba(8, 4, 2, 0.28) 0%,
-      transparent 22%,
-      transparent 48%,
-      rgba(250, 245, 238, 0.50) 68%,
-      rgba(250, 245, 238, 0.85) 84%,
-      #faf5ee 100%
+      rgba(8, 4, 2, 0.30) 0%,
+      transparent 25%,
+      transparent 52%,
+      rgba(10, 5, 3, 0.30) 78%,
+      rgba(10, 5, 3, 0.55) 100%
     );
   pointer-events: none;
 }
 
-/* Hero Content */
+/* Hero Content: flex-column filling full banner height */
 .citizen-hero-content {
   position: relative;
   z-index: 3;
-  padding: 1.65rem 2.75rem 2rem;
+  padding: 1.25rem 2.75rem 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  min-height: 330px;
   box-sizing: border-box;
   width: 100%;
   max-width: 1380px;
   margin: 0 auto;
 }
 
+/* Top row: Back button left, user pill + logout right */
 .citizen-top-actions-bar {
   display: flex;
   align-items: center;
@@ -1317,6 +1395,7 @@
   width: 100%;
   flex-wrap: wrap;
   gap: 0.75rem;
+  flex-shrink: 0;
 }
 
 .citizen-top-actions-bar .back-btn {
@@ -1396,60 +1475,68 @@
   background: rgba(160, 60, 42, 0.96);
 }
 
+/* Heading + subtitle: grows to fill middle space, left-aligned */
 .citizen-hero-title-block {
-  margin-top: 1.4rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 0.5rem;
 }
 
 .citizen-portal-heading {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 3.1rem;
+  font-size: 2.6rem;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -0.02em;
-  margin: 0 0 0.28rem 0;
+  margin: 0 0 0.22rem 0;
   line-height: 1.1;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.65);
 }
 
 .citizen-portal-subtitle {
-  font-size: 0.98rem;
+  font-size: 0.93rem;
   color: rgba(255, 255, 255, 0.88);
   margin: 0;
   font-weight: 400;
-  max-width: 560px;
-  line-height: 1.55;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.38);
+  max-width: 520px;
+  line-height: 1.5;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
 }
 
-/* Main Body Content */
+/* Main Body Content — directly below the banner, NO negative margin needed */
 .citizen-portal-body {
   position: relative;
   z-index: 10;
   max-width: 1380px;
   margin: 0 auto;
-  padding: 0 2.75rem 4rem;
+  padding: 1rem 2.75rem 4rem;
   box-sizing: border-box;
 }
 
-/* Registered Location Card - overlaps the photo band with negative margin */
+/* ── Location Card: pinned inside the hero banner at its bottom edge ── */
+/* It sits as the last flex child of citizen-hero-content, so flex pushes it down */
 .citizen-location-card {
-  margin-top: -5.8rem;
-  background: rgba(255, 255, 255, 0.96);
+  /* No negative margin — card is inside the banner now */
+  margin-top: 0;
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   border: 1px solid rgba(228, 215, 202, 0.88);
-  border-radius: 18px;
-  padding: 1.2rem 1.8rem;
+  border-radius: 14px;
+  padding: 0.85rem 1.4rem;
   box-shadow:
-    0 6px 22px rgba(44, 26, 20, 0.11),
-    0 1px 4px rgba(44, 26, 20, 0.06);
+    0 6px 22px rgba(44, 26, 20, 0.18),
+    0 1px 4px rgba(44, 26, 20, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1.1rem;
+  gap: 0.85rem;
   position: relative;
   z-index: 12;
+  flex-shrink: 0;
 }
 
 .citizen-location-left {
@@ -1800,35 +1887,37 @@
 
 @media (max-width: 1100px) {
   .citizen-hero-content {
-    padding: 1.5rem 1.75rem 1.8rem;
+    padding: 1.1rem 1.75rem 0.9rem;
   }
   .citizen-portal-body {
-    padding: 0 1.75rem 3rem;
+    padding: 1.25rem 1.75rem 3rem;
   }
   .citizen-portal-heading {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
   }
 }
 
 @media (max-width: 768px) {
   .citizen-photo-band {
-    padding-bottom: 6rem;
+    min-height: 290px;
   }
   .citizen-hero-content {
-    padding: 1.25rem 1.25rem 1.5rem;
+    min-height: 290px;
+    padding: 1rem 1.25rem 0.85rem;
   }
   .citizen-portal-heading {
-    font-size: 2rem;
+    font-size: 1.85rem;
   }
   .citizen-portal-subtitle {
-    font-size: 0.91rem;
+    font-size: 0.87rem;
   }
   .citizen-location-card {
-    padding: 1rem 1.2rem;
-    margin-top: -4.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 11px;
+    gap: 0.65rem;
   }
   .citizen-portal-body {
-    padding: 0 1rem 2.5rem;
+    padding: 1rem 1rem 2.5rem;
   }
   .citizen-shelter-illustration {
     display: none;
@@ -1836,20 +1925,44 @@
 }
 
 @media (max-width: 480px) {
+  .citizen-photo-band {
+    min-height: 320px;
+  }
+  .citizen-hero-content {
+    min-height: 320px;
+    padding: 1rem;
+  }
   .citizen-top-actions-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.6rem;
+    gap: 0.45rem;
   }
   .citizen-hero-actions-right {
     width: 100%;
     justify-content: space-between;
   }
   .citizen-portal-heading {
-    font-size: 1.75rem;
+    font-size: 1.55rem;
+  }
+  .citizen-portal-subtitle {
+    font-size: 0.82rem;
+    max-width: 100%;
+  }
+  .citizen-hero-title-block {
+    padding-top: 0.2rem;
   }
   .citizen-location-left {
     width: 100%;
+    align-items: flex-start;
+  }
+  .citizen-location-name,
+  .citizen-location-subtext {
+    overflow-wrap: anywhere;
+  }
+  .citizen-hero-user-pill,
+  .citizen-hero-user-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .btn-citizen-change-location {
     width: 100%;
@@ -1869,6 +1982,18 @@
   padding: 0 0.5rem 2rem;
   width: 100%;
   box-sizing: border-box;
+}
+
+.citizen-incident-create-form,
+.citizen-incident-create-form .form-group,
+.citizen-incident-create-form .form-label {
+  min-width: 0;
+}
+
+.citizen-incident-create-form .form-label {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* Emergency Information Moving Announcement Ticker */
@@ -1926,6 +2051,90 @@
   opacity: 0.85;
 }
 
+.situation-overview {
+  margin: -0.45rem 0 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.situation-overview-heading {
+  flex: 0 0 auto;
+  margin: 0;
+  color: #8b3a2b;
+  font-size: 0.92rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.situation-overview-marquee {
+  flex: 1 1 0;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 1.55em;
+  overflow: hidden;
+  line-height: 1.55;
+}
+
+.situation-overview-text {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: max-content;
+  max-width: none;
+  margin: 0;
+  color: #6b5a52;
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+  animation: situationOverviewScroll var(--situation-overview-duration, 18s) linear infinite;
+  will-change: left, transform;
+}
+
+@media (max-width: 480px) {
+  .situation-overview {
+    gap: 0.4rem;
+  }
+
+  .situation-overview-heading {
+    font-size: 0.78rem;
+  }
+
+  .situation-overview-text {
+    font-size: 0.82rem;
+  }
+}
+
+@keyframes situationOverviewScroll {
+  from {
+    left: 100%;
+    transform: translateX(0);
+  }
+  to {
+    left: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .situation-overview-marquee {
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .situation-overview-text {
+    position: static;
+    width: auto;
+    max-width: 100%;
+    white-space: normal;
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}
+
 @keyframes emergencyTickerScroll {
   0% {
     transform: translate3d(0, 0, 0);
@@ -1978,6 +2187,20 @@
   .citizen-incident-page #btn-report-new-incident {
     width: 100%;
     justify-content: center;
+  }
+
+  .citizen-incident-create-modal .modal-body {
+    padding: 0.75rem;
+  }
+
+  .citizen-incident-create-form .citizen-incident-create-section {
+    padding: 0.9rem !important;
+  }
+
+  .citizen-incident-create-form .citizen-incident-profile-grid,
+  .citizen-incident-create-form .citizen-incident-date-time-grid,
+  .citizen-incident-create-form .citizen-incident-status-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 

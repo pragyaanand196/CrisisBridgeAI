@@ -375,7 +375,7 @@ export function NotificationDropdown() {
               notifications.map((notif) => {
                 const isUnread = !notif.is_read;
                 const urgencyColor =
-                  notif.urgency === 'Critical' ? '#dc2626' : notif.urgency === 'High' ? '#d97706' : '#2563eb';
+                  notif.urgency === 'Critical' ? 'var(--status-extreme, #dc2626)' : notif.urgency === 'High' ? 'var(--status-severe, #d97706)' : 'var(--color-terracotta)';
 
                 return (
                   <div
@@ -517,10 +517,10 @@ export function NotificationDropdown() {
                               fontWeight: 700,
                               color:
                                 notif.assistance_request_status === 'Resolved'
-                                  ? '#15803d'
+                                  ? 'var(--status-stable, #15803d)'
                                   : notif.assistance_request_status === 'Dispatched'
-                                  ? '#1d4ed8'
-                                  : '#b45309'
+                                  ? 'var(--color-terracotta)'
+                                  : 'var(--status-warning, #b45309)'
                             }}
                           >
                             {notif.assistance_request_status}

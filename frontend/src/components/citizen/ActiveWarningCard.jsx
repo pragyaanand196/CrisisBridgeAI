@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Badge } from '../common/Badge';
 import { AudioReadAloud } from './AudioReadAloud';
 import { AssistanceModal } from './AssistanceModal';
@@ -7,6 +7,29 @@ import {
   MapPin, Globe, ChevronDown, ChevronUp, Clock, RefreshCw
 } from 'lucide-react';
 import { api } from '../../services/api';
+
+function separateSituationOverview(message) {
+  if (typeof message !== 'string' || !message) {
+    return { situationOverview: '', instructions: '' };
+  }
+
+  const overviewHeading = /^\s*(?:#{1,6}\s*)?(?:\*\*)?(?:Situation Overview|स्थिति विवरण|स्थिति का अवलोकन)(?:\*\*)?\s*:\s*(?:\*\*)?\s*$/im;
+  const instructionsHeading = /^\s*(?:#{1,6}\s*)?(?:\*\*)?(?:Official Safety\s*(?:&|and)\s*Evacuation Instructions|अनिवार्य सुरक्षा एवं निकासी निर्देश|आधिकारिक सुरक्षा (?:और|एवं) निकासी निर्देश)(?:\*\*)?\s*:\s*(?:\*\*)?\s*$/im;
+  const overviewMatch = overviewHeading.exec(message);
+  const instructionsMatch = instructionsHeading.exec(message);
+
+  if (!overviewMatch || !instructionsMatch || instructionsMatch.index <= overviewMatch.index) {
+    return { situationOverview: '', instructions: message };
+  }
+
+  const overviewStart = overviewMatch.index + overviewMatch[0].length;
+  const situationOverview = message.slice(overviewStart, instructionsMatch.index).trim();
+  const instructions = `${message.slice(0, overviewMatch.index)}${message.slice(instructionsMatch.index)}`
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
+  return { situationOverview, instructions };
+}
 
 /**
  * ActiveWarningCard
@@ -39,6 +62,23 @@ export function ActiveWarningCard({
   const [instructionData, setInstructionData]   = useState(null);
   const [instructionLoading, setInstructionLoading] = useState(false);
   const [instructionError, setInstructionError]    = useState(null);
+  const situationOverviewRef = useRef(null);
+  const situationOverviewTextRef = useRef(null);
+  const messageLanguage = language === 'hi' ? 'hi' : 'en';
+  const instructionResponseText = instructionData?.language === messageLanguage
+    ? instructionData.simplified_text
+    : '';
+  const storedWarningText = messageLanguage === 'hi'
+    ? warning?.ai_simplified_hi
+    : warning?.ai_simplified_en;
+  const localizedWarningText = instructionResponseText
+    || storedWarningText
+    || (messageLanguage === 'en' ? warning?.recommended_instructions : '')
+    || '';
+  const warningSections = separateSituationOverview(localizedWarningText);
+  const situationOverview = messageLanguage === 'hi'
+    ? warningSections.situationOverview
+    : (warning?.description?.trim() || warningSections.situationOverview);
 
   // Sync language from parent prop (e.g. user's stored preference)
   useEffect(() => {
@@ -66,17 +106,42 @@ export function ActiveWarningCard({
     fetchInstruction(language);
   }, [language, fetchInstruction]);
 
+  useEffect(() => {
+    const viewport = situationOverviewRef.current;
+    const text = situationOverviewTextRef.current;
+    if (!situationOverview || !viewport || !text) return undefined;
+
+    const updateDuration = () => {
+      const travelDistance = viewport.clientWidth + text.scrollWidth;
+      const duration = Math.max(10, travelDistance / 34);
+      text.style.setProperty('--situation-overview-duration', `${duration}s`);
+    };
+
+    updateDuration();
+    const observer = typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(updateDuration);
+    observer?.observe(viewport);
+    window.addEventListener('resize', updateDuration);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', updateDuration);
+    };
+  }, [situationOverview]);
+
   if (!warning) return null;
 
   // ── Compute displayed text ─────────────────────────────────────────────────
   // Priority: backend instruction API → warning object fields → raw instructions
-  const textToShow = instructionData?.simplified_text
-    || (language === 'hi' && warning.ai_simplified_hi
-        ? warning.ai_simplified_hi
-        : (warning.ai_simplified_en || warning.recommended_instructions));
+  const textToShow = warningSections.instructions
+    || (messageLanguage === 'hi' ? warning.ai_simplified_hi : warning.ai_simplified_en)
+    || warning.recommended_instructions;
 
   // Read-aloud text: use backend's read_aloud_text if available (already clean)
-  const readAloudText = instructionData?.read_aloud_text || textToShow;
+  const readAloudText = instructionData?.language === messageLanguage
+    ? instructionData.read_aloud_text
+    : localizedWarningText;
 
   // Display title
   const displayTitle = language === 'hi'
@@ -198,6 +263,22 @@ export function ActiveWarningCard({
           </span>
         </div>
       </div>
+
+      {situationOverview && (
+        <section
+          className="situation-overview"
+          aria-label={messageLanguage === 'hi' ? 'स्थिति का अवलोकन' : 'Situation Overview'}
+        >
+          <h3 className="situation-overview-heading">
+            {messageLanguage === 'hi' ? 'स्थिति का अवलोकन:' : 'Situation Overview:'}
+          </h3>
+          <div className="situation-overview-marquee" ref={situationOverviewRef}>
+            <p lang={messageLanguage} className="situation-overview-text" ref={situationOverviewTextRef}>
+              {situationOverview}
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Audio Read-Aloud Bar — always uses full translated text */}
       <AudioReadAloud text={readAloudText} language={language} />
@@ -376,6 +457,7 @@ export function ActiveWarningCard({
         isOpen={isHelpModalOpen}
         onClose={() => setIsHelpModalOpen(false)}
         warningId={warning.id}
+        zoneId={warning.response_zone_id || warning.zone_id || null}
         onSubmitHelp={(data) => {
           onSubmitAssistance(data);
           setIsHelpModalOpen(false);

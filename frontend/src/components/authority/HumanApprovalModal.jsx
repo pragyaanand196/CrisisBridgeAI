@@ -51,7 +51,7 @@ export function HumanApprovalModal({
       size="lg"
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-        <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '0.85rem 1rem', borderRadius: '8px', fontSize: '0.85rem', color: '#166534', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ background: 'var(--status-stable-bg)', border: '1px solid var(--status-stable-border)', padding: '0.85rem 1rem', borderRadius: '8px', fontSize: '0.85rem', color: 'var(--status-stable)', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <ShieldCheck size={18} color="#16a34a" />
           <span>
             <strong>Authority Review:</strong> Verify official details, retrieved guidance, and citizen messages before distribution.
@@ -60,18 +60,18 @@ export function HumanApprovalModal({
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem' }}>
           {/* AREA 1: Official Warning */}
-          <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', padding: '1rem', borderRadius: '8px' }}>
+          <div style={{ background: 'var(--bg-surface-subtle)', border: '1px solid var(--border-medium)', padding: '1rem', borderRadius: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <strong style={{ fontSize: '0.88rem', color: '#1e293b' }}>1. Official Warning</strong>
+              <strong style={{ fontSize: '0.88rem', color: 'var(--color-espresso-dark)' }}>1. Official Warning</strong>
               <span className="badge badge-minor" style={{ fontSize: '0.7rem' }}>Authority Input</span>
             </div>
-            <div style={{ fontSize: '0.85rem', color: '#334155', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
               <div><strong>Event:</strong> {warning.disaster_type} ({warning.severity} • {warning.urgency})</div>
               <div><strong>Title:</strong> {warning.title}</div>
               <div><strong>Target Region:</strong> {warning.area_name}</div>
               <div style={{ marginTop: '0.4rem' }}>
                 <strong>Safety Instructions:</strong>
-                <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', fontSize: '0.82rem', background: '#ffffff', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', marginTop: '4px' }}>
+                <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', fontSize: '0.82rem', background: '#ffffff', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-medium)', marginTop: '4px' }}>
                   {warning.recommended_instructions}
                 </pre>
               </div>
@@ -99,7 +99,7 @@ export function HumanApprovalModal({
               }
               if (!sources || sources.length === 0) {
                 return (
-                  <div style={{ fontSize: '0.82rem', color: '#64748b', fontStyle: 'italic', padding: '0.5rem', background: '#ffffff', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontStyle: 'italic', padding: '0.5rem', background: '#ffffff', borderRadius: '6px', border: '1px solid var(--border-light)' }}>
                     No external SOP sources retrieved. Warning is based on direct authority input.
                   </div>
                 );
@@ -109,17 +109,17 @@ export function HumanApprovalModal({
                   {sources.map((s, idx) => {
                     const relevancePct = s.score ? Math.round(s.score * 100) : null;
                     return (
-                      <details key={idx} style={{ background: '#ffffff', border: '1px solid #e0f2fe', borderRadius: '6px', padding: '0.4rem 0.6rem', fontSize: '0.78rem' }}>
-                        <summary style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#0369a1', fontWeight: 600 }}>
+                      <details key={idx} style={{ background: '#ffffff', border: '1px solid var(--status-minor-border)', borderRadius: '6px', padding: '0.4rem 0.6rem', fontSize: '0.78rem' }}>
+                        <summary style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'var(--status-minor)', fontWeight: 600 }}>
                           <span>• {s.doc_title || s.source_agency}</span>
                           {relevancePct && (
-                            <span style={{ fontSize: '0.68rem', color: '#0284c7', background: '#f0f9ff', padding: '1px 5px', borderRadius: '4px', border: '1px solid #bae6fd' }}>
+                            <span style={{ fontSize: '0.68rem', color: 'var(--status-minor)', background: 'var(--status-minor-bg)', padding: '1px 5px', borderRadius: '4px', border: '1px solid var(--status-minor-border)' }}>
                               {relevancePct}% Match
                             </span>
                           )}
                         </summary>
-                        <div style={{ marginTop: '0.35rem', paddingTop: '0.35rem', borderTop: '1px dashed #cbd5e1', fontSize: '0.75rem', color: '#334155', whiteSpace: 'pre-wrap', lineHeight: 1.45 }}>
-                          <div style={{ fontSize: '0.68rem', color: '#64748b', marginBottom: 2 }}>
+                        <div style={{ marginTop: '0.35rem', paddingTop: '0.35rem', borderTop: '1px dashed var(--border-medium)', fontSize: '0.75rem', color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', lineHeight: 1.45 }}>
+                          <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginBottom: 2 }}>
                             Topic: {s.topic}
                           </div>
                           {s.text?.trim()}

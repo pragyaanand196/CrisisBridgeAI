@@ -1045,8 +1045,9 @@ export function CitizenIncidentReports() {
         onClose={handleCloseCreateModal}
         title="Report a New Incident"
         size="lg"
+        contentClassName="citizen-incident-create-modal"
       >
-        <form onSubmit={handleSubmitReport} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <form className="citizen-incident-create-form" onSubmit={handleSubmitReport} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {/* Top Explanatory Banner */}
           <div
             style={{
@@ -1067,9 +1068,10 @@ export function CitizenIncidentReports() {
           </div>
 
           {/* ─────────────────────────────────────────────────────────────────
-              SECTION A: Reporter Information
+              SECTION A: Your Details
               ───────────────────────────────────────────────────────────────── */}
           <div
+            className="citizen-incident-create-section"
             style={{
               background: '#ffffff',
               border: '1px solid var(--border-medium)',
@@ -1080,14 +1082,14 @@ export function CitizenIncidentReports() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem' }}>
               <Shield size={17} color="var(--color-terracotta)" />
               <h4 style={{ margin: 0, fontSize: '0.98rem', fontWeight: 700, color: 'var(--color-espresso-dark)' }}>
-                Section A: Reporter Information
+                Section A: Your Details
               </h4>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+            <div className="citizen-incident-profile-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
               <div>
                 <label className="form-label" style={{ fontSize: '0.82rem', marginBottom: 2 }}>
-                  Verified Citizen Name
+                  Verified Name
                 </label>
                 <div
                   style={{
@@ -1106,7 +1108,7 @@ export function CitizenIncidentReports() {
 
               <div>
                 <label className="form-label" style={{ fontSize: '0.82rem', marginBottom: 2 }}>
-                  Registered Email Account
+                  Registered Email
                 </label>
                 <div
                   style={{
@@ -1132,6 +1134,7 @@ export function CitizenIncidentReports() {
               SECTION B: Incident Details
               ───────────────────────────────────────────────────────────────── */}
           <div
+            className="citizen-incident-create-section"
             style={{
               background: '#ffffff',
               border: '1px solid var(--border-medium)',
@@ -1172,7 +1175,7 @@ export function CitizenIncidentReports() {
             {/* Category Dropdown (12 Exact Categories) */}
             <div className="form-group" style={{ marginBottom: '1rem' }}>
               <label className="form-label" htmlFor="select-incident-category">
-                Incident Category <span className="required-star">*</span>
+                What type of incident is this? <span className="required-star">*</span>
               </label>
               <select
                 id="select-incident-category"
@@ -1197,7 +1200,7 @@ export function CitizenIncidentReports() {
             {/* Incident Description */}
             <div className="form-group" style={{ marginBottom: '1.25rem' }}>
               <label className="form-label" htmlFor="textarea-incident-description">
-                Incident Description <span className="required-star">*</span>
+                Describe What you saw <span className="required-star">*</span>
               </label>
               <textarea
                 id="textarea-incident-description"
@@ -1223,10 +1226,6 @@ export function CitizenIncidentReports() {
               <label className="form-label" style={{ marginBottom: 4 }}>
                 Observed Severity Level <span className="required-star">*</span>
               </label>
-              <p style={{ margin: '0 0 8px 0', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                Select the severity level based on the danger you observe in your surroundings.
-                <em> Note: Citizen-reported severity is an initial field observation and does not represent an officially verified authority assessment.</em>
-              </p>
 
               <div
                 style={{
@@ -1275,10 +1274,10 @@ export function CitizenIncidentReports() {
             </div>
 
             {/* Date & Time of Occurrence */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+            <div className="citizen-incident-date-time-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
               <div className="form-group">
                 <label className="form-label" htmlFor="input-incident-date">
-                  Incident Date of Occurrence <span className="required-star">*</span>
+                  When did it happen? <span className="required-star">*</span>
                 </label>
                 <input
                   id="input-incident-date"
@@ -1300,7 +1299,7 @@ export function CitizenIncidentReports() {
 
               <div className="form-group">
                 <label className="form-label" htmlFor="input-incident-time">
-                  Approximate Time of Occurrence
+                  Approximate Time
                 </label>
                 <input
                   id="input-incident-time"
@@ -1313,10 +1312,10 @@ export function CitizenIncidentReports() {
             </div>
 
             {/* Still occurring & People at risk */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+            <div className="citizen-incident-status-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
               <div className="form-group">
                 <label className="form-label">
-                  Is the incident still occurring? <span className="required-star">*</span>
+                  Is it happening now? <span className="required-star">*</span>
                 </label>
                 <div style={{ display: 'flex', gap: '10px', marginTop: 4 }}>
                   {['Yes', 'No', 'Not Sure'].map((opt) => (
@@ -1440,11 +1439,6 @@ export function CitizenIncidentReports() {
                 </button>
               </div>
             </div>
-
-            <p style={{ margin: '0 0 1rem 0', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              Identify where the incident occurred. You may search for an address or click on the map.
-              Do not assume the incident happened at your registered home address.
-            </p>
 
             {/* Map & Search Mode */}
             {!formData.manual_location_mode ? (

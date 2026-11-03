@@ -93,7 +93,7 @@ export function LandingPage() {
           <div className="metric-card">
             <div className="metric-label">
               <span>Response Zones</span>
-              <MapPin size={16} color="#0284c7" />
+              <MapPin size={16} color="var(--color-terracotta)" />
             </div>
             <div className="metric-value">
               {overview.total_response_zones}
@@ -115,7 +115,7 @@ export function LandingPage() {
           <div className="metric-card">
             <div className="metric-label">
               <span>Comprehension Rate</span>
-              <CheckCircle size={16} color="#0284c7" />
+              <CheckCircle size={16} color="var(--color-terracotta)" />
             </div>
             <div className="metric-value">
               {overview.overall_understanding_rate}%
@@ -129,13 +129,13 @@ export function LandingPage() {
       {activeWarnings.length > 0 && (
         <section style={{ marginBottom: '3rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-            <h3 style={{ fontSize: '1.35rem', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <h3 style={{ fontSize: '1.35rem', color: 'rgba(255, 248, 240, 0.96)', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <AlertTriangle size={22} color="#f87171" />
               <span>Active Emergency Warnings</span>
             </h3>
             <Link
               to={isAuthority ? '/authority' : '/citizen'}
-              style={{ fontSize: '0.9rem', fontWeight: 700, color: '#38bdf8' }}
+              style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fde68a' }}
             >
               {isAuthority ? 'View in Command Center →' : 'View in Citizen Portal →'}
             </Link>
@@ -146,11 +146,11 @@ export function LandingPage() {
               <div key={warn.id} className="card card-hover" style={{ borderLeft: '4px solid #ef4444' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.65rem' }}>
                   <Badge status={warn.severity} />
-                  <span style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>v{warn.version}.0</span>
+                  <span style={{ fontSize: '0.8rem', color: 'rgba(253, 230, 200, 0.75)' }}>v{warn.version}.0</span>
                 </div>
-                <h4 style={{ fontSize: '1.15rem', color: '#f8fafc', marginBottom: '0.5rem' }}>{warn.title}</h4>
-                <p style={{ fontSize: '0.88rem', color: '#cbd5e1', marginBottom: '1rem' }}>
-                  <strong style={{ color: '#f1f5f9' }}>Target Area:</strong> {warn.area_name}
+                <h4 style={{ fontSize: '1.15rem', color: 'rgba(255, 248, 240, 0.96)', marginBottom: '0.5rem' }}>{warn.title}</h4>
+                <p style={{ fontSize: '0.88rem', color: 'rgba(253, 230, 200, 0.82)', marginBottom: '1rem' }}>
+                  <strong style={{ color: 'rgba(255, 248, 240, 0.96)' }}>Target Area:</strong> {warn.area_name}
                 </p>
                 <Link
                   to={isAuthority ? `/warnings/${warn.id}` : '/citizen'}

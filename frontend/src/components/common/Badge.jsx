@@ -4,13 +4,13 @@ export function Badge({ status, label, className = '' }) {
   const normalized = (status || label || '').toLowerCase();
 
   let badgeClass = 'badge-draft';
-  if (normalized.includes('extreme') || normalized.includes('critical')) {
+  if (normalized.includes('extreme') || normalized.includes('critical') || normalized.includes('rejected') || normalized.includes('not verified')) {
     badgeClass = 'badge-extreme';
   } else if (normalized.includes('severe') || normalized.includes('danger') || normalized.includes('failure')) {
     badgeClass = 'badge-severe';
-  } else if (normalized.includes('moderate') || normalized.includes('attention') || normalized.includes('warning')) {
+  } else if (normalized.includes('moderate') || normalized.includes('attention') || normalized.includes('warning') || normalized.includes('review') || normalized.includes('clarification')) {
     badgeClass = 'badge-moderate';
-  } else if (normalized.includes('minor') || normalized.includes('info') || normalized.includes('advisory')) {
+  } else if (normalized.includes('minor') || normalized.includes('info') || normalized.includes('advisory') || normalized.includes('action') || normalized.includes('assigned') || normalized.includes('submitted')) {
     badgeClass = 'badge-minor';
   } else if (normalized.includes('stable') || normalized.includes('approved') || normalized.includes('active') || normalized.includes('safe') || normalized.includes('resolved') || normalized.includes('verified')) {
     badgeClass = 'badge-stable';

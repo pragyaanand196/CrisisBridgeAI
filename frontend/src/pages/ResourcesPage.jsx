@@ -295,7 +295,7 @@ export function ResourcesPage() {
                       {res.status}
                     </span>
                     {res.response_zone_name ? (
-                      <span className="badge" style={{ fontSize: '0.7rem', background: 'rgba(59, 130, 246, 0.12)', color: '#2563eb', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
+                      <span className="badge" style={{ fontSize: '0.7rem', background: '#faeee9', color: 'var(--color-terracotta)', border: '1px solid #e7cdbf' }}>
                         {res.response_zone_code ? `${res.response_zone_code}: ` : ''}{res.response_zone_name}
                       </span>
                     ) : (

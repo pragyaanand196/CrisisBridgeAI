@@ -407,20 +407,20 @@ export function VerificationPortal() {
             {ragLoading ? (
               <LoadingSpinner text="Querying active warnings & SOP knowledge base..." />
             ) : ragAnalysis ? (
-              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '0.85rem', fontSize: '0.86rem', color: '#0f172a', lineHeight: 1.6 }}>
+              <div style={{ background: 'var(--bg-surface-subtle)', border: '1px solid var(--border-light)', borderRadius: '8px', padding: '0.85rem', fontSize: '0.86rem', color: 'var(--color-espresso-dark)', lineHeight: 1.6 }}>
                 {typeof ragAnalysis === 'string' ? (
                   <p style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{ragAnalysis}</p>
                 ) : (
                   <div>
-                    {ragAnalysis.summary && <p style={{ marginBottom: '0.5rem' }}><strong style={{ color: '#0369a1' }}>Summary:</strong> {ragAnalysis.summary}</p>}
+                    {ragAnalysis.summary && <p style={{ marginBottom: '0.5rem' }}><strong style={{ color: 'var(--status-minor)' }}>Summary:</strong> {ragAnalysis.summary}</p>}
                     {ragAnalysis.conflict_assessment && (
                       <p style={{ marginBottom: '0.5rem' }}>
-                        <strong style={{ color: '#0369a1' }}>Assessment:</strong> {ragAnalysis.conflict_assessment}
+                        <strong style={{ color: 'var(--status-minor)' }}>Assessment:</strong> {ragAnalysis.conflict_assessment}
                       </p>
                     )}
                     {ragAnalysis.matched_sources && Array.isArray(ragAnalysis.matched_sources) && ragAnalysis.matched_sources.length > 0 && (
                       <div style={{ marginTop: '0.5rem' }}>
-                        <strong style={{ color: '#0369a1' }}>Authoritative References:</strong>
+                        <strong style={{ color: 'var(--status-minor)' }}>Authoritative References:</strong>
                         <ul style={{ paddingLeft: '1.25rem', marginTop: '0.25rem' }}>
                           {ragAnalysis.matched_sources.map((src, idx) => (
                             <li key={idx}>{src}</li>

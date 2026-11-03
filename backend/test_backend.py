@@ -23,6 +23,7 @@ from backend.app.services.auth_service import get_password_hash, create_access_t
 from backend.app.services.cap_service import generate_cap_payload
 from backend.app.services.ai_service import generate_simplified_citizen_communication
 from backend.app.services.analytics_service import compute_zone_metrics, evaluate_all_zones
+from backend.app.routers.analytics import get_zone_health_matrix, get_system_overview
 from backend.app.services.geo_service import point_in_polygon
 
 import pytest
@@ -178,10 +179,15 @@ async def test_backend_suite():
         m_a = compute_zone_metrics(zone_a, db)
         print(f"  Zone A Status: {m_a['situation_status']} | WTA Score: {m_a['wta_score']} | Understanding Rate: {m_a['understanding_rate']}%")
         assert m_a['understanding_rate'] == 100.0
+        assert m_a['targeted_count'] == 0
+        assert m_a['delivery_count'] == 10
+        assert m_a['failure_rate'] == 0.0
 
         m_b = compute_zone_metrics(zone_b, db)
         print(f"  Zone B Status: {m_b['situation_status']} | WTA Score: {m_b['wta_score']} | Dont Understand Rate: {m_b['dont_understand_rate']}%")
         assert m_b['situation_status'] == "Understanding Gap"
+        assert m_b['targeted_count'] == 0
+        assert m_b['delivery_count'] == 4
         print("  [OK] Understanding Gap successfully detected deterministically!")
 
         # 7. Test Assistance Surge Detection
@@ -226,3 +232,79 @@ async def test_backend_suite():
 
 if __name__ == "__main__":
     asyncio.run(test_backend_suite())
+
+
+def test_authority_analytics_only_include_owned_warning_zones():
+    test_engine = create_engine(
+        "sqlite:///:memory:",
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool
+    )
+    Base.metadata.create_all(bind=test_engine)
+    TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
+    db = TestSessionLocal()
+
+    try:
+        authority = User(email="authority-a@example.com", hashed_password="hash", full_name="Authority A", role="authority")
+        other_authority = User(email="authority-b@example.com", hashed_password="hash", full_name="Authority B", role="authority")
+        db.add_all([authority, other_authority])
+        db.flush()
+
+        warning_fields = {
+            "disaster_type": "Flood",
+            "title": "Test warning",
+            "description": "Test description",
+            "severity": "Severe",
+            "urgency": "Immediate",
+            "certainty": "Observed",
+            "area_name": "Test area",
+            "recommended_instructions": "Move to safety",
+            "issuing_authority_name": "Test authority",
+            "status": "Active"
+        }
+        owned_warning = Warning(
+            identifier="CB-TEST-OWNED",
+            issuing_authority_id=authority.id,
+            **warning_fields
+        )
+        other_warning = Warning(
+            identifier="CB-TEST-OTHER",
+            issuing_authority_id=other_authority.id,
+            **warning_fields
+        )
+        db.add_all([owned_warning, other_warning])
+        db.flush()
+
+        polygon = '{"type":"Polygon","coordinates":[[[72.8,19.0],[72.8,19.1],[72.9,19.1],[72.9,19.0],[72.8,19.0]]]}'
+        db.add_all([
+            ResponseZone(
+                warning_id=owned_warning.id,
+                name="Owned zone",
+                code="OWNED",
+                polygon_geojson=polygon,
+                center_lat=19.05,
+                center_lng=72.85
+            ),
+            ResponseZone(
+                warning_id=other_warning.id,
+                name="Other authority zone",
+                code="OTHER",
+                polygon_geojson=polygon,
+                center_lat=19.05,
+                center_lng=72.85
+            )
+        ])
+        db.commit()
+
+        matrix = get_zone_health_matrix(db=db, warning_id=None, current_user=authority)
+        overview = get_system_overview(db=db, current_user=authority)
+        public_overview = get_system_overview(db=db, current_user=None)
+
+        assert matrix.total_zones == 1
+        assert [zone.zone_name for zone in matrix.zones] == ["Owned zone"]
+        assert overview.active_warnings_count == 1
+        assert overview.total_response_zones == 1
+        assert public_overview.active_warnings_count == 2
+        assert public_overview.total_response_zones == 2
+    finally:
+        db.close()

@@ -11,7 +11,7 @@ export function Toast({ id, message, type = 'info', onClose }) {
       case 'warning':
         return <AlertCircle size={18} color="#f59e0b" />;
       default:
-        return <Info size={18} color="#38bdf8" />;
+        return <Info size={18} color="var(--color-terracotta)" />;
     }
   };
 
@@ -21,7 +21,7 @@ export function Toast({ id, message, type = 'info', onClose }) {
       <div style={{ flex: 1, fontSize: '0.88rem', lineHeight: 1.4 }}>{message}</div>
       <button
         onClick={onClose}
-        style={{ color: '#94a3b8', padding: 2, display: 'flex', alignItems: 'center' }}
+        style={{ color: 'var(--text-muted)', padding: 2, display: 'flex', alignItems: 'center' }}
         aria-label="Close notification"
       >
         <X size={16} />

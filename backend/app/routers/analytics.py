@@ -3,12 +3,14 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from backend.app.database import get_db
 from backend.app.models.warning import Warning
+from backend.app.models.user import User
 from backend.app.models.response_zone import ResponseZone
 from backend.app.models.citizen_response import CitizenResponse
 from backend.app.models.assistance_request import AssistanceRequest
 from backend.app.models.resource import Resource
 from backend.app.schemas.analytics import ZoneHealthMatrix, SystemOverviewMetrics, GapAlert, WTAScoreBreakdown
 from backend.app.services.analytics_service import compute_zone_metrics, evaluate_all_zones, get_threshold
+from backend.app.services.auth_service import get_current_user, require_authority
 from backend.app.config import settings
 
 router = APIRouter(prefix="/analytics", tags=["Analytics & Health Matrix"])
@@ -16,13 +18,16 @@ router = APIRouter(prefix="/analytics", tags=["Analytics & Health Matrix"])
 @router.get("/zone-health-matrix", response_model=ZoneHealthMatrix)
 def get_zone_health_matrix(
     warning_id: Optional[int] = Query(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_authority)
 ):
     """
     Returns full geographic and operational matrix of all Response Zones,
     including calculated WTA Scores, gap alerts, and situation statuses.
     """
-    query = db.query(ResponseZone)
+    query = db.query(ResponseZone).join(Warning, ResponseZone.warning_id == Warning.id)
+    if current_user.role == "authority":
+        query = query.filter(Warning.issuing_authority_id == current_user.id)
     if warning_id:
         query = query.filter(ResponseZone.warning_id == warning_id)
     zones = query.all()
@@ -120,8 +125,6 @@ def get_zone_health_matrix(
                 recommended_action="Prioritize emergency rescue teams, water supply, and ambulance units to this sector."
             ))
 
-    db.commit()
-
     return ZoneHealthMatrix(
         total_zones=len(zones),
         stable_count=stable_cnt,
@@ -134,20 +137,43 @@ def get_zone_health_matrix(
     )
 
 @router.get("/overview", response_model=SystemOverviewMetrics)
-def get_system_overview(db: Session = Depends(get_db)):
-    active_warnings = db.query(Warning).filter(Warning.status == "Active").count()
-    zones = db.query(ResponseZone).all()
+def get_system_overview(
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user)
+):
+    warnings_query = db.query(Warning)
+    zones_query = db.query(ResponseZone).join(Warning, ResponseZone.warning_id == Warning.id)
+    if current_user and current_user.role == "authority":
+        warnings_query = warnings_query.filter(Warning.issuing_authority_id == current_user.id)
+        zones_query = zones_query.filter(Warning.issuing_authority_id == current_user.id)
+
+    active_warnings = warnings_query.filter(Warning.status == "Active").count()
+    zones = zones_query.all()
     total_zones = len(zones)
     
-    total_reached = sum(z.delivery_count for z in zones)
-    all_responses = db.query(CitizenResponse).all()
+    zone_metrics = [compute_zone_metrics(zone, db) for zone in zones]
+    total_reached = sum(metrics["delivery_count"] for metrics in zone_metrics)
+    responses_query = db.query(CitizenResponse).join(
+        Warning, CitizenResponse.warning_id == Warning.id
+    ).filter(CitizenResponse.warning_version == Warning.version)
+    if current_user and current_user.role == "authority":
+        responses_query = responses_query.filter(Warning.issuing_authority_id == current_user.id)
+    all_responses = responses_query.all()
     understand_count = sum(1 for r in all_responses if r.response_type == "understand")
     overall_und_rate = round((understand_count / max(1, len(all_responses))) * 100, 1) if all_responses else 0.0
 
-    pending_help = db.query(AssistanceRequest).filter(AssistanceRequest.status.in_(["Pending", "Acknowledged"])).count()
+    assistance_query = db.query(AssistanceRequest).filter(AssistanceRequest.status.in_(["Pending", "Acknowledged"]))
+    if current_user and current_user.role == "authority":
+        assistance_query = assistance_query.join(Warning, AssistanceRequest.warning_id == Warning.id).filter(
+            Warning.issuing_authority_id == current_user.id
+        )
+    pending_help = assistance_query.count()
     verified_res = db.query(Resource).filter(Resource.verified_by_authority == True).count()
     
-    active_gaps = sum(1 for z in zones if z.situation_status in ["Communication Gap", "Understanding Gap", "Assistance Surge", "Critical"])
+    active_gaps = sum(
+        1 for metrics in zone_metrics
+        if metrics["situation_status"] in ["Communication Gap", "Understanding Gap", "Assistance Surge", "Critical"]
+    )
 
     return SystemOverviewMetrics(
         active_warnings_count=active_warnings,

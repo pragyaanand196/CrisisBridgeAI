@@ -10,7 +10,7 @@ export function NotFoundPage() {
         <AlertCircle size={36} />
       </div>
       <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>404 - Page Not Found</h1>
-      <p style={{ color: '#64748b', fontSize: '0.95rem', marginBottom: '1.75rem' }}>
+      <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '1.75rem' }}>
         The requested emergency portal section or record does not exist or has been relocated.
       </p>
 

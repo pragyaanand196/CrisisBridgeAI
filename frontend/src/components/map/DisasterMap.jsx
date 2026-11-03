@@ -195,13 +195,13 @@ export function DisasterMap({
               <Popup>
                 <div style={{ minWidth: 190, padding: 4 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <strong style={{ fontSize: '0.92rem', color: '#0f172a' }}>{ta.name}</strong>
+                    <strong style={{ fontSize: '0.92rem', color: 'var(--color-espresso-dark)' }}>{ta.name}</strong>
                     <span className="badge badge-extreme" style={{ fontSize: '0.68rem' }}>{ta.priority_level} Priority</span>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#475569' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                     <strong>Target Type:</strong> {ta.target_type}
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
                     Center: {ta.center_lat?.toFixed(3)}°N, {ta.center_lng?.toFixed(3)}°E
                   </div>
                 </div>
@@ -232,7 +232,7 @@ export function DisasterMap({
               key={`zone-${zone.id}`}
               positions={coords}
               pathOptions={{
-                color: isSelected ? '#000000' : style.color,
+                color: isSelected ? 'var(--color-espresso-dark)' : style.color,
                 weight: isSelected ? 4 : 2,
                 fillColor: style.fill,
                 fillOpacity: 0.55,
@@ -245,19 +245,19 @@ export function DisasterMap({
               <Popup>
                 <div style={{ minWidth: 220, padding: 4 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <strong style={{ fontSize: '0.95rem' }}>{zone.name}</strong>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b' }}>{zone.code}</span>
+                    <strong style={{ fontSize: '0.95rem', color: 'var(--color-espresso-dark)' }}>{zone.name}</strong>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)' }}>{zone.code}</span>
                   </div>
                   <div style={{ marginBottom: 6 }}>
                     <Badge status={zone.situation_status} />
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#475569', display: 'flex', flexDirection: 'column', gap: 3 }}>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: 3 }}>
                     <div><strong>WTA Score:</strong> {zone.wta_score ?? 0} / 100</div>
                     <div><strong>Targeted Citizens:</strong> {zone.targeted_count ?? zone.delivery_count ?? 0}</div>
                     <div><strong>Acknowledgements:</strong> {zone.acknowledgement_count ?? 0}</div>
                     <div><strong>Assistance Requests:</strong> {zone.help_request_count ?? 0}</div>
                     {zone.not_in_area_count > 0 && (
-                      <div style={{ color: '#e11d48', fontWeight: 600 }}>
+                      <div style={{ color: 'var(--status-extreme)', fontWeight: 600 }}>
                         <strong>Location Mismatches:</strong> {zone.not_in_area_count}
                       </div>
                     )}
@@ -287,14 +287,14 @@ export function DisasterMap({
           >
             <Popup>
               <div style={{ minWidth: 180, padding: 4 }}>
-                <strong style={{ fontSize: '0.95rem', display: 'block', marginBottom: 4 }}>{res.name}</strong>
-                <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 4 }}>{res.resource_type} • {res.status}</div>
-                <div style={{ fontSize: '0.82rem', color: '#334155' }}>{res.address}</div>
-                <div style={{ fontSize: '0.82rem', marginTop: 4 }}>
+                <strong style={{ fontSize: '0.95rem', display: 'block', marginBottom: 4, color: 'var(--color-espresso-dark)' }}>{res.name}</strong>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 4 }}>{res.resource_type} • {res.status}</div>
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{res.address}</div>
+                <div style={{ fontSize: '0.82rem', marginTop: 4, color: 'var(--text-secondary)' }}>
                   <strong>Capacity:</strong> {res.capacity_occupied || 0} / {res.capacity_total || 0}
                 </div>
-                <div style={{ fontSize: '0.82rem', marginTop: 2 }}>
-                  <strong>Helpline:</strong> <a href={`tel:${res.contact_phone}`}>{res.contact_phone}</a>
+                <div style={{ fontSize: '0.82rem', marginTop: 2, color: 'var(--text-secondary)' }}>
+                  <strong>Helpline:</strong> <a href={`tel:${res.contact_phone}`} style={{ color: 'var(--color-terracotta)', fontWeight: 600 }}>{res.contact_phone}</a>
                 </div>
               </div>
             </Popup>

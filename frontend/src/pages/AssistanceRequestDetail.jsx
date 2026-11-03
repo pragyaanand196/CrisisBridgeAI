@@ -160,7 +160,7 @@ export function AssistanceRequestDetail() {
         </div>
         <div className="card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
           <LoadingSpinner size="lg" />
-          <p style={{ marginTop: '1rem', color: '#cbd5e1', fontSize: '0.95rem', fontWeight: 600 }}>
+          <p style={{ marginTop: '1rem', color: 'var(--text-secondary, #5c4a42)', fontSize: '0.95rem', fontWeight: 600 }}>
             Loading emergency assistance request details...
           </p>
         </div>
@@ -227,8 +227,10 @@ export function AssistanceRequestDetail() {
         style={{
           marginBottom: '1.5rem',
           padding: '1.5rem 1.75rem',
-          background: 'linear-gradient(135deg, rgba(20, 11, 42, 0.9) 0%, rgba(35, 15, 65, 0.85) 100%)',
-          borderColor: 'rgba(168, 85, 247, 0.35)'
+          background: '#ffffff',
+          border: '1px solid var(--border-light, #ece3d8)',
+          borderLeft: '4px solid var(--color-terracotta, #8b3a2b)',
+          boxShadow: 'var(--shadow-card, 0 2px 10px rgba(44, 26, 20, 0.04))'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
@@ -240,26 +242,26 @@ export function AssistanceRequestDetail() {
                 borderRadius: '12px',
                 background:
                   request.urgency_level === 'Critical'
-                    ? 'rgba(239, 68, 68, 0.2)'
+                    ? 'var(--status-extreme-bg, #fee2e2)'
                     : request.urgency_level === 'High'
-                    ? 'rgba(245, 158, 11, 0.2)'
-                    : 'rgba(56, 189, 248, 0.2)',
+                    ? 'var(--status-severe-bg, #ffedd5)'
+                    : 'var(--status-minor-bg, #e0f2fe)',
                 border:
                   request.urgency_level === 'Critical'
-                    ? '1px solid rgba(239, 68, 68, 0.4)'
+                    ? '1px solid var(--status-extreme-border, #fca5a5)'
                     : request.urgency_level === 'High'
-                    ? '1px solid rgba(245, 158, 11, 0.4)'
-                    : '1px solid rgba(56, 189, 248, 0.4)',
+                    ? '1px solid var(--status-severe-border, #fdba74)'
+                    : '1px solid var(--status-minor-border, #7dd3fc)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color:
                   request.urgency_level === 'Critical'
-                    ? '#f87171'
+                    ? 'var(--status-extreme, #b91c1c)'
                     : request.urgency_level === 'High'
-                    ? '#fbbf24'
-                    : '#38bdf8',
-                boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)'
+                    ? 'var(--status-severe, #c2410c)'
+                    : 'var(--status-minor, #0369a1)',
+                boxShadow: '0 2px 8px rgba(44, 26, 20, 0.08)'
               }}
             >
               <HelpCircle size={28} />
@@ -431,7 +433,7 @@ export function AssistanceRequestDetail() {
               <ShieldCheck size={18} color="#10b981" />
               <span>Response & Verification Status</span>
             </h3>
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
               Real-time lifecycle
             </span>
           </div>
@@ -440,14 +442,14 @@ export function AssistanceRequestDetail() {
             {/* Step 1: Acknowledgement */}
             <div
               style={{
-                background: request.acknowledged_at ? 'rgba(56, 189, 248, 0.08)' : 'rgba(255, 255, 255, 0.02)',
-                border: request.acknowledged_at ? '1px solid rgba(56, 189, 248, 0.3)' : '1px solid rgba(255, 255, 255, 0.06)',
+                background: request.acknowledged_at ? 'var(--status-minor-bg, #e0f2fe)' : 'var(--bg-surface-subtle, #faf7f2)',
+                border: request.acknowledged_at ? '1px solid var(--status-minor-border, #7dd3fc)' : '1px solid var(--border-light, #ece3d8)',
                 borderRadius: '8px',
                 padding: '0.85rem'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <strong style={{ color: request.acknowledged_at ? '#38bdf8' : '#cbd5e1', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <strong style={{ color: request.acknowledged_at ? 'var(--status-minor, #0369a1)' : 'var(--color-espresso-dark, #22120c)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Check size={15} />
                   <span>1. Authority Acknowledgement</span>
                 </strong>
@@ -455,7 +457,7 @@ export function AssistanceRequestDetail() {
                   {request.acknowledged_at ? 'Acknowledged' : 'Pending'}
                 </span>
               </div>
-              <p style={{ margin: 0, fontSize: '0.82rem', color: '#cbd5e1' }}>
+              <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary, #5c4a42)' }}>
                 {request.acknowledged_at
                   ? `Acknowledged at ${new Date(request.acknowledged_at).toLocaleString()}`
                   : 'Awaiting operational acknowledgement by disaster response officer.'}
@@ -465,14 +467,14 @@ export function AssistanceRequestDetail() {
             {/* Step 2: Rescue Unit Dispatch */}
             <div
               style={{
-                background: request.dispatched_at ? 'rgba(168, 85, 247, 0.08)' : 'rgba(255, 255, 255, 0.02)',
-                border: request.dispatched_at ? '1px solid rgba(168, 85, 247, 0.3)' : '1px solid rgba(255, 255, 255, 0.06)',
+                background: request.dispatched_at ? 'var(--status-severe-bg, #ffedd5)' : 'var(--bg-surface-subtle, #faf7f2)',
+                border: request.dispatched_at ? '1px solid var(--status-severe-border, #fdba74)' : '1px solid var(--border-light, #ece3d8)',
                 borderRadius: '8px',
                 padding: '0.85rem'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <strong style={{ color: request.dispatched_at ? '#c084fc' : '#cbd5e1', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <strong style={{ color: request.dispatched_at ? 'var(--status-severe, #c2410c)' : 'var(--color-espresso-dark, #22120c)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Truck size={15} />
                   <span>2. Rescue Unit Deployment</span>
                 </strong>
@@ -480,11 +482,11 @@ export function AssistanceRequestDetail() {
                   {request.dispatched_at ? 'Dispatched' : 'Not Dispatched'}
                 </span>
               </div>
-              <p style={{ margin: 0, fontSize: '0.82rem', color: '#cbd5e1' }}>
+              <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary, #5c4a42)' }}>
                 {request.dispatched_at ? (
                   <>
                     <strong>Unit:</strong> {request.dispatched_unit_notes || 'Disaster Quick Response Team'}
-                    <span style={{ display: 'block', color: '#94a3b8', fontSize: '0.78rem', marginTop: '2px' }}>
+                    <span style={{ display: 'block', color: 'var(--text-muted, #6e5c53)', fontSize: '0.78rem', marginTop: '2px' }}>
                       Dispatched at {new Date(request.dispatched_at).toLocaleString()}
                     </span>
                   </>
@@ -498,21 +500,21 @@ export function AssistanceRequestDetail() {
             <div
               style={{
                 background: isArrivalConfirmed
-                  ? 'rgba(16, 185, 129, 0.1)'
+                  ? 'var(--status-stable-bg, #dcfce7)'
                   : isArrivalNotReceived
-                  ? 'rgba(239, 68, 68, 0.1)'
-                  : 'rgba(255, 255, 255, 0.02)',
+                  ? 'var(--status-extreme-bg, #fee2e2)'
+                  : 'var(--bg-surface-subtle, #faf7f2)',
                 border: isArrivalConfirmed
-                  ? '1px solid rgba(16, 185, 129, 0.35)'
+                  ? '1px solid var(--status-stable-border, #86efac)'
                   : isArrivalNotReceived
-                  ? '1px solid rgba(239, 68, 68, 0.35)'
-                  : '1px solid rgba(255, 255, 255, 0.06)',
+                  ? '1px solid var(--status-extreme-border, #fca5a5)'
+                  : '1px solid var(--border-light, #ece3d8)',
                 borderRadius: '8px',
                 padding: '0.85rem'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <strong style={{ color: isArrivalConfirmed ? '#4ade80' : isArrivalNotReceived ? '#f87171' : '#cbd5e1', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <strong style={{ color: isArrivalConfirmed ? 'var(--status-stable, #15803d)' : isArrivalNotReceived ? 'var(--status-extreme, #b91c1c)' : 'var(--color-espresso-dark, #22120c)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Radio size={15} />
                   <span>3. Citizen Response-Area Verification</span>
                 </strong>
@@ -525,31 +527,31 @@ export function AssistanceRequestDetail() {
                   {request.citizen_verification_status || 'Awaiting Prompt'}
                 </span>
               </div>
-              <p style={{ margin: 0, fontSize: '0.82rem', color: '#cbd5e1' }}>
+              <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary, #5c4a42)' }}>
                 {isArrivalConfirmed ? (
                   <>
-                    <strong style={{ color: '#4ade80' }}>Verified:</strong> Citizen confirmed help has arrived.
+                    <strong style={{ color: 'var(--status-stable, #15803d)' }}>Verified:</strong> Citizen confirmed help has arrived.
                     {request.citizen_verified_at && (
-                      <span style={{ display: 'block', color: '#94a3b8', fontSize: '0.78rem', marginTop: '2px' }}>
+                      <span style={{ display: 'block', color: 'var(--text-muted, #6e5c53)', fontSize: '0.78rem', marginTop: '2px' }}>
                         Confirmed at {new Date(request.citizen_verified_at).toLocaleString()}
                       </span>
                     )}
                     {request.citizen_verification_notes && (
-                      <span style={{ display: 'block', color: '#bbf7d0', fontStyle: 'italic', marginTop: '3px' }}>
+                      <span style={{ display: 'block', color: 'var(--status-stable, #15803d)', fontStyle: 'italic', marginTop: '3px' }}>
                         "{request.citizen_verification_notes}"
                       </span>
                     )}
                   </>
                 ) : isArrivalNotReceived ? (
                   <>
-                    <strong style={{ color: '#f87171' }}>Alert:</strong> Citizen reported help has not arrived yet.
+                    <strong style={{ color: 'var(--status-extreme, #b91c1c)' }}>Alert:</strong> Citizen reported help has not arrived yet.
                     {request.citizen_verified_at && (
-                      <span style={{ display: 'block', color: '#fca5a5', fontSize: '0.78rem', marginTop: '2px' }}>
+                      <span style={{ display: 'block', color: 'var(--status-extreme, #b91c1c)', fontSize: '0.78rem', marginTop: '2px' }}>
                         Reported at {new Date(request.citizen_verified_at).toLocaleString()}
                       </span>
                     )}
                     {request.citizen_verification_notes && (
-                      <span style={{ display: 'block', color: '#fecaca', fontStyle: 'italic', marginTop: '3px' }}>
+                      <span style={{ display: 'block', color: 'var(--status-extreme, #b91c1c)', fontStyle: 'italic', marginTop: '3px' }}>
                         "{request.citizen_verification_notes}"
                       </span>
                     )}
@@ -565,14 +567,14 @@ export function AssistanceRequestDetail() {
             {/* Step 4: Resolution */}
             <div
               style={{
-                background: request.status === 'Resolved' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(255, 255, 255, 0.02)',
-                border: request.status === 'Resolved' ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid rgba(255, 255, 255, 0.06)',
+                background: request.status === 'Resolved' ? 'var(--status-stable-bg, #dcfce7)' : 'var(--bg-surface-subtle, #faf7f2)',
+                border: request.status === 'Resolved' ? '1px solid var(--status-stable-border, #86efac)' : '1px solid var(--border-light, #ece3d8)',
                 borderRadius: '8px',
                 padding: '0.85rem'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <strong style={{ color: request.status === 'Resolved' ? '#4ade80' : '#cbd5e1', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <strong style={{ color: request.status === 'Resolved' ? 'var(--status-stable, #15803d)' : 'var(--color-espresso-dark, #22120c)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <CheckCircle2 size={15} />
                   <span>4. Authority Resolution</span>
                 </strong>
@@ -580,12 +582,12 @@ export function AssistanceRequestDetail() {
                   {request.status === 'Resolved' ? 'Resolved & Closed' : 'Open'}
                 </span>
               </div>
-              <p style={{ margin: 0, fontSize: '0.82rem', color: '#cbd5e1' }}>
+              <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary, #5c4a42)' }}>
                 {request.status === 'Resolved' ? (
                   <>
                     <strong>Resolution Notes:</strong> {request.resolution_notes || 'Assistance operation completed.'}
                     {request.resolved_at && (
-                      <span style={{ display: 'block', color: '#94a3b8', fontSize: '0.78rem', marginTop: '2px' }}>
+                      <span style={{ display: 'block', color: 'var(--text-muted, #6e5c53)', fontSize: '0.78rem', marginTop: '2px' }}>
                         Closed at {new Date(request.resolved_at).toLocaleString()}
                       </span>
                     )}
@@ -668,8 +670,8 @@ export function AssistanceRequestDetail() {
 
           {/* Closed State indicator */}
           {request.status === 'Resolved' && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#4ade80', fontSize: '0.88rem', fontWeight: 600 }}>
-              <CheckCircle2 size={18} color="#4ade80" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--status-stable, #15803d)', fontSize: '0.88rem', fontWeight: 600 }}>
+              <CheckCircle2 size={18} color="var(--status-stable, #15803d)" />
               <span>Request Resolved & Completed</span>
             </div>
           )}
@@ -684,7 +686,7 @@ export function AssistanceRequestDetail() {
         size="md"
       >
         <form onSubmit={handleDispatchSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <p style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
+          <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary, #5c4a42)' }}>
             Deploy a verified emergency response unit to <strong>{request.location_description}</strong> for <strong>{request.category?.replace('_', ' ')}</strong> assistance ({request.headcount} people).
           </p>
 
@@ -739,7 +741,7 @@ export function AssistanceRequestDetail() {
             />
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border-light, #ece3d8)' }}>
             <button
               type="button"
               className="btn btn-outline"
@@ -768,23 +770,23 @@ export function AssistanceRequestDetail() {
         size="md"
       >
         <form onSubmit={handleResolveSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <p style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
+          <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary, #5c4a42)' }}>
             Review verification feedback from citizen before marking this emergency request as officially resolved and closed.
           </p>
 
           {isArrivalConfirmed && (
-            <div style={{ background: 'rgba(10, 35, 20, 0.85)', border: '1px solid rgba(34, 197, 94, 0.4)', borderRadius: '6px', padding: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <CheckCircle2 size={18} color="#4ade80" />
-              <span style={{ fontSize: '0.84rem', color: '#bbf7d0' }}>
+            <div style={{ background: 'var(--status-stable-bg, #dcfce7)', border: '1px solid var(--status-stable-border, #86efac)', borderRadius: '6px', padding: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <CheckCircle2 size={18} color="var(--status-stable, #15803d)" />
+              <span style={{ fontSize: '0.84rem', color: 'var(--status-stable, #15803d)', fontWeight: 600 }}>
                 Citizen verified assistance has arrived successfully.
               </span>
             </div>
           )}
 
           {isArrivalNotReceived && (
-            <div style={{ background: 'rgba(45, 15, 20, 0.85)', border: '1px solid rgba(239, 68, 68, 0.4)', borderRadius: '6px', padding: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <AlertTriangle size={18} color="#f87171" />
-              <span style={{ fontSize: '0.84rem', color: '#fca5a5' }}>
+            <div style={{ background: 'var(--status-extreme-bg, #fee2e2)', border: '1px solid var(--status-extreme-border, #fca5a5)', borderRadius: '6px', padding: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <AlertTriangle size={18} color="var(--status-extreme, #b91c1c)" />
+              <span style={{ fontSize: '0.84rem', color: 'var(--status-extreme, #b91c1c)', fontWeight: 600 }}>
                 Notice: Citizen earlier reported assistance had not arrived. Confirm that secondary deployment has succeeded.
               </span>
             </div>
@@ -802,7 +804,7 @@ export function AssistanceRequestDetail() {
             />
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border-light, #ece3d8)' }}>
             <button
               type="button"
               className="btn btn-outline"

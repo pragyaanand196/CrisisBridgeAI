@@ -46,7 +46,7 @@ export function ReportDetail() {
       <div>
         <BackButton fallbackPath="/reports" label="Back to Reports" />
         <div className="card">
-          <p style={{ textAlign: 'center', color: '#64748b' }}>Post-disaster report not found.</p>
+          <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Post-disaster report not found.</p>
         </div>
       </div>
     );

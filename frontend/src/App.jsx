@@ -45,6 +45,7 @@ function AuthenticatedLayoutInner({ children }) {
   const location = useLocation();
   const isAuthorityDashboard = location.pathname === '/authority';
   const isCitizenDashboard = location.pathname === '/citizen';
+  const isDashboard = isAuthorityDashboard || isCitizenDashboard;
 
   return (
     <div
@@ -53,9 +54,11 @@ function AuthenticatedLayoutInner({ children }) {
     >
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="app-main-wrapper">
-        {!isAuthorityDashboard && !isCitizenDashboard && (
-          <TopHeader onOpenSidebar={() => setSidebarOpen(true)} isSidebarOpen={sidebarOpen} />
-        )}
+        <TopHeader
+          onOpenSidebar={() => setSidebarOpen(true)}
+          isSidebarOpen={sidebarOpen}
+          dashboardMobileOnly={isDashboard}
+        />
         <main className={`main-content${isCitizenDashboard ? ' main-content--citizen' : ''}`}>
           {children}
         </main>

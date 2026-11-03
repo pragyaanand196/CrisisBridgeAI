@@ -83,7 +83,7 @@ export function AssistanceTriageTable({
   if (requests.length === 0) {
     return (
       <div className="card">
-        <p style={{ textAlign: 'center', color: '#64748b', padding: '1.5rem' }}>
+        <p style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '1.5rem' }}>
           No active assistance requests currently logged.
         </p>
       </div>
@@ -163,7 +163,7 @@ export function AssistanceTriageTable({
                     </strong>
                     <Link
                       to={`/authority/assistance/${req.id}`}
-                      style={{ fontSize: '0.72rem', color: '#38bdf8', textDecoration: 'none', display: 'inline-block' }}
+                      style={{ fontSize: '0.72rem', color: 'var(--color-terracotta)', textDecoration: 'none', display: 'inline-block', fontWeight: 600 }}
                       title="View full request details"
                     >
                       Req #{req.id}
@@ -174,22 +174,22 @@ export function AssistanceTriageTable({
                   </td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Users size={14} color="#64748b" />
+                      <Users size={14} color="var(--text-muted)" />
                       <span>{req.headcount} {req.headcount === 1 ? 'person' : 'people'}</span>
                     </div>
                   </td>
                   <td style={{ maxWidth: '240px' }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '4px' }}>
-                      <MapPin size={14} color="#0284c7" style={{ flexShrink: 0, marginTop: 3 }} />
+                      <MapPin size={14} color="var(--color-terracotta)" style={{ flexShrink: 0, marginTop: 3 }} />
                       <span style={{ fontSize: '0.85rem' }}>{req.location_description}</span>
                     </div>
                     {req.special_notes && (
-                      <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
                         Note: {req.special_notes}
                       </div>
                     )}
                     {req.dispatched_unit_notes && (
-                      <div style={{ fontSize: '0.78rem', color: '#0284c7', marginTop: 2, fontWeight: 600 }}>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--color-terracotta)', marginTop: 2, fontWeight: 600 }}>
                         Unit: {req.dispatched_unit_notes}
                       </div>
                     )}
@@ -198,16 +198,16 @@ export function AssistanceTriageTable({
                     {req.contact_phone ? (
                       <a
                         href={`tel:${req.contact_phone}`}
-                        style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem', color: 'var(--color-terracotta)', textDecoration: 'none' }}
                       >
                         <Phone size={13} />
                         <span>{req.contact_phone}</span>
                       </a>
                     ) : (
-                      <span style={{ color: '#94a3b8', fontSize: '0.82rem' }}>Not provided</span>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>Not provided</span>
                     )}
                     {req.user_full_name && (
-                      <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                         {req.user_full_name}
                       </div>
                     )}
@@ -215,12 +215,12 @@ export function AssistanceTriageTable({
                   <td>
                     <Badge status={req.status} />
                     {req.acknowledged_at && req.status === 'Acknowledged' && (
-                      <div style={{ fontSize: '0.7rem', color: '#0369a1', marginTop: 2 }}>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--status-minor, #0369a1)', marginTop: 2 }}>
                         Ack: {new Date(req.acknowledged_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     )}
                     {req.dispatched_at && (
-                      <div style={{ fontSize: '0.7rem', color: '#475569', marginTop: 2 }}>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: 2 }}>
                         Dispatched: {new Date(req.dispatched_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     )}
@@ -300,7 +300,7 @@ export function AssistanceTriageTable({
                     )}
 
                     {(req.status === 'Pending' || req.status === 'Acknowledged') && (
-                      <span style={{ color: '#94a3b8', fontSize: '0.78rem' }}>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>
                         Not dispatched yet
                       </span>
                     )}
@@ -396,19 +396,19 @@ export function AssistanceTriageTable({
       >
         {dispatchModalReq && (
           <form onSubmit={handleDispatchSubmit}>
-            <div style={{ background: '#f8fafc', padding: '0.85rem', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '1rem' }}>
+            <div style={{ background: 'var(--bg-surface-subtle)', padding: '0.85rem', borderRadius: '8px', border: '1px solid var(--border-light)', marginBottom: '1rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
                 <strong style={{ fontSize: '0.92rem', textTransform: 'capitalize' }}>
                   {dispatchModalReq.category.replace('_', ' ')} Assistance (Headcount: {dispatchModalReq.headcount})
                 </strong>
                 <Badge status={dispatchModalReq.urgency_level} />
               </div>
-              <div style={{ fontSize: '0.84rem', color: '#475569' }}>
+              <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
                 <MapPin size={13} style={{ display: 'inline', marginRight: 4 }} />
                 {dispatchModalReq.location_description}
               </div>
               {dispatchModalReq.contact_phone && (
-                <div style={{ fontSize: '0.82rem', color: '#475569', marginTop: 3 }}>
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: 3 }}>
                   <Phone size={13} style={{ display: 'inline', marginRight: 4 }} />
                   {dispatchModalReq.contact_phone}
                 </div>
@@ -461,54 +461,54 @@ export function AssistanceTriageTable({
           <form onSubmit={handleResolveSubmit}>
             {/* Citizen Verification Evidence Summary */}
             <div style={{ marginBottom: '1.25rem' }}>
-              <h4 style={{ fontSize: '0.92rem', color: '#ffffff', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700 }}>
-                <FileCheck size={16} color="#38bdf8" />
+              <h4 style={{ fontSize: '0.92rem', color: 'var(--color-espresso-dark)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700 }}>
+                <FileCheck size={16} color="var(--color-terracotta)" />
                 <span>Citizen Verification Status</span>
               </h4>
 
               {resolveModalReq.citizen_verification_status === 'Assistance Arrived' ? (
-                <div style={{ background: 'rgba(10, 35, 20, 0.85)', border: '1px solid rgba(34, 197, 94, 0.35)', borderRadius: '8px', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#4ade80', fontWeight: 700, fontSize: '0.88rem' }}>
-                    <CheckCircle2 size={16} color="#4ade80" />
+                <div style={{ background: 'var(--status-stable-bg, #dcfce7)', border: '1px solid var(--status-stable-border, #86efac)', borderRadius: '8px', padding: '0.85rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--status-stable, #15803d)', fontWeight: 700, fontSize: '0.88rem' }}>
+                    <CheckCircle2 size={16} color="var(--status-stable, #15803d)" />
                     <span>Citizen Confirmed: Assistance Arrived</span>
                   </div>
-                  <p style={{ fontSize: '0.82rem', color: '#bbf7d0', margin: '4px 0 0 0' }}>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary, #5c4a42)', margin: '4px 0 0 0' }}>
                     Verified on {new Date(resolveModalReq.citizen_verified_at || Date.now()).toLocaleString()}
                     {resolveModalReq.citizen_verification_notes ? ` • Note: "${resolveModalReq.citizen_verification_notes}"` : ''}
                   </p>
                 </div>
               ) : resolveModalReq.citizen_verification_status === 'Assistance Not Arrived' ? (
-                <div style={{ background: 'rgba(45, 15, 20, 0.85)', border: '1px solid rgba(239, 68, 68, 0.35)', borderRadius: '8px', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#fca5a5', fontWeight: 700, fontSize: '0.88rem' }}>
-                    <AlertTriangle size={16} color="#f87171" />
+                <div style={{ background: 'var(--status-extreme-bg, #fee2e2)', border: '1px solid var(--status-extreme-border, #fca5a5)', borderRadius: '8px', padding: '0.85rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--status-extreme, #b91c1c)', fontWeight: 700, fontSize: '0.88rem' }}>
+                    <AlertTriangle size={16} color="var(--status-extreme, #b91c1c)" />
                     <span>Citizen Feedback: Assistance Has NOT Reached Location</span>
                   </div>
-                  <p style={{ fontSize: '0.82rem', color: '#fecaca', margin: '4px 0 0 0' }}>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary, #5c4a42)', margin: '4px 0 0 0' }}>
                     Reported on {new Date(resolveModalReq.citizen_verified_at || Date.now()).toLocaleString()}
                     {resolveModalReq.citizen_verification_notes ? ` • Feedback: "${resolveModalReq.citizen_verification_notes}"` : ''}
                   </p>
-                  <span style={{ fontSize: '0.78rem', color: '#f87171', display: 'block', marginTop: 4 }}>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--status-extreme, #b91c1c)', display: 'block', marginTop: 4, fontWeight: 600 }}>
                     ⚠️ Only resolve if alternative operational measures have successfully reached the citizen.
                   </span>
                 </div>
               ) : (
-                <div style={{ background: 'rgba(45, 25, 10, 0.85)', border: '1px solid rgba(245, 158, 11, 0.35)', borderRadius: '8px', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#fbbf24', fontWeight: 600, fontSize: '0.85rem' }}>
-                    <Clock size={15} color="#fbbf24" />
+                <div style={{ background: 'var(--status-warning-bg, #fef3c7)', border: '1px solid var(--status-warning-border, #fcd34d)', borderRadius: '8px', padding: '0.85rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--status-warning, #b45309)', fontWeight: 600, fontSize: '0.85rem' }}>
+                    <Clock size={15} color="var(--status-warning, #b45309)" />
                     <span>Citizen Confirmation Pending</span>
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#fde68a', margin: '3px 0 0 0' }}>
-                    Dispatched unit: <strong style={{ color: '#ffffff' }}>{resolveModalReq.dispatched_unit_notes || 'Response Team'}</strong>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary, #5c4a42)', margin: '3px 0 0 0' }}>
+                    Dispatched unit: <strong style={{ color: 'var(--color-espresso-dark)' }}>{resolveModalReq.dispatched_unit_notes || 'Response Team'}</strong>
                   </p>
                 </div>
               )}
             </div>
 
             {/* Request Summary */}
-            <div style={{ background: 'rgba(20, 11, 42, 0.78)', padding: '0.75rem 0.85rem', borderRadius: '6px', border: '1px solid rgba(168, 85, 247, 0.3)', fontSize: '0.82rem', color: '#cbd5e1', marginBottom: '1rem' }}>
-              <div><strong style={{ color: '#38bdf8' }}>Location:</strong> {resolveModalReq.location_description}</div>
-              <div><strong style={{ color: '#38bdf8' }}>Category / Headcount:</strong> {resolveModalReq.category} ({resolveModalReq.headcount} people)</div>
-              {resolveModalReq.contact_phone && <div><strong style={{ color: '#38bdf8' }}>Contact Phone:</strong> {resolveModalReq.contact_phone}</div>}
+            <div style={{ background: 'var(--bg-surface-subtle, #faf7f2)', padding: '0.75rem 0.85rem', borderRadius: '6px', border: '1px solid var(--border-light, #ece3d8)', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+              <div><strong style={{ color: 'var(--color-terracotta)' }}>Location:</strong> {resolveModalReq.location_description}</div>
+              <div><strong style={{ color: 'var(--color-terracotta)' }}>Category / Headcount:</strong> {resolveModalReq.category} ({resolveModalReq.headcount} people)</div>
+              {resolveModalReq.contact_phone && <div><strong style={{ color: 'var(--color-terracotta)' }}>Contact Phone:</strong> {resolveModalReq.contact_phone}</div>}
             </div>
 
             <div className="form-group">

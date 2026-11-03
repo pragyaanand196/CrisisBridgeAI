@@ -143,8 +143,8 @@ export function AudioReadAloud({ text, language = 'en' }) {
   if (!supported) {
     return (
       <div className="audio-speech-bar" style={{ opacity: 0.6 }}>
-        <Volume2 size={18} color="#94a3b8" />
-        <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+        <Volume2 size={18} color="var(--text-muted)" />
+        <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
           Audio read-aloud is not supported in this browser.
         </span>
       </div>
@@ -161,8 +161,8 @@ export function AudioReadAloud({ text, language = 'en' }) {
   return (
     <div className="audio-speech-bar">
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <Volume2 size={18} color="#38bdf8" />
-        <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#f8fafc' }}>
+        <Volume2 size={18} color="var(--color-terracotta)" />
+        <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#ffffff' }}>
           {label}
         </span>
       </div>

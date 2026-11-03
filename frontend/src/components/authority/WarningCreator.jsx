@@ -18,7 +18,8 @@ import {
   Search,
   RefreshCw,
   X,
-  Target
+  Target,
+  Check
 } from 'lucide-react';
 
 // Leaflet default icon fix
@@ -330,10 +331,68 @@ export function WarningCreator({ onWarningCreated, onCancel }) {
     }
   };
 
+  // Validation state based on existing workflow rules
+  const isStep1Valid = Boolean(
+    formData.title?.trim() &&
+    formData.area_name?.trim() &&
+    formData.description?.trim()
+  );
+  const isStep2Valid = targetAreas.length > 0;
+
+  // Step completion logic:
+  // Step 1 is completed when user has progressed past step 1 and step 1 data is valid
+  const isStep1Completed = currentStep > 1 && isStep1Valid;
+  // Step 2 is completed when user has progressed to step 3, target areas are defined, and step 1 is still valid
+  const isStep2Completed = currentStep > 2 && isStep2Valid && isStep1Valid;
+
+  const getStepState = (stepNum) => {
+    if (stepNum === currentStep) return 'active';
+    if (stepNum === 1) return isStep1Completed ? 'completed' : 'upcoming';
+    if (stepNum === 2) return isStep2Completed ? 'completed' : 'upcoming';
+    return 'upcoming';
+  };
+
+  const getStepStatusLabel = (stepNum) => {
+    const state = getStepState(stepNum);
+    if (state === 'completed') return 'Completed';
+    if (state === 'active') return 'In Progress';
+    return 'Pending';
+  };
+
+  const isStepClickable = (targetStep) => {
+    if (targetStep === currentStep) return false;
+    if (targetStep < currentStep) return true; // Can always navigate back
+    if (targetStep === 2) return isStep1Valid;
+    if (targetStep === 3) return isStep1Valid && isStep2Valid;
+    return false;
+  };
+
+  const handleStepClick = (targetStep) => {
+    if (targetStep === currentStep) return;
+    if (targetStep < currentStep) {
+      setCurrentStep(targetStep);
+      return;
+    }
+    if (targetStep === 2 && isStep1Valid) {
+      setCurrentStep(2);
+      return;
+    }
+    if (targetStep === 3 && isStep1Valid && isStep2Valid) {
+      setCurrentStep(3);
+      return;
+    }
+  };
+
+  const workflowSteps = [
+    { number: 1, title: 'Warning Details' },
+    { number: 2, title: 'Target Area' },
+    { number: 3, title: 'Review & Approve' }
+  ];
+
   return (
     <div className="card warning-creator-card" style={{ width: '100%', margin: '0 auto', padding: '2rem 2.25rem' }}>
       {/* Header */}
-      <div className="card-header" style={{ marginBottom: '1.75rem', paddingBottom: '1.25rem', borderBottom: '1px solid var(--border-light)' }}>
+      <div className="card-header" style={{ marginBottom: '1.5rem', paddingBottom: '1.25rem', borderBottom: '1px solid var(--border-light)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ background: 'var(--color-terracotta-light)', border: '1px solid var(--color-terracotta-border)', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <AlertTriangle size={24} color="var(--color-terracotta)" />
@@ -347,19 +406,58 @@ export function WarningCreator({ onWarningCreated, onCancel }) {
             </p>
           </div>
         </div>
+      </div>
 
-        {/* Multi-step progress indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span className={`step-badge ${currentStep === 1 ? 'step-badge-active' : 'step-badge-done'}`}>
-            1. Warning Details
-          </span>
-          <span className={`step-badge ${currentStep === 2 ? 'step-badge-active' : (currentStep > 2 || targetAreas.length > 0 ? 'step-badge-done' : 'step-badge-upcoming')}`}>
-            2. Target Area ({targetAreas.length})
-          </span>
-          <span className={`step-badge ${currentStep === 3 ? 'step-badge-active' : 'step-badge-upcoming'}`}>
-            3. Review & Approve
-          </span>
-        </div>
+      {/* Modern Horizontal Multi-Step Progress Tracker */}
+      <div className="warning-stepper-tracker" role="navigation" aria-label="Warning creation progress">
+        <ol className="warning-stepper-list">
+          {workflowSteps.map((step, idx) => {
+            const state = getStepState(step.number);
+            const clickable = isStepClickable(step.number);
+            const statusLabel = getStepStatusLabel(step.number);
+            const isCompleted = state === 'completed';
+            const isActive = state === 'active';
+            const hasNextLine = idx < workflowSteps.length - 1;
+            const isLineCompleted = idx === 0 ? isStep1Completed : isStep2Completed;
+
+            return (
+              <li
+                key={step.number}
+                className={`warning-stepper-step step-${state}`}
+              >
+                {/* Thin horizontal connecting line between circular indicators */}
+                {hasNextLine && (
+                  <div
+                    className={`warning-stepper-line ${isLineCompleted ? 'line-completed' : ''}`}
+                    aria-hidden="true"
+                  />
+                )}
+
+                <button
+                  type="button"
+                  className={`warning-stepper-button ${clickable ? 'interactive' : 'non-interactive'}`}
+                  onClick={() => handleStepClick(step.number)}
+                  disabled={!clickable}
+                  aria-current={isActive ? 'step' : undefined}
+                  aria-label={`${step.title} (${statusLabel})`}
+                >
+                  <div className="warning-stepper-circle">
+                    {isCompleted ? (
+                      <Check size={18} strokeWidth={2.75} aria-hidden="true" />
+                    ) : (
+                      <span>{step.number}</span>
+                    )}
+                  </div>
+
+                  <div className="warning-stepper-text">
+                    <span className="warning-stepper-title">{step.title}</span>
+                    <span className="warning-stepper-status">{statusLabel}</span>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
       </div>
 
       {/* STEP 1: Official Disaster Details */}
@@ -599,12 +697,12 @@ export function WarningCreator({ onWarningCreated, onCancel }) {
 
           {/* Search Error Feedback */}
           {targetSearchError && (
-            <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '6px', padding: '8px 12px', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-              <span style={{ color: '#fca5a5', fontSize: '0.82rem' }}>{targetSearchError}</span>
+            <div style={{ background: 'var(--status-extreme-bg, #fee2e2)', border: '1px solid var(--status-extreme-border, #fca5a5)', borderRadius: '6px', padding: '8px 12px', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+              <span style={{ color: 'var(--status-extreme, #b91c1c)', fontSize: '0.85rem', fontWeight: 600 }}>{targetSearchError}</span>
               <button
                 type="button"
                 className="btn btn-outline btn-sm"
-                style={{ padding: '2px 8px', fontSize: '0.75rem', color: '#fca5a5', borderColor: 'rgba(239, 68, 68, 0.4)' }}
+                style={{ padding: '2px 8px', fontSize: '0.75rem', color: 'var(--status-extreme, #b91c1c)', borderColor: 'var(--status-extreme-border, #fca5a5)' }}
                 onClick={() => handleSearchTargetArea()}
               >
                 <RefreshCw size={12} />
@@ -723,7 +821,7 @@ export function WarningCreator({ onWarningCreated, onCancel }) {
                   {polygonPoints.length >= 3 && (
                     <Polygon
                       positions={polygonPoints}
-                      pathOptions={{ color: '#0284c7', fillColor: '#38bdf8', fillOpacity: 0.35, weight: 2 }}
+                      pathOptions={{ color: '#8b3a2b', fillColor: '#c2410c', fillOpacity: 0.35, weight: 2 }}
                     />
                   )}
                 </>
@@ -858,8 +956,8 @@ export function WarningCreator({ onWarningCreated, onCancel }) {
           {previewData && (
             <div
               style={{
-                background: previewData.is_empty ? 'rgba(217, 119, 6, 0.12)' : 'rgba(16, 185, 129, 0.12)',
-                border: `1px solid ${previewData.is_empty ? 'rgba(217, 119, 6, 0.35)' : 'rgba(16, 185, 129, 0.35)'}`,
+                background: previewData.is_empty ? 'var(--status-moderate-bg, #fef3c7)' : 'var(--status-stable-bg, #dcfce7)',
+                border: `1px solid ${previewData.is_empty ? 'var(--status-moderate-border, #fcd34d)' : 'var(--status-stable-border, #86efac)'}`,
                 borderRadius: '8px',
                 padding: '1rem',
                 marginTop: '1rem',
@@ -871,12 +969,12 @@ export function WarningCreator({ onWarningCreated, onCancel }) {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Users size={24} color={previewData.is_empty ? '#fbbf24' : '#34d399'} />
+                <Users size={24} color={previewData.is_empty ? 'var(--status-moderate, #b45309)' : 'var(--status-stable, #15803d)'} />
                 <div>
-                  <strong style={{ fontSize: '0.95rem', color: previewData.is_empty ? '#fbbf24' : '#34d399', display: 'block' }}>
+                  <strong style={{ fontSize: '0.95rem', color: previewData.is_empty ? '#92400e' : '#14532d', display: 'block' }}>
                     Targeted Population: {previewData.summary_message}
                   </strong>
-                  <span style={{ fontSize: '0.8rem', color: previewData.is_empty ? '#fcd34d' : '#a7f3d0' }}>
+                  <span style={{ fontSize: '0.82rem', color: previewData.is_empty ? '#78350f' : '#166534', fontWeight: 500 }}>
                     {previewData.is_empty
                       ? 'No registered citizens match this target area.'
                       : 'These registered citizens will receive this warning upon approval.'}
