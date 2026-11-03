@@ -10,6 +10,7 @@ from backend.app.models.verification_report import VerificationReport
 from backend.app.models.resource import Resource
 from backend.app.models.audit_log import AuditLog
 from backend.app.models.system_config import SystemConfig
+from backend.app.models.incident_report import IncidentReport, IncidentReportEvent
 
 __all__ = [
     "User",
@@ -23,6 +24,8 @@ __all__ = [
     "VerificationReport",
     "Resource",
     "AuditLog",
-    "SystemConfig"
+    "SystemConfig",
+    "IncidentReport",
+    "IncidentReportEvent"
 ]
 

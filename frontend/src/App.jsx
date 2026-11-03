@@ -25,6 +25,8 @@ import { ResponseZoneDetail } from './pages/ResponseZoneDetail';
 import { VerificationPortal } from './pages/VerificationPortal';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { PostDisasterReports } from './pages/PostDisasterReports';
+import { CitizenIncidentReports } from './pages/CitizenIncidentReports';
+import { AuthorityIncidentReports } from './pages/AuthorityIncidentReports';
 import { ReportDetail } from './pages/ReportDetail';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -84,12 +86,12 @@ function ProtectedRoute({ children, requireRole = null }) {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', color: '#cbd5e1' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-page)', color: 'var(--text-muted)' }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--gradient-primary)', color: '#ffffff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', boxShadow: '0 0 24px rgba(79, 70, 229, 0.5)' }}>
+          <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--gradient-primary)', color: '#ffffff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', boxShadow: 'var(--shadow-terracotta)' }}>
             <Shield size={30} />
           </div>
-          <p style={{ fontSize: '1rem', fontWeight: 600, color: '#f8fafc' }}>Verifying secure session...</p>
+          <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-espresso-dark)' }}>Verifying secure session...</p>
         </div>
       </div>
     );
@@ -122,12 +124,12 @@ function AuthGate() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', color: '#cbd5e1' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-page)', color: 'var(--text-muted)' }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--gradient-primary)', color: '#ffffff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', boxShadow: '0 0 24px rgba(79, 70, 229, 0.5)' }}>
+          <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--gradient-primary)', color: '#ffffff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', boxShadow: 'var(--shadow-terracotta)' }}>
             <Shield size={30} />
           </div>
-          <p style={{ fontSize: '1rem', fontWeight: 600, color: '#f8fafc' }}>Loading CrisisBridge AI...</p>
+          <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-espresso-dark)' }}>Loading CrisisBridge AI...</p>
         </div>
       </div>
     );
@@ -158,6 +160,27 @@ function RegisterGate() {
   }
 
   return <RegisterPage />;
+}
+
+/**
+ * Reports Route Dispatcher:
+ * Directs authenticated citizen users to the Citizen Incident Reports interface (/reports),
+ * and authorized disaster-management officials to the Authority Incident Reports Management interface (/reports).
+ */
+function ReportsDispatcher() {
+  const { isCitizen } = useAuth();
+  if (isCitizen) {
+    return <CitizenIncidentReports />;
+  }
+  return <AuthorityIncidentReports />;
+}
+
+function ReportDetailDispatcher() {
+  const { isCitizen } = useAuth();
+  if (isCitizen) {
+    return <CitizenIncidentReports />;
+  }
+  return <ReportDetail />;
 }
 
 export function App() {
@@ -264,7 +287,7 @@ export function App() {
                 path="/reports"
                 element={
                   <ProtectedRoute>
-                    <PostDisasterReports />
+                    <ReportsDispatcher />
                   </ProtectedRoute>
                 }
               />
@@ -272,6 +295,22 @@ export function App() {
                 path="/reports/:id"
                 element={
                   <ProtectedRoute>
+                    <ReportDetailDispatcher />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/post-disaster-reports"
+                element={
+                  <ProtectedRoute requireRole="authority">
+                    <PostDisasterReports />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/post-disaster-reports/:id"
+                element={
+                  <ProtectedRoute requireRole="authority">
                     <ReportDetail />
                   </ProtectedRoute>
                 }

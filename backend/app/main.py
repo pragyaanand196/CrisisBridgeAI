@@ -17,6 +17,7 @@ from backend.app.routers import (
     reports,
     admin,
     notifications,
+    incidents,
     ws
 )
 
@@ -73,6 +74,7 @@ app.include_router(analytics.router, prefix=api_v1)
 app.include_router(reports.router, prefix=api_v1)
 app.include_router(admin.router, prefix=api_v1)
 app.include_router(notifications.router, prefix=api_v1)
+app.include_router(incidents.router, prefix=api_v1)
 app.include_router(ws.router)
 
 @app.get("/")

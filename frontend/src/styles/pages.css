@@ -824,13 +824,13 @@
 
 /* ── Active Warning Summary Card ── */
 .active-warning-summary-card {
-  background: #f9f9fa;
-  border: 1px solid #e2e8f0;
-  border-left: 4px solid #8b3a2b;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-medium);
+  border-left: 4px solid var(--color-terracotta);
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1.75rem;
-  box-shadow: 0 2px 10px rgba(44, 26, 20, 0.06);
+  box-shadow: var(--shadow-card);
 }
 
 .active-warning-content {
@@ -857,20 +857,20 @@
 
 .active-warning-code {
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .active-warning-title {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--color-espresso-dark);
   margin: 0.4rem 0 0.25rem;
 }
 
 .active-warning-meta {
   font-size: 0.85rem;
-  color: #4a5568;
+  color: var(--text-secondary);
   margin: 0;
   font-weight: 400;
 }
@@ -900,9 +900,9 @@
 
 .btn-view-warning {
   background: #ffffff;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
-  color: #334155;
+  color: var(--color-espresso-base);
   font-size: 0.82rem;
   font-weight: 600;
   padding: 0.45rem 0.95rem;
@@ -910,13 +910,13 @@
   align-items: center;
   gap: 6px;
   text-decoration: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-view-warning:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
-  color: #0f172a;
+  background: var(--bg-surface-subtle);
+  border-color: var(--color-terracotta-border);
+  color: var(--color-espresso-dark);
 }
 
 /* ── 2-Column Grid: Map & Response Zones Matrix ── */
@@ -1212,14 +1212,14 @@
     background: #ffffff !important;
     color: #000000 !important;
     box-shadow: none !important;
-    border: 1px solid #cbd5e1 !important;
+    border: 1px solid var(--border-medium, #e0d5c7) !important;
     page-break-inside: avoid;
     margin-bottom: 1.5rem !important;
   }
 
   .report-meta-grid {
-    background: #f8fafc !important;
-    border: 1px solid #cbd5e1 !important;
+    background: var(--bg-surface-subtle, #faf7f2) !important;
+    border: 1px solid var(--border-medium, #e0d5c7) !important;
   }
 
   .table-container {
@@ -1229,7 +1229,7 @@
   .table th,
   .table td {
     padding: 6px 10px !important;
-    border: 1px solid #e2e8f0 !important;
+    border: 1px solid var(--border-light, #ece3d8) !important;
     color: #000000 !important;
   }
 }
@@ -1859,3 +1859,168 @@
     padding: 3rem 1rem 5.5rem;
   }
 }
+
+/* ==========================================================================
+   Citizen Incident Reporting Interface Styles (Responsive & Themed)
+   ========================================================================== */
+.citizen-incident-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 0.5rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Emergency Information Moving Announcement Ticker */
+.emergency-announcement-ticker {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  margin-top: 4px;
+  line-height: 1.5;
+  cursor: default;
+}
+
+.emergency-announcement-track {
+  display: inline-flex;
+  width: max-content;
+  white-space: nowrap;
+  animation: emergencyTickerScroll 35s linear infinite;
+  will-change: transform;
+}
+
+.emergency-announcement-ticker:hover .emergency-announcement-track,
+.emergency-announcement-ticker:focus-within .emergency-announcement-track {
+  animation-play-state: paused;
+}
+
+.emergency-announcement-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.86rem;
+  color: var(--color-warm-brown);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.emergency-announcement-item .emergency-ticker-link {
+  color: var(--color-terracotta);
+  font-weight: 700;
+  text-decoration: underline;
+  margin: 0 4px;
+  transition: color 0.15s ease;
+}
+
+.emergency-announcement-item .emergency-ticker-link:hover,
+.emergency-announcement-item .emergency-ticker-link:focus {
+  color: var(--color-espresso-dark);
+}
+
+.emergency-ticker-separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 24px;
+  color: var(--color-terracotta);
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+@keyframes emergencyTickerScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Accessibility: Respect user reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .emergency-announcement-ticker {
+    overflow: visible;
+  }
+  .emergency-announcement-track {
+    animation: none;
+    transform: none;
+    width: 100%;
+    display: block;
+    white-space: normal;
+  }
+  .emergency-announcement-item {
+    display: block;
+    white-space: normal;
+  }
+  .emergency-announcement-item[aria-hidden="true"] {
+    display: none !important;
+  }
+  .emergency-ticker-separator {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .citizen-incident-page {
+    padding: 0 0.25rem 1.5rem;
+  }
+  .citizen-incident-page .page-header-block {
+    margin-bottom: 1rem;
+  }
+  .citizen-incident-page .page-title {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .citizen-incident-page .page-title {
+    font-size: 1.4rem;
+  }
+  .citizen-incident-page #btn-report-new-incident {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   Authority Incident Reports Management Interface Styles
+   ========================================================================== */
+.authority-incident-page {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 0.5rem 2.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.authority-incident-page .card-active-filter {
+  box-shadow: 0 6px 20px rgba(139, 58, 43, 0.15) !important;
+}
+
+@keyframes spinIcon {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.authority-incident-page .spin {
+  animation: spinIcon 1s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .authority-incident-page {
+    padding: 0 0.25rem 1.5rem;
+  }
+  .authority-incident-page .page-title {
+    font-size: 1.55rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .authority-incident-page .page-title {
+    font-size: 1.35rem;
+  }
+}
+
