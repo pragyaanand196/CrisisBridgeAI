@@ -1894,13 +1894,93 @@ button:disabled {
 }
 
 /* --------------------------------------------------------------------------
-   Create Warning Dedicated Responsive Layout Container
+   Create Warning Dedicated Responsive Layout Container & Header
    -------------------------------------------------------------------------- */
 .create-warning-container {
   max-width: 1080px;
   width: 100%;
   margin: 0 auto;
   padding-bottom: 3.5rem;
+}
+
+.create-warning-back-nav {
+  margin-bottom: 1.15rem;
+}
+
+.create-warning-header-section {
+  margin-bottom: 1.65rem;
+}
+
+.create-warning-header-inner {
+  display: flex;
+  align-items: stretch;
+  gap: 0.95rem;
+}
+
+.create-warning-accent-bar {
+  width: 4px;
+  background-color: var(--color-terracotta, #8b3a2b);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.create-warning-title-block {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.create-warning-heading {
+  font-family: var(--font-family-heading, 'Outfit', sans-serif);
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--color-espresso-dark, #22120c);
+  margin: 0 0 0.25rem 0;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+}
+
+.create-warning-description {
+  font-family: var(--font-family-body, 'Inter', sans-serif);
+  font-size: 0.92rem;
+  color: var(--text-secondary, #5c4a42);
+  margin: 0;
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .create-warning-header-section {
+    margin-bottom: 1.35rem;
+  }
+
+  .create-warning-heading {
+    font-size: 1.45rem;
+  }
+
+  .create-warning-description {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-warning-header-inner {
+    gap: 0.75rem;
+  }
+
+  .create-warning-accent-bar {
+    width: 3.5px;
+  }
+
+  .create-warning-heading {
+    font-size: 1.3rem;
+  }
+
+  .create-warning-description {
+    font-size: 0.84rem;
+    line-height: 1.4;
+  }
 }
 
 .warning-creator-card {
