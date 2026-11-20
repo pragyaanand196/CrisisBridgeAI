@@ -5,7 +5,7 @@ import datetime
 import requests
 
 def run_purge():
-    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "crisisbridge.db"))
+    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "crisisbridge.db"))
     print(f"Target Database: {db_path}")
     assert os.path.exists(db_path), f"Database not found at {db_path}"
 

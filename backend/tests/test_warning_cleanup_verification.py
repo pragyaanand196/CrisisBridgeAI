@@ -6,7 +6,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 # Add root directory to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
 from backend.app.main import app
 from backend.app.database import SessionLocal

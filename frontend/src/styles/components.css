@@ -3450,11 +3450,9 @@ body.is-resizing-sidebar .app-main-wrapper {
   color: #5c1e13;
 }
 
+/* Citizen Dashboard follows the same inset layout, padding, and max-width as Authority Dashboard */
 .main-content.main-content--citizen {
-  padding: 0 !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  margin: 0 !important;
+  /* Inherits standard .main-content inset boundaries and padding */
 }
 
 .app-layout--citizen .app-footer {

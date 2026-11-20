@@ -108,13 +108,18 @@ export function ActiveWarningCard({
 
   useEffect(() => {
     const viewport = situationOverviewRef.current;
-    const text = situationOverviewTextRef.current;
-    if (!situationOverview || !viewport || !text) return undefined;
+    const track = situationOverviewTextRef.current;
+    if (!situationOverview || !viewport || !track) return undefined;
 
     const updateDuration = () => {
-      const travelDistance = viewport.clientWidth + text.scrollWidth;
-      const duration = Math.max(10, travelDistance / 34);
-      text.style.setProperty('--situation-overview-duration', `${duration}s`);
+      // track holds 2 identical copies; measure one copy via its first child span
+      const firstCopy = track.firstElementChild;
+      if (!firstCopy) return;
+      // scrollWidth of the span includes its padding-right gap
+      const oneCopyWidth = firstCopy.scrollWidth;
+      const pixelsPerSecond = 60;
+      const duration = Math.max(8, oneCopyWidth / pixelsPerSecond);
+      track.style.setProperty('--ticker-duration', `${duration}s`);
     };
 
     updateDuration();
@@ -273,9 +278,17 @@ export function ActiveWarningCard({
             {messageLanguage === 'hi' ? 'स्थिति का अवलोकन:' : 'Situation Overview:'}
           </h3>
           <div className="situation-overview-marquee" ref={situationOverviewRef}>
-            <p lang={messageLanguage} className="situation-overview-text" ref={situationOverviewTextRef}>
-              {situationOverview}
-            </p>
+            {/* Two-copy track: translateX(-50%) moves exactly one copy → seamless loop */}
+            <div className="situation-overview-track" ref={situationOverviewTextRef} aria-hidden="true">
+              <span className="situation-overview-copy" lang={messageLanguage}>
+                {situationOverview}
+              </span>
+              <span className="situation-overview-copy" lang={messageLanguage}>
+                {situationOverview}
+              </span>
+            </div>
+            {/* Accessible copy for screen readers only */}
+            <span className="sr-only">{situationOverview}</span>
           </div>
         </section>
       )}

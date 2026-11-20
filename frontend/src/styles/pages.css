@@ -1122,7 +1122,7 @@
 }
 
 /* ==========================================================================
-   CrisisBridge AI — Login Page Full-Screen Disaster Response Background
+   CrisisBridge AI — Login Page Balanced Two-Column Composition
    ========================================================================== */
 .login-page-wrapper {
   position: relative;
@@ -1130,79 +1130,472 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 2;
+  box-sizing: border-box;
 }
 
 /* Disaster Response Background Photograph Layer */
 .login-bg-media {
   position: fixed;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
+  top: -24px;
+  left: -24px;
+  right: -24px;
+  bottom: -24px;
   background-image: url('/disaster-rescue-bg.png');
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 72% center;
-  filter: blur(5px);
-  transform: scale(1.04);
+  background-position: 74% center;
+  filter: blur(6px);
+  transform: scale(1.05);
   pointer-events: none;
   z-index: 1;
   will-change: transform;
 }
 
-/* Subtle Dark Translucent Overlay */
+/* Subtle Dark Translucent Warm Overlay */
 .login-bg-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 10, 8, 0.24);
+  background: linear-gradient(
+    90deg,
+    rgba(14, 9, 7, 0.52) 0%,
+    rgba(14, 9, 7, 0.38) 45%,
+    rgba(14, 9, 7, 0.22) 100%
+  );
   pointer-events: none;
   z-index: 2;
 }
 
-/* Login Content Container ensuring responsive centering & vertical scroll */
+/* Two-Column Responsive Content Layout */
+.login-content-layout {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1280px;
+  margin-left: clamp(1.5rem, 6.5vw, 6.5rem);
+  margin-right: auto;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(2rem, 5vw, 5.5rem);
+  box-sizing: border-box;
+}
+
+/* Backwards-compatibility alias for container */
 .login-content-container {
   position: relative;
   z-index: 3;
   width: 100%;
-  max-width: 480px;
-  padding: 2.5rem 1.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
+  box-sizing: border-box;
 }
 
-/* Login Card following reference design */
-.login-card {
+/* Left Column: Visual Promotional Content */
+.login-promo-section {
+  flex: 0 0 auto;
   width: 100%;
-  max-width: 460px;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  user-select: none;
+}
+
+.login-promo-heading-wrapper {
+  display: flex;
+  align-items: stretch;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.login-promo-accent-bar {
+  width: 5px;
+  background-color: var(--color-terracotta, #8b3a2b);
+  border-radius: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(139, 58, 43, 0.4);
+}
+
+.login-promo-heading {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-heading, 'Outfit', sans-serif);
+  font-size: clamp(2rem, 2.75vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  display: flex;
+  flex-direction: column;
+}
+
+.promo-line-text {
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.promo-line-highlight {
+  color: #f3a833;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* Decorative Divider with Horizontal Lines & Center Shield */
+.login-promo-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 1.85rem;
+  margin-left: calc(5px + 1.25rem); /* Aligns with text start */
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+}
+
+.promo-divider-line {
+  flex: 1;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 2px;
+}
+
+.promo-shield-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.promo-shield-svg {
+  display: block;
+}
+
+/* Right Column: Redesigned Login Card Container & Card */
+.login-card-container {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 410px;
+}
+
+.login-card {
+  position: relative;
+  width: 100%;
   background: #ffffff;
   border-radius: 24px;
-  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.35), 0 8px 24px -6px rgba(0, 0, 0, 0.20);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  padding: 2.5rem 2.25rem;
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.35), 0 8px 24px -6px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 2.25rem 2.15rem 1.85rem 2.15rem;
   box-sizing: border-box;
-  position: relative;
+  overflow: hidden; /* Clips wave neatly within card radius */
 }
 
-@media (max-width: 768px) {
+/* Card Header */
+.login-card-header {
+  text-align: center;
+  margin-bottom: 1.65rem;
+}
+
+.login-card-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--color-terracotta, #8b3a2b);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.85rem;
+  box-shadow: 0 4px 16px rgba(139, 58, 43, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-card-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--color-espresso-dark, #22120c);
+  margin: 0 0 0.4rem 0;
+  letter-spacing: -0.015em;
+  font-family: var(--font-family-heading, 'Outfit', sans-serif);
+}
+
+.brand-accent-ai {
+  color: var(--color-terracotta, #8b3a2b);
+}
+
+.login-card-subtitle {
+  font-size: 0.84rem;
+  color: var(--text-secondary, #5c4a42);
+  margin: 0 auto;
+  line-height: 1.45;
+  max-width: 320px;
+}
+
+/* Form Fields */
+.login-form {
+  position: relative;
+  z-index: 2;
+}
+
+.login-form-group {
+  margin-bottom: 1.15rem;
+  text-align: left;
+}
+
+.login-form-group-password {
+  margin-bottom: 1.35rem;
+}
+
+.login-form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-espresso-base, #2c1a14);
+  margin-bottom: 0.4rem;
+}
+
+.login-form-label .required-star {
+  color: var(--color-terracotta, #8b3a2b);
+  margin-left: 2px;
+}
+
+.login-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted, #7c6f66);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.login-form-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 1rem 0 2.55rem;
+  border: 1px solid #e0d5c7;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.88rem;
+  color: var(--color-espresso-base, #2c1a14);
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.login-form-input:focus {
+  outline: none;
+  border-color: var(--color-terracotta, #8b3a2b);
+  box-shadow: 0 0 0 3px rgba(139, 58, 43, 0.12);
+}
+
+.login-form-input::placeholder {
+  color: #9e8f85;
+}
+
+/* Submit Button */
+.login-submit-button {
+  width: 100%;
+  height: 44px;
+  margin-top: 0.25rem;
+  background: var(--color-terracotta, #8b3a2b);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(139, 58, 43, 0.32);
+  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.login-submit-button:hover:not(:disabled) {
+  background: var(--color-terracotta-hover, #732f22);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(139, 58, 43, 0.42);
+}
+
+.login-submit-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Bottom Decorative Soft Waves */
+.login-card-wave-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 85px;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.login-card-wave-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Registration Footer */
+.login-card-footer {
+  position: relative;
+  z-index: 2;
+  margin-top: 1.75rem;
+  padding-bottom: 0.2rem;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-secondary, #5c4a42);
+}
+
+.login-create-account-link {
+  font-weight: 600;
+  color: var(--color-terracotta, #8b3a2b);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.login-create-account-link:hover {
+  color: var(--color-terracotta-hover, #732f22);
+  text-decoration: underline;
+}
+
+/* Responsive Breakpoints */
+/* Tablet Breakpoint (720px to 1024px): Two-Column with Reduced Heading & Adjusted Spacing */
+@media (max-width: 1024px) {
+  .login-content-layout {
+    margin-left: clamp(1rem, 3.5vw, 2.5rem);
+    gap: clamp(1.5rem, 3.5vw, 2.75rem);
+    padding: 2rem 1.25rem;
+  }
+
+  .login-promo-section {
+    max-width: 360px;
+  }
+
+  .login-promo-heading {
+    font-size: clamp(1.65rem, 2.6vw, 2.15rem);
+  }
+
+  .login-promo-divider {
+    max-width: 280px;
+    margin-top: 1.4rem;
+  }
+
+  .login-card-container {
+    max-width: 375px;
+  }
+
+  .login-card {
+    padding: 2rem 1.75rem 1.75rem 1.75rem;
+  }
+}
+
+/* Mobile Breakpoint (< 720px): Vertical Stacking */
+@media (max-width: 720px) {
+  .login-page-wrapper {
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .login-content-layout {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: 2rem 1rem;
+    gap: 1.75rem;
+    max-width: 440px;
+  }
+
+  .login-promo-section {
+    align-items: center;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .login-promo-heading-wrapper {
+    justify-content: center;
+    gap: 0.85rem;
+  }
+
+  .login-promo-accent-bar {
+    width: 4px;
+  }
+
+  .login-promo-heading {
+    font-size: clamp(1.4rem, 5.5vw, 1.75rem);
+    line-height: 1.2;
+  }
+
+  .login-promo-divider {
+    margin-left: 0;
+    margin-top: 1.25rem;
+    max-width: 260px;
+  }
+
+  .login-card-container {
+    max-width: 100%;
+  }
+
+  .login-card {
+    padding: 1.85rem 1.35rem 1.6rem 1.35rem;
+    border-radius: 20px;
+  }
+
   .login-bg-media {
     background-position: 78% center;
   }
 }
 
-@media (max-width: 480px) {
-  .login-content-container {
-    padding: 1.5rem 1rem;
+/* Small Mobile (< 400px): Compact Layout */
+@media (max-width: 400px) {
+  .login-content-layout {
+    padding: 1.5rem 0.65rem;
+    gap: 1.25rem;
+  }
+
+  .login-promo-heading-wrapper {
+    gap: 0.6rem;
+  }
+
+  .login-promo-accent-bar {
+    width: 3.5px;
+  }
+
+  .login-promo-heading {
+    font-size: 1.28rem;
+    line-height: 1.18;
+  }
+
+  .login-promo-divider {
+    max-width: 220px;
   }
 
   .login-card {
-    padding: 2rem 1.5rem;
-    border-radius: 18px;
+    padding: 1.5rem 1rem 1.35rem 1rem;
+    border-radius: 16px;
+  }
+
+  .login-card-title {
+    font-size: 1.35rem;
+  }
+
+  .login-card-footer {
+    font-size: 0.82rem;
   }
 }
 
@@ -1311,83 +1704,80 @@
 }
 
 /* ==========================================================================
-   Citizen Portal Redesign - Warm-Toned Dashboard Theming & Layout
+   Citizen Portal - Inset Hero & Warm-Toned Dashboard Theming
+   Follows the visual structure and presentation of the Authority Portal hero.
    ========================================================================== */
 
+.citizen-dashboard,
 .citizen-portal-container {
   width: 100%;
   min-width: 0;
+  max-width: 100%;
   position: relative;
-  background-color: #faf5ee;
 }
 
-/* -----------------------------------------------------------------------------
-   COMPACT HERO BANNER
-   Fixed-height landscape strip. The flood-rescue photo fills it via ::before.
-   A left-to-right dark gradient and a subtle bottom fade ensure text legibility.
-   The location card sits as an in-banner overlay pinned to the bottom edge.
-   overflow: hidden keeps the card from bleeding outside the banner height.
------------------------------------------------------------------------------ */
-.citizen-photo-band {
+/* ── Inset Rounded Hero Section (Matching Authority Portal Hero) ── */
+.citizen-hero-section {
   position: relative;
-  width: 100%;
-  min-height: 330px;
+  border-radius: 16px;
   overflow: hidden;
+  margin-bottom: 1.75rem;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: #1a0f0b;
+  box-shadow: 0 8px 30px rgba(44, 26, 20, 0.12);
+  border: 1px solid rgba(228, 215, 202, 0.35);
 }
 
-/* The actual photograph — object-fit: cover via background-size: cover */
-.citizen-photo-band::before {
-  content: '';
+.citizen-hero-bg-layer {
   position: absolute;
   inset: 0;
   background-image: url('/flood-rescue-convoy.jpg');
   background-size: cover;
-  background-position: 62% 38%;
+  background-position: center right;
   background-repeat: no-repeat;
-  z-index: 0;
+  filter: brightness(1.08) contrast(0.96) saturate(0.98);
+  z-index: 1;
 }
 
-/* Gradient overlays: left dark vignette for text contrast + subtle bottom fade */
-.citizen-photo-band::after {
-  content: '';
+.citizen-hero-overlay {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   background:
     linear-gradient(
-      90deg,
-      rgba(12, 5, 3, 0.82) 0%,
-      rgba(12, 5, 3, 0.60) 28%,
-      rgba(12, 5, 3, 0.20) 58%,
-      transparent 80%
+      to right,
+      rgba(20, 10, 7, 0.90) 0%,
+      rgba(20, 10, 7, 0.80) 40%,
+      rgba(20, 10, 7, 0.35) 75%,
+      rgba(20, 10, 7, 0.12) 100%
     ),
     linear-gradient(
-      180deg,
-      rgba(8, 4, 2, 0.30) 0%,
-      transparent 25%,
-      transparent 52%,
-      rgba(10, 5, 3, 0.30) 78%,
-      rgba(10, 5, 3, 0.55) 100%
+      to bottom,
+      transparent 55%,
+      rgba(250, 245, 238, 0.30) 75%,
+      rgba(250, 245, 238, 0.82) 95%,
+      #faf5ee 100%
     );
   pointer-events: none;
 }
 
-/* Hero Content: flex-column filling full banner height */
 .citizen-hero-content {
   position: relative;
   z-index: 3;
-  padding: 1.25rem 2.75rem 1.1rem;
+  padding: 1.5rem 1.75rem 1.75rem;
   display: flex;
   flex-direction: column;
-  min-height: 330px;
-  box-sizing: border-box;
+  justify-content: space-between;
+  gap: 1.25rem;
   width: 100%;
-  max-width: 1380px;
-  margin: 0 auto;
+  box-sizing: border-box;
+  min-height: 380px;
 }
 
-/* Top row: Back button left, user pill + logout right */
+/* Top bar: Back button left, user pill + logout right */
 .citizen-top-actions-bar {
   display: flex;
   align-items: center;
@@ -1395,60 +1785,62 @@
   width: 100%;
   flex-wrap: wrap;
   gap: 0.75rem;
-  flex-shrink: 0;
 }
 
 .citizen-top-actions-bar .back-btn {
   color: #ffffff !important;
-  background: rgba(16, 7, 4, 0.54) !important;
+  background: rgba(20, 10, 8, 0.55) !important;
   border: 1px solid rgba(255, 255, 255, 0.30) !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.20) !important;
-  padding: 0.35rem 0.9rem !important;
-  font-size: 0.83rem !important;
+  padding: 0.38rem 0.95rem !important;
+  font-size: 0.84rem !important;
   font-weight: 500 !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 5px !important;
+  gap: 6px !important;
   cursor: pointer !important;
   border-radius: 9999px !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
   transition: all 0.15s ease !important;
 }
+
 .citizen-top-actions-bar .back-btn:hover {
-  background: rgba(16, 7, 4, 0.74) !important;
-  border-color: rgba(255, 255, 255, 0.48) !important;
-  color: #fdba74 !important;
+  background: rgba(20, 10, 8, 0.75) !important;
+  border-color: rgba(255, 255, 255, 0.50) !important;
+  color: #fde68a !important;
 }
 
 .citizen-hero-actions-right {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .citizen-hero-user-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  background: rgba(16, 7, 4, 0.54);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  gap: 0.45rem;
+  background: rgba(20, 10, 8, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  padding: 0.35rem 0.9rem;
+  padding: 0.38rem 0.95rem;
   border-radius: 9999px;
-  font-size: 0.83rem;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  font-size: 0.84rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.20);
 }
+
 .citizen-hero-user-name {
   color: #ffffff;
   font-weight: 600;
 }
+
 .citizen-hero-user-role {
   color: #fdba74;
-  font-size: 0.70rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1458,85 +1850,83 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(122, 40, 26, 0.88);
-  border: 1px solid rgba(180, 80, 60, 0.55);
+  background: #8b3a2b;
+  border: 1px solid #8b3a2b;
   color: #ffffff !important;
-  padding: 0.35rem 0.9rem;
+  padding: 0.38rem 0.95rem;
   border-radius: 8px;
-  font-size: 0.83rem;
+  font-size: 0.84rem;
   font-weight: 600;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   transition: all 0.15s ease;
-  box-shadow: 0 2px 8px rgba(122, 40, 26, 0.30);
-}
-.btn-citizen-hero-logout:hover {
-  background: rgba(160, 60, 42, 0.96);
+  box-shadow: 0 2px 6px rgba(139, 58, 43, 0.35);
 }
 
-/* Heading + subtitle: grows to fill middle space, left-aligned */
-.citizen-hero-title-block {
-  flex: 1;
+.btn-citizen-hero-logout:hover {
+  background: #a84232;
+  border-color: #a84232;
+}
+
+/* Heading + subtitle */
+.citizen-header-main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding-top: 0.5rem;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0.5rem 0;
 }
 
 .citizen-portal-heading {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
   font-size: 2.6rem;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -0.02em;
-  margin: 0 0 0.22rem 0;
-  line-height: 1.1;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.65);
+  margin: 0;
+  line-height: 1.15;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
 }
 
 .citizen-portal-subtitle {
-  font-size: 0.93rem;
-  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.90);
   margin: 0;
   font-weight: 400;
-  max-width: 520px;
+  max-width: 580px;
   line-height: 1.5;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.40);
 }
 
-/* Main Body Content — directly below the banner, NO negative margin needed */
+/* Main Body Content — directly below the inset hero section */
 .citizen-portal-body {
   position: relative;
   z-index: 10;
-  max-width: 1380px;
-  margin: 0 auto;
-  padding: 1rem 2.75rem 4rem;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 3rem 0;
   box-sizing: border-box;
 }
 
-/* ── Location Card: pinned inside the hero banner at its bottom edge ── */
-/* It sits as the last flex child of citizen-hero-content, so flex pushes it down */
+/* ── Location Card: neatly positioned inside lower portion of hero container ── */
 .citizen-location-card {
-  /* No negative margin — card is inside the banner now */
+  position: relative;
+  z-index: 4;
   margin-top: 0;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(228, 215, 202, 0.88);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(228, 215, 202, 0.90);
   border-radius: 14px;
-  padding: 0.85rem 1.4rem;
+  padding: 0.95rem 1.4rem;
   box-shadow:
-    0 6px 22px rgba(44, 26, 20, 0.18),
-    0 1px 4px rgba(44, 26, 20, 0.08);
+    0 4px 20px rgba(20, 10, 7, 0.14),
+    0 1px 3px rgba(20, 10, 7, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.85rem;
-  position: relative;
-  z-index: 12;
-  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .citizen-location-left {
@@ -1887,10 +2277,8 @@
 
 @media (max-width: 1100px) {
   .citizen-hero-content {
-    padding: 1.1rem 1.75rem 0.9rem;
-  }
-  .citizen-portal-body {
-    padding: 1.25rem 1.75rem 3rem;
+    padding: 1.35rem 1.5rem 1.5rem;
+    gap: 1.1rem;
   }
   .citizen-portal-heading {
     font-size: 2.2rem;
@@ -1898,26 +2286,29 @@
 }
 
 @media (max-width: 768px) {
-  .citizen-photo-band {
-    min-height: 290px;
+  .citizen-hero-section {
+    min-height: auto;
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+  }
+  .citizen-hero-bg-layer {
+    background-position: 70% 38%;
   }
   .citizen-hero-content {
-    min-height: 290px;
-    padding: 1rem 1.25rem 0.85rem;
+    min-height: auto;
+    padding: 1.25rem 1.2rem 1.25rem;
+    gap: 1rem;
   }
   .citizen-portal-heading {
     font-size: 1.85rem;
   }
   .citizen-portal-subtitle {
-    font-size: 0.87rem;
+    font-size: 0.88rem;
   }
   .citizen-location-card {
-    padding: 0.75rem 1rem;
-    border-radius: 11px;
-    gap: 0.65rem;
-  }
-  .citizen-portal-body {
-    padding: 1rem 1rem 2.5rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: 12px;
+    gap: 0.75rem;
   }
   .citizen-shelter-illustration {
     display: none;
@@ -1925,31 +2316,35 @@
 }
 
 @media (max-width: 480px) {
-  .citizen-photo-band {
-    min-height: 320px;
+  .citizen-hero-section {
+    border-radius: 12px;
+  }
+  .citizen-hero-bg-layer {
+    background-size: auto 150%;
+    background-position: 100% 120%;
   }
   .citizen-hero-content {
-    min-height: 320px;
-    padding: 1rem;
+    padding: 1.1rem 0.95rem 1.1rem;
+    gap: 0.85rem;
   }
   .citizen-top-actions-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.45rem;
+    gap: 0.5rem;
   }
   .citizen-hero-actions-right {
     width: 100%;
     justify-content: space-between;
   }
   .citizen-portal-heading {
-    font-size: 1.55rem;
+    font-size: 1.6rem;
   }
   .citizen-portal-subtitle {
-    font-size: 0.82rem;
+    font-size: 0.84rem;
     max-width: 100%;
   }
-  .citizen-hero-title-block {
-    padding-top: 0.2rem;
+  .citizen-header-main {
+    margin: 0.15rem 0 0.35rem 0;
   }
   .citizen-location-left {
     width: 100%;
@@ -2051,12 +2446,26 @@
   opacity: 0.85;
 }
 
+/* Visually hidden but accessible to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .situation-overview {
   margin: -0.45rem 0 1.15rem;
   display: flex;
   align-items: center;
   gap: 0.7rem;
   min-width: 0;
+  overflow: hidden;
 }
 
 .situation-overview-heading {
@@ -2070,68 +2479,67 @@
 
 .situation-overview-marquee {
   flex: 1 1 0;
-  position: relative;
-  width: 100%;
   min-width: 0;
-  min-height: 1.55em;
   overflow: hidden;
+  min-height: 1.55em;
   line-height: 1.55;
 }
 
-.situation-overview-text {
-  position: absolute;
-  top: 0;
-  left: 100%;
+/* Two-copy ticker track — translateX(-50%) moves exactly one copy width → seamless loop */
+.situation-overview-track {
+  display: inline-flex;
+  flex-wrap: nowrap;
   width: max-content;
-  max-width: none;
-  margin: 0;
+  animation: situationTickerScroll var(--ticker-duration, 18s) linear infinite;
+  will-change: transform;
+}
+
+.situation-overview-copy {
+  display: inline-block;
+  /* padding-right creates the visual gap between end of copy 1 and start of copy 2 */
+  padding-right: 4rem;
   color: #6b5a52;
   font-size: 0.88rem;
   font-weight: 500;
   white-space: nowrap;
-  animation: situationOverviewScroll var(--situation-overview-duration, 18s) linear infinite;
-  will-change: left, transform;
+  margin: 0;
+}
+
+@keyframes situationTickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .situation-overview-track {
+    animation: none;
+    white-space: normal;
+    overflow: visible;
+    display: block;
+    width: auto;
+  }
+  .situation-overview-copy + .situation-overview-copy {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
   .situation-overview {
-    gap: 0.4rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .situation-overview-marquee {
+    width: 100%;
   }
 
   .situation-overview-heading {
     font-size: 0.78rem;
   }
 
-  .situation-overview-text {
+  .situation-overview-copy {
     font-size: 0.82rem;
-  }
-}
-
-@keyframes situationOverviewScroll {
-  from {
-    left: 100%;
-    transform: translateX(0);
-  }
-  to {
-    left: 0;
-    transform: translateX(-100%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .situation-overview-marquee {
-    min-height: 0;
-    overflow: visible;
-  }
-
-  .situation-overview-text {
-    position: static;
-    width: auto;
-    max-width: 100%;
-    white-space: normal;
-    animation: none;
-    transform: none;
-    will-change: auto;
   }
 }
 

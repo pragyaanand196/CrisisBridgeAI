@@ -221,11 +221,14 @@ export function CitizenDashboard() {
   const hasLocation = user?.latitude !== null && user?.longitude !== null && user?.location_name;
 
   return (
-    <div className="citizen-portal-container">
-      {/* ── Compact Hero Banner: fixed-height landscape strip with location card inside ── */}
-      <div className="citizen-photo-band" aria-label="Citizen Portal Hero">
+    <div className="citizen-dashboard">
+      {/* ── Upper Disaster Photography Hero Section (Inset Container matching Authority Portal) ── */}
+      <section className="citizen-hero-section" aria-label="Citizen Portal Hero">
+        <div className="citizen-hero-bg-layer" />
+        <div className="citizen-hero-overlay" />
+
         <div className="citizen-hero-content">
-          {/* Top bar: Back button left, user info + logout right */}
+          {/* Top actions bar: Back button left, user info + logout right */}
           <div className="citizen-top-actions-bar">
             <BackButton fallbackPath="/" label="Back to Home" />
 
@@ -234,7 +237,7 @@ export function CitizenDashboard() {
                 <span className="citizen-hero-user-pill" title={`${user.full_name} (${user.role})`}>
                   <User size={15} aria-hidden="true" />
                   <span className="citizen-hero-user-name"><strong>{user.full_name}</strong></span>
-                  <span className="citizen-hero-user-role">{user.role?.toUpperCase() || 'CITIZEN'}</span>
+                  <span className="citizen-hero-user-role">[{user.role?.toUpperCase() || 'CITIZEN'}]</span>
                 </span>
               )}
 
@@ -250,15 +253,15 @@ export function CitizenDashboard() {
             </div>
           </div>
 
-          {/* Middle: Page heading and subtitle */}
-          <div className="citizen-hero-title-block">
+          {/* Heading and subtitle */}
+          <div className="citizen-header-main">
             <h1 className="citizen-portal-heading">Citizen Portal</h1>
             <p className="citizen-portal-subtitle">
               Emergency warnings and response updates for your area
             </p>
           </div>
 
-          {/* Bottom overlay: Registered Location Card — sits inside the banner */}
+          {/* Registered Location Card inside lower portion of hero container */}
           <div className="citizen-location-card">
             <div className="citizen-location-left">
               <div
@@ -311,9 +314,9 @@ export function CitizenDashboard() {
             </button>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* ── Main Body Content: warning section starts directly below banner ── */}
+      {/* ── Main Body Content: warning section begins directly below hero container ── */}
       <div className="citizen-portal-body">
 
         {/* Location Not Configured Notice */}

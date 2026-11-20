@@ -7,7 +7,8 @@
     "start:backend": "python backend/run.py",
     "start:frontend": "cd frontend && npm run dev",
     "build:frontend": "cd frontend && npm run build",
-    "test:backend": "python backend/test_backend.py"
+    "test:backend": "python backend/test_backend.py",
+    "test:suite": "python backend/tests/test_backend.py"
   },
   "keywords": [
     "disaster-management",

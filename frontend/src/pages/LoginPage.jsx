@@ -54,100 +54,165 @@ export function LoginPage() {
     <div className="login-page-wrapper">
       {/* Full-screen blurred disaster response background photograph */}
       <div className="login-bg-media" aria-hidden="true" />
-      {/* Subtle dark translucent overlay */}
+      {/* Subtle dark translucent warm overlay */}
       <div className="login-bg-overlay" aria-hidden="true" />
 
-      {/* Login Card Container */}
-      <div className="login-content-container">
-        <div className="login-card">
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--gradient-primary)', color: '#ffffff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', boxShadow: '0 0 24px rgba(139, 58, 43, 0.45)', border: '1px solid rgba(255, 255, 255, 0.3)' }}>
-              <Shield size={30} />
-            </div>
-            <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-espresso-dark)', margin: '0 0 0.5rem 0' }}>CrisisBridge AI</h1>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.45 }}>
-              Sign in to access disaster warnings and emergency response systems
-            </p>
+      {/* Balanced Two-Column Responsive Composition */}
+      <div className="login-content-layout">
+        {/* Left Column: Visual Promotional Content */}
+        <div className="login-promo-section">
+          <div className="login-promo-heading-wrapper">
+            <div className="login-promo-accent-bar" aria-hidden="true" />
+            <h1 className="login-promo-heading">
+              <span className="promo-line-text">Turning Disaster</span>
+              <span className="promo-line-text">Warnings into</span>
+              <span className="promo-line-highlight">Community Action.</span>
+            </h1>
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-              <label className="form-label" htmlFor="login-email">
-                Email Address <span className="required-star">*</span>
-              </label>
-              <div style={{ position: 'relative' }}>
-                <Mail
-                  size={18}
-                  style={{
-                    position: 'absolute',
-                    left: '14px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: 'var(--text-muted)',
-                    pointerEvents: 'none',
-                    zIndex: 1
-                  }}
+          {/* Decorative Horizontal Divider with Center Shield/Cyclone Icon */}
+          <div className="login-promo-divider" aria-hidden="true">
+            <span className="promo-divider-line" />
+            <div className="promo-shield-icon-wrapper">
+              <svg
+                width="34"
+                height="38"
+                viewBox="0 0 34 38"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="promo-shield-svg"
+              >
+                {/* Shield Outline */}
+                <path
+                  d="M17 2.5L4 7.2V17.5C4 26 9.8 33.6 17 36C24.2 33.6 30 26 30 17.5V7.2L17 2.5Z"
+                  stroke="#ffffff"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
-                <input
-                  id="login-email"
-                  type="email"
-                  className="form-input"
-                  style={{ paddingLeft: '2.6rem' }}
-                  placeholder="name@agency.gov or personal email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
+                {/* Cyclone / Vortex Emergency Swirl */}
+                <path
+                  d="M17 11.5C13.2 11.5 11 14.5 12.2 17.8C12.8 19.8 14.8 21.2 17 21.2C20.8 21.2 23 18.2 21.8 14.8C21.2 12.8 19.2 11.5 17 11.5ZM17 18.2C15.5 18.2 14.2 17 14.2 15.5C14.2 14 15.5 12.8 17 12.8C18.5 12.8 19.8 14 19.8 15.5C19.8 17 18.5 18.2 17 18.2Z"
+                  fill="#ffffff"
                 />
+                <circle cx="17" cy="15.5" r="1.8" fill="#ffffff" />
+                <path
+                  d="M17 10C19.8 8.2 23.5 9.5 24.2 13"
+                  stroke="#ffffff"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M17 22.8C14.2 24.5 10.5 23.2 9.8 19.8"
+                  stroke="#ffffff"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+            <span className="promo-divider-line" />
+          </div>
+        </div>
+
+        {/* Right Column: Redesigned Login Card */}
+        <div className="login-card-container">
+          <div className="login-card">
+            {/* Top Brand Header */}
+            <div className="login-card-header">
+              <div className="login-card-badge">
+                <Shield size={24} strokeWidth={2.2} />
               </div>
+              <h2 className="login-card-title">
+                CrisisBridge <span className="brand-accent-ai">AI</span>
+              </h2>
+              <p className="login-card-subtitle">
+                Sign in to access disaster warnings and emergency response systems
+              </p>
             </div>
 
-            <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-              <label className="form-label" htmlFor="login-password">
-                Password <span className="required-star">*</span>
-              </label>
-              <div style={{ position: 'relative' }}>
-                <Lock
-                  size={18}
-                  style={{
-                    position: 'absolute',
-                    left: '14px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: 'var(--text-muted)',
-                    pointerEvents: 'none',
-                    zIndex: 1
-                  }}
-                />
-                <input
-                  id="login-password"
-                  type="password"
-                  className="form-input"
-                  style={{ paddingLeft: '2.6rem' }}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete="current-password"
-                />
+            {/* Authentication Form */}
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="login-form-group">
+                <label className="login-form-label" htmlFor="login-email">
+                  Email Address <span className="required-star">*</span>
+                </label>
+                <div className="login-input-wrapper">
+                  <Mail
+                    size={18}
+                    className="login-input-icon"
+                  />
+                  <input
+                    id="login-email"
+                    type="email"
+                    className="login-form-input"
+                    placeholder="name@agency.gov or personal email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    autoComplete="email"
+                  />
+                </div>
               </div>
+
+              <div className="login-form-group login-form-group-password">
+                <label className="login-form-label" htmlFor="login-password">
+                  Password <span className="required-star">*</span>
+                </label>
+                <div className="login-input-wrapper">
+                  <Lock
+                    size={18}
+                    className="login-input-icon"
+                  />
+                  <input
+                    id="login-password"
+                    type="password"
+                    className="login-form-input"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="current-password"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="login-submit-button"
+                disabled={loading}
+              >
+                <LogIn size={18} strokeWidth={2.2} />
+                <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
+              </button>
+            </form>
+
+            {/* Soft Layered Wave Decoration at Bottom of Card */}
+            <div className="login-card-wave-bg" aria-hidden="true">
+              <svg
+                viewBox="0 0 400 95"
+                preserveAspectRatio="none"
+                className="login-card-wave-svg"
+              >
+                <path
+                  d="M0,40 C80,15 160,55 250,28 C320,12 370,35 400,25 L400,95 L0,95 Z"
+                  fill="#f5e6e0"
+                  fillOpacity="0.65"
+                />
+                <path
+                  d="M0,52 C90,35 180,62 275,44 C335,32 375,48 400,42 L400,95 L0,95 Z"
+                  fill="#fcf4f0"
+                  fillOpacity="0.9"
+                />
+              </svg>
             </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary btn-block btn-lg"
-              disabled={loading}
-            >
-              <LogIn size={18} />
-              <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
-            </button>
-          </form>
-
-          <div style={{ marginTop: '1.75rem', textAlign: 'center', fontSize: '0.88rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border-light)', paddingTop: '1.25rem' }}>
-            Don't have an account?{' '}
-            <Link to="/register" style={{ fontWeight: 600, color: 'var(--color-terracotta)', textDecoration: 'none' }}>
-              Create Account
-            </Link>
+            {/* Registration Footer */}
+            <div className="login-card-footer">
+              Don't have an account?{' '}
+              <Link to="/register" className="login-create-account-link">
+                Create Account
+              </Link>
+            </div>
           </div>
         </div>
       </div>

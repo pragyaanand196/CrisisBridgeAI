@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime
 
 # Add project root to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
 from backend.app.database import SessionLocal, engine, Base
 from backend.app.models.user import User

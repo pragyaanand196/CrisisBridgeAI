@@ -60,6 +60,7 @@ CrisisBridge AI/
 │   │   │   ├── audit_log.py
 │   │   │   ├── authority_notification.py
 │   │   │   ├── citizen_response.py
+│   │   │   ├── incident_report.py
 │   │   │   ├── notification_delivery_record.py
 │   │   │   ├── resource.py
 │   │   │   ├── response_zone.py
@@ -74,6 +75,7 @@ CrisisBridge AI/
 │   │   │   ├── assistance.py
 │   │   │   ├── auth.py
 │   │   │   ├── citizen.py
+│   │   │   ├── incidents.py
 │   │   │   ├── notifications.py
 │   │   │   ├── reports.py
 │   │   │   ├── resources.py
@@ -95,25 +97,60 @@ CrisisBridge AI/
 │   │   ├── database.py              # SQLAlchemy engine & session maker
 │   │   ├── main.py                  # FastAPI application entrypoint
 │   │   └── migrations.py            # Non-destructive additive database migrations
+│   ├── tests/                       # Automated test suites
+│   │   ├── __init__.py
+│   │   ├── test_backend.py          # Comprehensive 8-stage verification test suite
+│   │   ├── test_assistance_api_endpoints.py
+│   │   ├── test_assistance_triage_flow.py
+│   │   ├── test_change_location_workflow.py
+│   │   ├── test_citizen_location_picker_flow.py
+│   │   ├── test_complete_warning_workflow.py
+│   │   ├── test_live_e2e.py
+│   │   ├── test_location_targeting.py
+│   │   ├── test_multilingual_warning_flow.py
+│   │   ├── test_rag_pipeline_flow.py
+│   │   ├── test_resource_capacity_flow.py
+│   │   ├── test_session_isolation.py
+│   │   ├── test_understanding_column.py
+│   │   ├── test_warning_cleanup_verification.py
+│   │   ├── test_warning_response_flow.py
+│   │   └── verify_post_purge.py
+│   ├── scripts/                     # Operational & administrative maintenance scripts
+│   │   ├── __init__.py
+│   │   ├── cleanup_operational_warnings.py
+│   │   ├── execute_permanent_purge.py
+│   │   └── safe_clear_warnings.py
 │   ├── requirements.txt             # Backend Python dependencies
 │   ├── run.py                       # Backend development server runner
-│   └── test_backend.py              # In-memory automated verification test suite
+│   ├── test_backend.py              # Backward-compatible test runner proxy
+│   ├── cleanup_operational_warnings.py # Backward-compatible maintenance proxy
+│   └── safe_clear_warnings.py       # Backward-compatible maintenance proxy
 ├── frontend/
 │   ├── public/                      # Static assets, disaster imagery, icons
+│   │   ├── disaster-rescue-bg.png
+│   │   ├── flood-rescue-convoy.png
+│   │   ├── flood-rescue-convoy.jpg
+│   │   ├── hero-disaster.jpg
+│   │   ├── community-safety.jpg
+│   │   ├── favicon.svg
+│   │   └── icons.svg
 │   ├── src/
-│   │   ├── assets/                  # Frontend image assets & SVG icons
+│   │   ├── assets/                  # Frontend image assets & illustrations
 │   │   ├── components/
 │   │   │   ├── authority/           # Authority consoles (Triage table, Approval modal, etc.)
 │   │   │   ├── citizen/             # Citizen portals (Active warning cards, Audio reader, etc.)
 │   │   │   ├── common/              # Shared UI components (Navbar, Sidebar, Modals, Badges)
+│   │   │   ├── incident/            # Incident reporting and tracking components
 │   │   │   └── map/                 # Leaflet disaster maps and response zone overlays
 │   │   ├── context/                 # React Contexts (Auth, WebSocket, Notification, Sidebar)
 │   │   ├── pages/                   # Application route views (Dashboards, Details, Portals)
-│   │   ├── services/                # Axios/Fetch API client wrappers
-│   │   ├── styles/                  # CSS design system (components.css, pages.css, theme.css)
+│   │   ├── services/                # API client wrappers (api.js, citizenIncidentService.js)
+│   │   ├── styles/                  # CSS design system (components.css, pages.css, theme.css, index.css)
 │   │   ├── App.jsx                  # Main router and view coordinator
+│   │   ├── index.css                # Style import bundle
 │   │   └── main.jsx                 # React root mount
 │   ├── package.json                 # Frontend dependencies and build scripts
+│   ├── README.md                    # Frontend-specific documentation
 │   └── vite.config.js               # Vite bundler configuration
 ├── .env.example                     # Environment template with placeholders
 ├── .gitignore                       # Git exclusion rules (protects data, node_modules, keys)
@@ -154,7 +191,7 @@ Copy-Item .env.example .env
 
 Open `.env` and configure your settings:
 - `JWT_SECRET_KEY`: Set a secure random string (e.g. run `openssl rand -hex 32` or `python -c "import secrets; print(secrets.token_hex(32))"`).
-- `DATABASE_URL`: Defaults to `sqlite:///./crisisbridge.db`. For production PostgreSQL, set `postgresql://<user>:<password>@<host>:5432/<dbname>`.
+- `DATABASE_URL`: Defaults to `sqlite:///./backend/crisisbridge.db`. For production PostgreSQL, set `postgresql://<user>:<password>@<host>:5432/<dbname>`.
 - `OPENAI_API_KEY` / `GEMINI_API_KEY`: *(Optional)* Add your API key for live LLM simplification, or leave empty to use the built-in deterministic fallback engine.
 
 ### 3. Install Backend Dependencies
@@ -222,9 +259,11 @@ npm run dev
 ## 🧪 Verification & Test Suite
 
 ### Running Backend Verification Tests
-The backend test suite runs against an **isolated in-memory SQLite database** (`sqlite:///:memory:`), ensuring your production and development database records are never modified:
+The backend test suite runs against an **isolated in-memory SQLite database** (`sqlite:///:memory:`), ensuring your development and live database records are never modified:
 ```bash
 python backend/test_backend.py
+# or directly:
+python backend/tests/test_backend.py
 ```
 This tests:
 1. User registration, password hashing (bcrypt), and RBAC JWT issuance.

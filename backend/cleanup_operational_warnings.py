@@ -1,25 +1,16 @@
-import sys
+"""
+CrisisBridge AI - Cleanup Operational Warnings (Backwards-compatibility proxy)
+Executes backend/scripts/cleanup_operational_warnings.py
+"""
 import os
-import asyncio
+import sys
+import runpy
 
-# Add root directory to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
 
-from backend.app.database import SessionLocal
-from backend.app.services.maintenance_service import clear_all_operational_warnings
-
-
-def cleanup_operational_warnings():
-    """
-    Safely deletes operational warning data and dependent records.
-    GUARANTEE: Preserves 100% of User accounts, roles, credentials, settings, and AuditLogs.
-    """
-    db = SessionLocal()
-    try:
-        asyncio.run(clear_all_operational_warnings(db=db, create_backup=True))
-    finally:
-        db.close()
-
+TARGET_SCRIPT = os.path.join(os.path.dirname(__file__), "scripts", "cleanup_operational_warnings.py")
 
 if __name__ == "__main__":
-    cleanup_operational_warnings()
+    runpy.run_path(TARGET_SCRIPT, run_name="__main__")
