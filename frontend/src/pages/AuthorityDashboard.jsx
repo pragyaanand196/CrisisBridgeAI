@@ -13,7 +13,6 @@ import { BackButton } from '../components/common/BackButton';
 import { EmptyState } from '../components/common/EmptyState';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { Badge } from '../components/common/Badge';
-import { NotificationDropdown } from '../components/common/NotificationDropdown';
 import {
   Shield,
   PlusCircle,
@@ -27,13 +26,11 @@ import {
   RefreshCw,
   Sparkles,
   Send,
-  Eye,
-  User,
-  LogOut
+  Eye
 } from 'lucide-react';
 
 export function AuthorityDashboard() {
-  const { user, logout, isAuthority } = useAuth();
+  const { user, isAuthority } = useAuth();
   const { addToast } = useNotification();
   const { subscribe } = useWebSocket();
   const navigate = useNavigate();
@@ -232,31 +229,6 @@ export function AuthorityDashboard() {
         <div className="authority-hero-content">
           <div className="authority-top-actions-bar">
             <BackButton fallbackPath="/" label="Back to Home" />
-
-            <div className="hero-actions-right">
-              <NotificationDropdown />
-
-              {user && (
-                <span className="hero-user-pill" title={`${user.full_name} (${user.role})`}>
-                  <User size={15} aria-hidden="true" />
-                  <span className="hero-user-name"><strong>{user.full_name}</strong></span>
-                  <span className="hero-user-role">[{user.role?.toUpperCase()}]</span>
-                </span>
-              )}
-
-              <button
-                type="button"
-                className="btn-hero-logout"
-                onClick={() => {
-                  logout();
-                  navigate('/login', { replace: true });
-                }}
-                aria-label="Logout of account"
-              >
-                <LogOut size={14} aria-hidden="true" />
-                <span>Logout</span>
-              </button>
-            </div>
           </div>
 
           <div className="authority-header-main">

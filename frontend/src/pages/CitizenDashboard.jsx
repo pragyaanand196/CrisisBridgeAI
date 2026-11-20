@@ -21,13 +21,11 @@ import {
   CheckCircle2,
   Truck,
   Clock,
-  Radio,
-  User,
-  LogOut
+  Radio
 } from 'lucide-react';
 
 export function CitizenDashboard() {
-  const { user, refreshUser, logout } = useAuth();
+  const { user, refreshUser } = useAuth();
   const { addToast } = useNotification();
   const { subscribe } = useWebSocket();
   const location = useLocation();
@@ -101,11 +99,6 @@ export function CitizenDashboard() {
       unsubStatus();
     };
   }, [loadCitizenData, subscribe, addToast, user]);
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login', { replace: true });
-  };
 
   const handleCitizenResponse = async (payload) => {
     try {
@@ -228,29 +221,9 @@ export function CitizenDashboard() {
         <div className="citizen-hero-overlay" />
 
         <div className="citizen-hero-content">
-          {/* Top actions bar: Back button left, user info + logout right */}
+          {/* Top actions bar: Back button left */}
           <div className="citizen-top-actions-bar">
             <BackButton fallbackPath="/" label="Back to Home" />
-
-            <div className="citizen-hero-actions-right">
-              {user && (
-                <span className="citizen-hero-user-pill" title={`${user.full_name} (${user.role})`}>
-                  <User size={15} aria-hidden="true" />
-                  <span className="citizen-hero-user-name"><strong>{user.full_name}</strong></span>
-                  <span className="citizen-hero-user-role">[{user.role?.toUpperCase() || 'CITIZEN'}]</span>
-                </span>
-              )}
-
-              <button
-                type="button"
-                className="btn-citizen-hero-logout"
-                onClick={handleLogout}
-                aria-label="Logout of citizen account"
-              >
-                <LogOut size={14} aria-hidden="true" />
-                <span>Logout</span>
-              </button>
-            </div>
           </div>
 
           {/* Heading and subtitle */}

@@ -181,7 +181,7 @@ export function NotificationDropdown() {
   };
 
   return (
-    <div className="notification-bell-container" ref={containerRef} style={{ position: 'relative' }}>
+    <div className="notification-bell-container" ref={containerRef} style={{ position: 'relative', overflow: 'visible' }}>
       {/* Bell Icon Button */}
       <button
         type="button"
@@ -193,6 +193,7 @@ export function NotificationDropdown() {
         title={unreadCount > 0 ? `${unreadCount} unread emergency assistance request(s)` : 'Emergency Notifications'}
         style={{
           position: 'relative',
+          overflow: 'visible',
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',

@@ -57,9 +57,8 @@ function AuthenticatedLayoutInner({ children }) {
         <TopHeader
           onOpenSidebar={() => setSidebarOpen(true)}
           isSidebarOpen={sidebarOpen}
-          dashboardMobileOnly={isDashboard}
         />
-        <main className={`main-content${isCitizenDashboard ? ' main-content--citizen' : ''}`}>
+        <main className={`main-content${isDashboard ? ' main-content--dashboard' : ''}${isCitizenDashboard ? ' main-content--citizen' : ''}`}>
           {children}
         </main>
         <Footer />
