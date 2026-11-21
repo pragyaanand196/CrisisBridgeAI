@@ -141,25 +141,35 @@ export function VerificationPortal() {
 
   return (
     <div className="verification-portal">
-      <BackButton fallbackPath="/" label="Back to Home" />
+      {/* Top Back Navigation */}
+      <div className="authority-page-back-nav">
+        <BackButton fallbackPath="/" label="Back to Home" />
+      </div>
 
-      {/* Header */}
-      <div className="page-header-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-        <div>
-          <h1 className="page-title">Fact-Checking & Rumor Verification</h1>
-          <p className="page-subtitle">
-            Verify unconfirmed rumors, check official updates, and prevent disaster misinformation
-          </p>
+      {/* Header with Terracotta Accent Bar matching Create Warning page */}
+      <div className="authority-page-header-section">
+        <div className="authority-page-header-inner">
+          <div className="authority-page-accent-bar" aria-hidden="true" />
+          <div className="authority-page-title-block">
+            <h1 className="authority-page-heading">
+              Fact-Checking & Rumor Verification
+            </h1>
+            <p className="authority-page-description">
+              Verify unconfirmed rumors, check official updates, and prevent disaster misinformation
+            </p>
+          </div>
         </div>
 
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => setIsSubmitModalOpen(true)}
-        >
-          <PlusCircle size={16} />
-          <span>Report a Rumor</span>
-        </button>
+        <div className="authority-page-action">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => setIsSubmitModalOpen(true)}
+          >
+            <PlusCircle size={16} />
+            <span>Report a Rumor</span>
+          </button>
+        </div>
       </div>
 
       {/* Reports Feed */}

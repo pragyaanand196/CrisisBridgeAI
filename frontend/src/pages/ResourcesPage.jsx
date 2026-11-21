@@ -226,27 +226,37 @@ export function ResourcesPage() {
 
   return (
     <div className="resources-page">
-      <BackButton fallbackPath="/" label="Back to Home" />
+      {/* Top Back Navigation */}
+      <div className="authority-page-back-nav">
+        <BackButton fallbackPath="/" label="Back to Home" />
+      </div>
 
-      {/* Header */}
-      <div className="page-header-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-        <div>
-          <h1 className="page-title">Emergency Resources & Shelters</h1>
-          <p className="page-subtitle">
-            Emergency shelters, medical relief centers, and supply points mapped to disaster response zones
-          </p>
+      {/* Header with Terracotta Accent Bar matching Create Warning page */}
+      <div className="authority-page-header-section">
+        <div className="authority-page-header-inner">
+          <div className="authority-page-accent-bar" aria-hidden="true" />
+          <div className="authority-page-title-block">
+            <h1 className="authority-page-heading">
+              Emergency Resources & Shelters
+            </h1>
+            <p className="authority-page-description">
+              Emergency shelters, medical relief centers, and supply points mapped to disaster response zones
+            </p>
+          </div>
         </div>
 
         {isAuthority && (
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleOpenAddModal}
-            id="btn-add-resource-modal"
-          >
-            <PlusCircle size={16} />
-            <span>Add Resource</span>
-          </button>
+          <div className="authority-page-action">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleOpenAddModal}
+              id="btn-add-resource-modal"
+            >
+              <PlusCircle size={16} />
+              <span>Add Resource</span>
+            </button>
+          </div>
         )}
       </div>
 
