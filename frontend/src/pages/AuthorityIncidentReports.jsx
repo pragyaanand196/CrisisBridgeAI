@@ -467,57 +467,42 @@ export function AuthorityIncidentReports() {
 
   return (
     <div className="reports-page authority-incident-page">
-      <BackButton fallbackPath="/authority" label="Back to Authority Dashboard" />
+      {/* Top Back Navigation */}
+      <div className="authority-page-back-nav">
+        <BackButton fallbackPath="/authority" label="Back to Authority Dashboard" />
+      </div>
 
-      {/* Page Header (Requirement 1) */}
-      <div className="page-header-block" style={{ marginBottom: '1.75rem' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-              <h1 className="page-title" style={{ margin: 0, color: 'var(--color-espresso-dark)' }}>
-                Incident Reports Management
-              </h1>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '3px 10px',
-                  borderRadius: '12px',
-                  background: 'rgba(139, 58, 43, 0.10)',
-                  border: '1px solid rgba(139, 58, 43, 0.25)',
-                  color: 'var(--color-terracotta)',
-                  fontSize: '0.78rem',
-                  fontWeight: 700
-                }}
-              >
-                <Shield size={13} />
-                <span>Authority Command</span>
-              </span>
-            </div>
-            <p className="page-subtitle" style={{ maxWidth: '820px', margin: 0 }}>
+      {/* Page Header – shared accent-bar style */}
+      <div className="authority-page-header-section" style={{ marginBottom: '1.75rem' }}>
+        <div className="authority-page-header-inner">
+          <div className="authority-page-accent-bar" aria-hidden="true" />
+          <div className="authority-page-title-block">
+            <h1 className="authority-page-heading">
+              Incident Reports Management
+            </h1>
+            <p className="authority-page-description">
               Review citizen-reported incidents, verify information, coordinate response teams and monitor resolution.
             </p>
           </div>
+        </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={() => loadData(true)}
-              disabled={refreshing}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '8px 14px',
-                fontSize: '0.86rem'
-              }}
-            >
-              <RotateCcw size={14} className={refreshing ? 'spin' : ''} />
-              <span>{refreshing ? 'Syncing...' : 'Refresh'}</span>
-            </button>
-          </div>
+        <div className="authority-page-action">
+          <button
+            type="button"
+            className="btn btn-outline"
+            onClick={() => loadData(true)}
+            disabled={refreshing}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 14px',
+              fontSize: '0.86rem'
+            }}
+          >
+            <RotateCcw size={14} className={refreshing ? 'spin' : ''} />
+            <span>{refreshing ? 'Syncing...' : 'Refresh'}</span>
+          </button>
         </div>
       </div>
 
