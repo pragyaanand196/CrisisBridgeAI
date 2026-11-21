@@ -988,6 +988,34 @@ body.is-resizing-sidebar * {
   flex-shrink: 0;
 }
 
+/* --------------------------------------------------------------------------
+   Top-header context: enforce a solid white background so the bell is always
+   visible regardless of the page content (dark hero banners, images, etc.)
+   that scroll behind the fixed transparent header.
+   -------------------------------------------------------------------------- */
+.top-header .btn-notification-bell,
+.navbar .btn-notification-bell {
+  background: #ffffff !important;
+  border: 1px solid #e2d8cb !important;
+  color: var(--color-terracotta, #8b3a2b) !important;
+  box-shadow: 0 1px 4px rgba(44, 26, 20, 0.12) !important;
+}
+
+.top-header .btn-notification-bell:hover,
+.navbar .btn-notification-bell:hover {
+  background: #fff5f0 !important;
+  border-color: var(--color-terracotta, #8b3a2b) !important;
+  color: var(--color-terracotta, #8b3a2b) !important;
+  box-shadow: 0 2px 8px rgba(139, 58, 43, 0.18) !important;
+}
+
+.top-header .btn-notification-bell.active,
+.navbar .btn-notification-bell.active {
+  background: rgba(139, 58, 43, 0.12) !important;
+  border-color: var(--color-terracotta, #8b3a2b) !important;
+  color: var(--color-terracotta, #8b3a2b) !important;
+}
+
 /* Hover: slightly stronger terracotta tint, border darkens */
 .btn-notification-bell:hover {
   background: rgba(139, 58, 43, 0.14) !important;
