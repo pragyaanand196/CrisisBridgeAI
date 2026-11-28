@@ -2388,6 +2388,11 @@ body.modal-open {
   animation: modalScale 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Incident Modal proportion override: 960px width for detailed multi-section incident reports */
+.incident-modal-dialog {
+  max-width: 960px;
+}
+
 /* ── Fixed Header ── */
 .facility-modal-header {
   flex-shrink: 0;
@@ -2542,7 +2547,9 @@ body.modal-open {
 }
 
 .facility-modal-body .form-input,
-.facility-modal-body .form-select {
+.facility-modal-body .form-select,
+.incident-modal-body .form-input,
+.incident-modal-body .form-select {
   height: 42px;
   border-radius: 8px;
   border: 1px solid var(--border-medium, #e0d5c7);
@@ -2556,14 +2563,58 @@ body.modal-open {
 }
 
 .facility-modal-body .form-input:focus,
-.facility-modal-body .form-select:focus {
+.facility-modal-body .form-select:focus,
+.incident-modal-body .form-input:focus,
+.incident-modal-body .form-select:focus {
   outline: none;
   border-color: var(--color-terracotta, #8b3a2b);
   box-shadow: 0 0 0 3px rgba(139, 58, 43, 0.14);
 }
 
-.facility-modal-body .form-input::placeholder {
+.facility-modal-body .form-input::placeholder,
+.incident-modal-body .form-input::placeholder {
   color: #a3958c;
+}
+
+.facility-modal-body .form-textarea,
+.incident-modal-body .form-textarea {
+  border-radius: 8px;
+  border: 1px solid var(--border-medium, #e0d5c7);
+  background: #ffffff;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.88rem;
+  color: var(--text-main, #2c1a14);
+  transition: all var(--transition-fast, 0.15s ease);
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: 1.45;
+}
+
+.facility-modal-body .form-textarea:focus,
+.incident-modal-body .form-textarea:focus {
+  outline: none;
+  border-color: var(--color-terracotta, #8b3a2b);
+  box-shadow: 0 0 0 3px rgba(139, 58, 43, 0.14);
+}
+
+.facility-modal-body .form-textarea::placeholder,
+.incident-modal-body .form-textarea::placeholder {
+  color: #a3958c;
+}
+
+.facility-modal-body .input-error,
+.incident-modal-body .input-error {
+  border-color: var(--status-extreme, #b91c1c) !important;
+  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.15) !important;
+}
+
+.facility-modal-body .field-error-text,
+.incident-modal-body .field-error-text {
+  color: var(--status-extreme, #b91c1c);
+  font-size: 0.78rem;
+  display: block;
+  margin-top: 4px;
 }
 
 /* ── Response Zone Helper & Status Box ── */
@@ -2594,8 +2645,9 @@ body.modal-open {
     padding: 0.75rem;
   }
 
-  .facility-modal-dialog {
-    max-width: 100%;
+  .facility-modal-dialog,
+  .incident-modal-dialog {
+    max-width: 100% !important;
     max-height: calc(100vh - 20px);
     max-height: calc(100dvh - 20px);
   }
@@ -2604,8 +2656,9 @@ body.modal-open {
     padding: 1rem 1.25rem;
   }
 
-  .facility-modal-body {
-    padding: 1.15rem 1.25rem 1.75rem;
+  .facility-modal-body,
+  .incident-modal-body {
+    padding: 1.15rem 1.25rem 2rem;
   }
 
   .facility-modal-actions {
@@ -2614,8 +2667,10 @@ body.modal-open {
 }
 
 @media (max-width: 640px) {
-  .facility-modal-grid-2 {
-    grid-template-columns: 1fr;
+  .facility-modal-grid-2,
+  .facility-form-grid-2,
+  .facility-form-grid-3 {
+    grid-template-columns: 1fr !important;
     gap: 0.75rem;
   }
 
@@ -2630,7 +2685,8 @@ body.modal-open {
 }
 
 @media (max-height: 600px) {
-  .facility-modal-dialog {
+  .facility-modal-dialog,
+  .incident-modal-dialog {
     max-height: calc(100vh - 16px);
     max-height: calc(100dvh - 16px);
   }
@@ -2639,8 +2695,9 @@ body.modal-open {
     padding: 0.75rem 1.25rem;
   }
 
-  .facility-modal-body {
-    padding: 0.85rem 1.25rem 1.25rem;
+  .facility-modal-body,
+  .incident-modal-body {
+    padding: 0.85rem 1.25rem 1.5rem;
   }
 
   .facility-form-section {

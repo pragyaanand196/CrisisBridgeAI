@@ -952,43 +952,66 @@ export function WarningCreator({ onWarningCreated, onCancel }) {
             )}
           </div>
 
-          {/* Targeting Population Preview Box */}
-          {previewData && (
+          {/* Targeted Population Section */}
+          {(previewData || (targetAreas.length > 0 && previewLoading)) && (
             <div
               style={{
-                background: previewData.is_empty ? 'var(--status-moderate-bg, #fef3c7)' : 'var(--status-stable-bg, #dcfce7)',
-                border: `1px solid ${previewData.is_empty ? 'var(--status-moderate-border, #fcd34d)' : 'var(--status-stable-border, #86efac)'}`,
+                background: 'var(--bg-surface-subtle, #fdfbf7)',
+                border: '1px solid var(--border-medium, #e0d5c7)',
                 borderRadius: '8px',
-                padding: '1rem',
-                marginTop: '1rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '10px'
+                padding: '1.25rem',
+                marginTop: '1.25rem'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Users size={24} color={previewData.is_empty ? 'var(--status-moderate, #b45309)' : 'var(--status-stable, #15803d)'} />
-                <div>
-                  <strong style={{ fontSize: '0.95rem', color: previewData.is_empty ? '#92400e' : '#14532d', display: 'block' }}>
-                    Targeted Population: {previewData.summary_message}
-                  </strong>
-                  <span style={{ fontSize: '0.82rem', color: previewData.is_empty ? '#78350f' : '#166534', fontWeight: 500 }}>
-                    {previewData.is_empty
-                      ? 'No registered citizens match this target area.'
-                      : 'These registered citizens will receive this warning upon approval.'}
-                  </span>
-                </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.85rem' }}>
+                <Users size={18} color="var(--color-terracotta, #8b3a2b)" />
+                <span style={{ fontSize: '0.96rem', fontWeight: 700, color: 'var(--color-espresso-dark, #22120c)' }}>
+                  Targeted Population
+                </span>
               </div>
 
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                {previewData.breakdown_by_area?.map((b, bi) => (
-                  <span key={bi} className="badge badge-standard" style={{ fontSize: '0.75rem' }}>
-                    {b.target_name}: {b.citizens_count} citizen{b.citizens_count !== 1 ? 's' : ''}
-                  </span>
-                ))}
-              </div>
+              {previewLoading && !previewData ? (
+                <div style={{ padding: '1rem', textAlign: 'center', color: 'var(--text-muted, #7c6f64)', fontSize: '0.88rem' }}>
+                  Calculating targeted population...
+                </div>
+              ) : (
+                <div style={{ overflowX: 'auto', borderRadius: '6px', border: '1px solid var(--border-medium, #e0d5c7)' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                    <thead>
+                      <tr style={{ background: 'var(--color-terracotta, #8b3a2b)', color: '#ffffff' }}>
+                        <th style={{ padding: '10px 16px', fontWeight: 700, letterSpacing: '0.01em' }}>Target Area</th>
+                        <th style={{ padding: '10px 16px', fontWeight: 700, width: '220px', letterSpacing: '0.01em' }}>Number of Citizens</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {previewData?.breakdown_by_area && previewData.breakdown_by_area.length > 0 ? (
+                        previewData.breakdown_by_area.map((b, bi) => (
+                          <tr
+                            key={bi}
+                            style={{
+                              background: bi % 2 === 0 ? '#ffffff' : '#fffdfa',
+                              borderTop: '1px solid var(--border-light, #ede4d8)'
+                            }}
+                          >
+                            <td style={{ padding: '10px 16px', color: 'var(--color-espresso-dark, #22120c)', fontWeight: 500 }}>
+                              {b.target_name}
+                            </td>
+                            <td style={{ padding: '10px 16px', color: 'var(--color-espresso-dark, #22120c)' }}>
+                              {b.citizens_count} {b.citizens_count === 1 ? 'Citizen' : 'Citizens'}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr style={{ background: '#ffffff', borderTop: '1px solid var(--border-light, #ede4d8)' }}>
+                          <td colSpan={2} style={{ padding: '14px 16px', color: 'var(--text-muted, #7c6f64)', textAlign: 'center' }}>
+                            No registered citizens identified in selected target area(s).
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
 

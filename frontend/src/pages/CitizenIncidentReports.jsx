@@ -1038,86 +1038,124 @@ export function CitizenIncidentReports() {
       </div>
 
       {/* =========================================================================
-          CREATE INCIDENT REPORT MODAL (Requirement 2 & 3)
+          CREATE INCIDENT REPORT MODAL (Redesigned matching Add Facility modal)
           ========================================================================= */}
       <Modal
         isOpen={isCreateModalOpen}
         onClose={handleCloseCreateModal}
         title="Report a New Incident"
-        size="lg"
-        contentClassName="citizen-incident-create-modal"
+        overlayClassName="facility-modal-overlay"
+        contentClassName="facility-modal-dialog incident-modal-dialog"
+        headerClassName="facility-modal-header"
+        bodyClassName="facility-modal-body incident-modal-body"
+        actionsClassName="facility-modal-actions"
+        actions={
+          <>
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={handleCloseCreateModal}
+              disabled={isSubmitting}
+              id="btn-cancel-incident-modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              form="create-incident-report-form"
+              id="btn-submit-incident-report"
+              className="btn btn-primary"
+              disabled={isSubmitting}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontWeight: 700,
+                minWidth: '180px',
+                justifyContent: 'center'
+              }}
+            >
+              {isSubmitting ? (
+                <>
+                  <LoadingSpinner size="sm" inline />
+                  <span>Submitting report...</span>
+                </>
+              ) : (
+                <>
+                  <Send size={16} />
+                  <span>Submit Incident Report</span>
+                </>
+              )}
+            </button>
+          </>
+        }
       >
-        <form className="citizen-incident-create-form" onSubmit={handleSubmitReport} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <form
+          id="create-incident-report-form"
+          className="citizen-incident-create-form"
+          onSubmit={handleSubmitReport}
+          style={{ display: 'flex', flexDirection: 'column', gap: 0 }}
+        >
           {/* Top Explanatory Banner */}
           <div
             style={{
-              background: 'var(--bg-surface-subtle)',
-              border: '1px solid var(--border-medium)',
+              background: 'var(--bg-surface-subtle, #faf7f2)',
+              border: '1px solid var(--border-medium, #e0d5c7)',
               borderRadius: '8px',
               padding: '0.85rem 1rem',
               display: 'flex',
               alignItems: 'flex-start',
-              gap: '10px'
+              gap: '10px',
+              marginBottom: '1.25rem'
             }}
           >
-            <Info size={18} color="var(--color-terracotta)" style={{ flexShrink: 0, marginTop: '2px' }} />
-            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--color-warm-brown)', lineHeight: 1.45 }}>
+            <Info size={18} color="var(--color-terracotta, #8b3a2b)" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--color-warm-brown, #5c4a42)', lineHeight: 1.45 }}>
               Provide accurate observations of observed hazards, damaged infrastructure, or unsafe conditions.
-              Fields marked with an asterisk (<span className="required-star">*</span>) are mandatory.
+              Fields marked with an asterisk (<span className="req">*</span>) are mandatory.
             </p>
           </div>
 
           {/* ─────────────────────────────────────────────────────────────────
-              SECTION A: Your Details
+              SECTION A: Reporter Information
               ───────────────────────────────────────────────────────────────── */}
-          <div
-            className="citizen-incident-create-section"
-            style={{
-              background: '#ffffff',
-              border: '1px solid var(--border-medium)',
-              borderRadius: '10px',
-              padding: '1.15rem'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem' }}>
-              <Shield size={17} color="var(--color-terracotta)" />
-              <h4 style={{ margin: 0, fontSize: '0.98rem', fontWeight: 700, color: 'var(--color-espresso-dark)' }}>
-                Section A: Your Details
-              </h4>
-            </div>
+          <div className="facility-form-section">
+            <div className="facility-form-section-title">A. Reporter Information</div>
 
-            <div className="citizen-incident-profile-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
-              <div>
-                <label className="form-label" style={{ fontSize: '0.82rem', marginBottom: 2 }}>
+            <div className="facility-form-grid-2">
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label">
                   Verified Name
                 </label>
                 <div
+                  className="form-input"
                   style={{
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    background: 'var(--bg-surface-subtle)',
-                    border: '1px solid var(--border-light)',
-                    fontSize: '0.9rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    background: 'var(--bg-surface-subtle, #faf7f2)',
                     fontWeight: 700,
-                    color: 'var(--color-espresso-dark)'
+                    color: 'var(--color-espresso-dark, #22120c)',
+                    cursor: 'default',
+                    userSelect: 'none'
                   }}
                 >
                   {user?.full_name || 'Authenticated Citizen'}
                 </div>
               </div>
 
-              <div>
-                <label className="form-label" style={{ fontSize: '0.82rem', marginBottom: 2 }}>
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label">
                   Registered Email
                 </label>
                 <div
+                  className="form-input"
                   style={{
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    background: 'var(--bg-surface-subtle)',
-                    border: '1px solid var(--border-light)',
-                    fontSize: '0.88rem',
-                    color: 'var(--color-warm-brown)'
+                    display: 'flex',
+                    alignItems: 'center',
+                    background: 'var(--bg-surface-subtle, #faf7f2)',
+                    color: 'var(--color-warm-brown, #5c4a42)',
+                    cursor: 'default',
+                    userSelect: 'none'
                   }}
                 >
                   {user?.email || 'N/A'}
@@ -1125,34 +1163,23 @@ export function CitizenIncidentReports() {
               </div>
             </div>
 
-            <p style={{ margin: '8px 0 0 0', fontSize: '0.76rem', color: 'var(--text-muted)' }}>
-              🔒 Privacy Protected: Your name and contact details are authenticated via CrisisBridge AI and never shown on public incident boards.
-            </p>
+            <div style={{ marginTop: '0.5rem' }}>
+              <p style={{ margin: 0, fontSize: '0.76rem', color: 'var(--text-muted, #6e5c53)', lineHeight: 1.4 }}>
+                🔒 Privacy Protected: Your name and contact details are authenticated via CrisisBridge AI and never shown on public incident boards.
+              </p>
+            </div>
           </div>
 
           {/* ─────────────────────────────────────────────────────────────────
               SECTION B: Incident Details
               ───────────────────────────────────────────────────────────────── */}
-          <div
-            className="citizen-incident-create-section"
-            style={{
-              background: '#ffffff',
-              border: '1px solid var(--border-medium)',
-              borderRadius: '10px',
-              padding: '1.15rem'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
-              <AlertTriangle size={17} color="var(--color-terracotta)" />
-              <h4 style={{ margin: 0, fontSize: '0.98rem', fontWeight: 700, color: 'var(--color-espresso-dark)' }}>
-                Section B: Incident Details
-              </h4>
-            </div>
+          <div className="facility-form-section">
+            <div className="facility-form-section-title">B. Incident Details</div>
 
-            {/* Incident Title */}
-            <div className="form-group" style={{ marginBottom: '1rem' }}>
-              <label className="form-label" htmlFor="input-incident-title">
-                Incident Title <span className="required-star">*</span>
+            {/* Incident Title (Full Width) */}
+            <div className="facility-form-group">
+              <label className="facility-form-label" htmlFor="input-incident-title">
+                Incident Title <span className="req">*</span>
               </label>
               <input
                 id="input-incident-title"
@@ -1166,16 +1193,16 @@ export function CitizenIncidentReports() {
                 }}
               />
               {formErrors.title && (
-                <span className="field-error-text" style={{ color: 'var(--status-extreme)', fontSize: '0.78rem', display: 'block', marginTop: 3 }}>
+                <span className="field-error-text">
                   {formErrors.title}
                 </span>
               )}
             </div>
 
             {/* Category Dropdown (12 Exact Categories) */}
-            <div className="form-group" style={{ marginBottom: '1rem' }}>
-              <label className="form-label" htmlFor="select-incident-category">
-                What type of incident is this? <span className="required-star">*</span>
+            <div className="facility-form-group">
+              <label className="facility-form-label" htmlFor="select-incident-category">
+                What type of incident is this? <span className="req">*</span>
               </label>
               <select
                 id="select-incident-category"
@@ -1191,40 +1218,16 @@ export function CitizenIncidentReports() {
                 ))}
               </select>
               {formErrors.category && (
-                <span className="field-error-text" style={{ color: 'var(--status-extreme)', fontSize: '0.78rem', display: 'block', marginTop: 3 }}>
+                <span className="field-error-text">
                   {formErrors.category}
                 </span>
               )}
             </div>
 
-            {/* Incident Description */}
-            <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-              <label className="form-label" htmlFor="textarea-incident-description">
-                Describe What you saw <span className="required-star">*</span>
-              </label>
-              <textarea
-                id="textarea-incident-description"
-                rows={4}
-                className={`form-textarea${formErrors.description ? ' input-error' : ''}`}
-                placeholder="Describe what happened, what you observed, the affected area and any immediate danger to people."
-                value={formData.description}
-                onChange={(e) => {
-                  setFormData({ ...formData, description: e.target.value });
-                  if (formErrors.description) setFormErrors({ ...formErrors, description: null });
-                }}
-                style={{ width: '100%', resize: 'vertical' }}
-              />
-              {formErrors.description && (
-                <span className="field-error-text" style={{ color: 'var(--status-extreme)', fontSize: '0.78rem', display: 'block', marginTop: 3 }}>
-                  {formErrors.description}
-                </span>
-              )}
-            </div>
-
             {/* Citizen-Reported Severity Selection */}
-            <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-              <label className="form-label" style={{ marginBottom: 4 }}>
-                Observed Severity Level <span className="required-star">*</span>
+            <div className="facility-form-group">
+              <label className="facility-form-label">
+                Observed Severity Level <span className="req">*</span>
               </label>
 
               <div
@@ -1243,7 +1246,7 @@ export function CitizenIncidentReports() {
                       style={{
                         padding: '10px 12px',
                         borderRadius: '8px',
-                        border: isSelected ? `2px solid ${sev.color}` : '1px solid var(--border-medium)',
+                        border: isSelected ? `2px solid ${sev.color}` : '1px solid var(--border-medium, #e0d5c7)',
                         background: isSelected ? sev.bg : '#ffffff',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
@@ -1256,7 +1259,7 @@ export function CitizenIncidentReports() {
                       <strong style={{ display: 'block', color: sev.color, fontSize: '0.92rem' }}>
                         {sev.label}
                       </strong>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--color-warm-brown)', display: 'block', marginTop: 3 }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-warm-brown, #5c4a42)', display: 'block', marginTop: 3 }}>
                         {sev.id === 'Low' && 'Minor hazard'}
                         {sev.id === 'Moderate' && 'Disruptive'}
                         {sev.id === 'High' && 'Significant risk'}
@@ -1267,156 +1270,47 @@ export function CitizenIncidentReports() {
                 })}
               </div>
               {formErrors.severity && (
-                <span className="field-error-text" style={{ color: 'var(--status-extreme)', fontSize: '0.78rem', display: 'block', marginTop: 3 }}>
+                <span className="field-error-text">
                   {formErrors.severity}
                 </span>
               )}
             </div>
 
-            {/* Date & Time of Occurrence */}
-            <div className="citizen-incident-date-time-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-              <div className="form-group">
-                <label className="form-label" htmlFor="input-incident-date">
-                  When did it happen? <span className="required-star">*</span>
-                </label>
-                <input
-                  id="input-incident-date"
-                  type="date"
-                  max={new Date().toISOString().split('T')[0]}
-                  className={`form-input${formErrors.incident_date ? ' input-error' : ''}`}
-                  value={formData.incident_date}
-                  onChange={(e) => {
-                    setFormData({ ...formData, incident_date: e.target.value });
-                    if (formErrors.incident_date) setFormErrors({ ...formErrors, incident_date: null });
-                  }}
-                />
-                {formErrors.incident_date && (
-                  <span className="field-error-text" style={{ color: 'var(--status-extreme)', fontSize: '0.78rem', display: 'block', marginTop: 3 }}>
-                    {formErrors.incident_date}
-                  </span>
-                )}
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="input-incident-time">
-                  Approximate Time
-                </label>
-                <input
-                  id="input-incident-time"
-                  type="time"
-                  className="form-input"
-                  value={formData.incident_time}
-                  onChange={(e) => setFormData({ ...formData, incident_time: e.target.value })}
-                />
-              </div>
-            </div>
-
-            {/* Still occurring & People at risk */}
-            <div className="citizen-incident-status-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-              <div className="form-group">
-                <label className="form-label">
-                  Is it happening now? <span className="required-star">*</span>
-                </label>
-                <div style={{ display: 'flex', gap: '10px', marginTop: 4 }}>
-                  {['Yes', 'No', 'Not Sure'].map((opt) => (
-                    <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.86rem', cursor: 'pointer' }}>
-                      <input
-                        type="radio"
-                        name="is_still_occurring"
-                        value={opt}
-                        checked={formData.is_still_occurring === opt}
-                        onChange={() => setFormData({ ...formData, is_still_occurring: opt })}
-                      />
-                      <span>{opt}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">
-                  Are people currently affected or at risk? <span className="required-star">*</span>
-                </label>
-                <div style={{ display: 'flex', gap: '10px', marginTop: 4 }}>
-                  {['Yes', 'No', 'Not Sure'].map((opt) => (
-                    <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.86rem', cursor: 'pointer' }}>
-                      <input
-                        type="radio"
-                        name="are_people_at_risk"
-                        value={opt}
-                        checked={formData.are_people_at_risk === opt}
-                        onChange={() => setFormData({ ...formData, are_people_at_risk: opt })}
-                      />
-                      <span>{opt}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* People affected count & Additional observations */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '0.5rem' }}>
-              <div className="form-group">
-                <label className="form-label" htmlFor="input-people-affected">
-                  Approximate number of people affected (optional)
-                </label>
-                <input
-                  id="input-people-affected"
-                  type="number"
-                  min="0"
-                  step="1"
-                  placeholder="e.g., 5"
-                  className={`form-input${formErrors.people_affected_count ? ' input-error' : ''}`}
-                  value={formData.people_affected_count}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    if (val === '' || Number(val) >= 0) {
-                      setFormData({ ...formData, people_affected_count: val });
-                      if (formErrors.people_affected_count) setFormErrors({ ...formErrors, people_affected_count: null });
-                    }
-                  }}
-                />
-                {formErrors.people_affected_count && (
-                  <span className="field-error-text" style={{ color: 'var(--status-extreme)', fontSize: '0.78rem', display: 'block', marginTop: 3 }}>
-                    {formErrors.people_affected_count}
-                  </span>
-                )}
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="textarea-additional-observations">
-                  Additional Observations (optional)
-                </label>
-                <input
-                  id="textarea-additional-observations"
-                  type="text"
-                  placeholder="e.g., Water rising rapidly, smells like gas"
-                  className="form-input"
-                  value={formData.additional_observations}
-                  onChange={(e) => setFormData({ ...formData, additional_observations: e.target.value })}
-                />
-              </div>
+            {/* Incident Description */}
+            <div className="facility-form-group no-mb">
+              <label className="facility-form-label" htmlFor="textarea-incident-description">
+                Describe What you saw <span className="req">*</span>
+              </label>
+              <textarea
+                id="textarea-incident-description"
+                rows={4}
+                className={`form-textarea${formErrors.description ? ' input-error' : ''}`}
+                placeholder="Describe what happened, what you observed, the affected area and any immediate danger to people."
+                value={formData.description}
+                onChange={(e) => {
+                  setFormData({ ...formData, description: e.target.value });
+                  if (formErrors.description) setFormErrors({ ...formErrors, description: null });
+                }}
+                style={{ width: '100%', resize: 'vertical' }}
+              />
+              {formErrors.description && (
+                <span className="field-error-text">
+                  {formErrors.description}
+                </span>
+              )}
             </div>
           </div>
 
           {/* ─────────────────────────────────────────────────────────────────
-              SECTION C: Incident Location (Requirement 2.C)
+              SECTION C: Incident Location
               ───────────────────────────────────────────────────────────────── */}
-          <div
-            style={{
-              background: '#ffffff',
-              border: '1px solid var(--border-medium)',
-              borderRadius: '10px',
-              padding: '1.15rem'
-            }}
-          >
+          <div className="facility-form-section">
+            <div className="facility-form-section-title">C. Incident Location</div>
+
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <MapPin size={17} color="var(--color-terracotta)" />
-                <h4 style={{ margin: 0, fontSize: '0.98rem', fontWeight: 700, color: 'var(--color-espresso-dark)' }}>
-                  Section C: Incident Location <span className="required-star">*</span>
-                </h4>
-              </div>
+              <span className="facility-form-label" style={{ margin: 0 }}>
+                Specify Hazard Location <span className="req">*</span>
+              </span>
 
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {user?.location_name && (
@@ -1442,7 +1336,7 @@ export function CitizenIncidentReports() {
 
             {/* Map & Search Mode */}
             {!formData.manual_location_mode ? (
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: '0.85rem' }}>
                 <LocationPicker
                   value={{
                     location_name: formData.location_name,
@@ -1461,10 +1355,10 @@ export function CitizenIncidentReports() {
               </div>
             ) : (
               /* Manual Input Fallback Mode */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1rem' }}>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="manual-location-name">
-                    Location Name / Address <span className="required-star">*</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '0.85rem' }}>
+                <div className="facility-form-group no-mb">
+                  <label className="facility-form-label" htmlFor="manual-location-name">
+                    Location Name / Address <span className="req">*</span>
                   </label>
                   <input
                     id="manual-location-name"
@@ -1476,9 +1370,9 @@ export function CitizenIncidentReports() {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
-                  <div className="form-group">
-                    <label className="form-label">District</label>
+                <div className="facility-form-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.85rem' }}>
+                  <div className="facility-form-group no-mb">
+                    <label className="facility-form-label">District</label>
                     <input
                       type="text"
                       className="form-input"
@@ -1487,8 +1381,8 @@ export function CitizenIncidentReports() {
                       onChange={(e) => setFormData({ ...formData, district: e.target.value })}
                     />
                   </div>
-                  <div className="form-group">
-                    <label className="form-label">State</label>
+                  <div className="facility-form-group no-mb">
+                    <label className="facility-form-label">State</label>
                     <input
                       type="text"
                       className="form-input"
@@ -1497,8 +1391,8 @@ export function CitizenIncidentReports() {
                       onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                     />
                   </div>
-                  <div className="form-group">
-                    <label className="form-label">PIN Code</label>
+                  <div className="facility-form-group no-mb">
+                    <label className="facility-form-label">PIN Code</label>
                     <input
                       type="text"
                       className="form-input"
@@ -1511,10 +1405,10 @@ export function CitizenIncidentReports() {
               </div>
             )}
 
-            {/* Separate Landmark / Directions field (Required by Requirement 2.C) */}
-            <div className="form-group" style={{ marginTop: '0.75rem' }}>
-              <label className="form-label" htmlFor="input-location-landmarks">
-                Landmarks or Directions
+            {/* Separate Landmark / Directions field */}
+            <div className="facility-form-group no-mb" style={{ marginTop: '0.5rem' }}>
+              <label className="facility-form-label" htmlFor="input-location-landmarks">
+                Landmarks or Directions <span className="hint">(optional)</span>
               </label>
               <input
                 id="input-location-landmarks"
@@ -1524,48 +1418,208 @@ export function CitizenIncidentReports() {
                 value={formData.location_description}
                 onChange={(e) => setFormData({ ...formData, location_description: e.target.value })}
               />
-              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', display: 'block', marginTop: 3 }}>
+              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted, #6e5c53)', display: 'block', marginTop: 3 }}>
                 Helps response teams easily identify the spot during severe weather or night operations.
               </span>
             </div>
 
             {formErrors.location && (
-              <span className="field-error-text" style={{ color: 'var(--status-extreme)', fontSize: '0.78rem', display: 'block', marginTop: 6 }}>
+              <span className="field-error-text" style={{ marginTop: 6 }}>
                 {formErrors.location}
               </span>
             )}
           </div>
 
           {/* ─────────────────────────────────────────────────────────────────
-              SECTION D: Supporting Evidence (Requirement 2.D)
+              SECTION D: Incident Time and Status
               ───────────────────────────────────────────────────────────────── */}
-          <div
-            style={{
-              background: '#ffffff',
-              border: '1px solid var(--border-medium)',
-              borderRadius: '10px',
-              padding: '1.15rem'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
-              <Camera size={17} color="var(--color-terracotta)" />
-              <h4 style={{ margin: 0, fontSize: '0.98rem', fontWeight: 700, color: 'var(--color-espresso-dark)' }}>
-                Section D: Supporting Evidence (Photographs)
-              </h4>
+          <div className="facility-form-section">
+            <div className="facility-form-section-title">D. Incident Time and Status</div>
+
+            {/* Date & Time of Occurrence */}
+            <div className="facility-form-grid-2">
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="input-incident-date">
+                  When did it happen? <span className="req">*</span>
+                </label>
+                <input
+                  id="input-incident-date"
+                  type="date"
+                  max={new Date().toISOString().split('T')[0]}
+                  className={`form-input${formErrors.incident_date ? ' input-error' : ''}`}
+                  value={formData.incident_date}
+                  onChange={(e) => {
+                    setFormData({ ...formData, incident_date: e.target.value });
+                    if (formErrors.incident_date) setFormErrors({ ...formErrors, incident_date: null });
+                  }}
+                />
+                {formErrors.incident_date && (
+                  <span className="field-error-text">
+                    {formErrors.incident_date}
+                  </span>
+                )}
+              </div>
+
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="input-incident-time">
+                  Approximate Time <span className="hint">(optional)</span>
+                </label>
+                <input
+                  id="input-incident-time"
+                  type="time"
+                  className="form-input"
+                  value={formData.incident_time}
+                  onChange={(e) => setFormData({ ...formData, incident_time: e.target.value })}
+                />
+              </div>
             </div>
 
-            <p style={{ margin: '0 0 0.85rem 0', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+            {/* Still occurring & People at risk */}
+            <div className="facility-form-grid-2" style={{ marginTop: '0.85rem' }}>
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label">
+                  Is it happening now? <span className="req">*</span>
+                </label>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '2px' }}>
+                  {['Yes', 'No', 'Not Sure'].map((opt) => {
+                    const isSelected = formData.is_still_occurring === opt;
+                    return (
+                      <label
+                        key={opt}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '6px 12px',
+                          borderRadius: '6px',
+                          border: isSelected ? '1px solid var(--color-terracotta, #8b3a2b)' : '1px solid var(--border-medium, #e0d5c7)',
+                          background: isSelected ? 'rgba(139, 58, 43, 0.06)' : '#ffffff',
+                          color: isSelected ? 'var(--color-terracotta, #8b3a2b)' : 'var(--color-espresso-base, #2c1a14)',
+                          fontSize: '0.84rem',
+                          fontWeight: isSelected ? 600 : 400,
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name="is_still_occurring"
+                          value={opt}
+                          checked={isSelected}
+                          onChange={() => setFormData({ ...formData, is_still_occurring: opt })}
+                          style={{ accentColor: 'var(--color-terracotta, #8b3a2b)' }}
+                        />
+                        <span>{opt}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label">
+                  Are people currently affected or at risk? <span className="req">*</span>
+                </label>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '2px' }}>
+                  {['Yes', 'No', 'Not Sure'].map((opt) => {
+                    const isSelected = formData.are_people_at_risk === opt;
+                    return (
+                      <label
+                        key={opt}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '6px 12px',
+                          borderRadius: '6px',
+                          border: isSelected ? '1px solid var(--color-terracotta, #8b3a2b)' : '1px solid var(--border-medium, #e0d5c7)',
+                          background: isSelected ? 'rgba(139, 58, 43, 0.06)' : '#ffffff',
+                          color: isSelected ? 'var(--color-terracotta, #8b3a2b)' : 'var(--color-espresso-base, #2c1a14)',
+                          fontSize: '0.84rem',
+                          fontWeight: isSelected ? 600 : 400,
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name="are_people_at_risk"
+                          value={opt}
+                          checked={isSelected}
+                          onChange={() => setFormData({ ...formData, are_people_at_risk: opt })}
+                          style={{ accentColor: 'var(--color-terracotta, #8b3a2b)' }}
+                        />
+                        <span>{opt}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* People affected count & Additional observations */}
+            <div className="facility-form-grid-2" style={{ marginTop: '0.85rem' }}>
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="input-people-affected">
+                  Approximate People Affected <span className="hint">(optional)</span>
+                </label>
+                <input
+                  id="input-people-affected"
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="e.g., 5"
+                  className={`form-input${formErrors.people_affected_count ? ' input-error' : ''}`}
+                  value={formData.people_affected_count}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === '' || Number(val) >= 0) {
+                      setFormData({ ...formData, people_affected_count: val });
+                      if (formErrors.people_affected_count) setFormErrors({ ...formErrors, people_affected_count: null });
+                    }
+                  }}
+                />
+                {formErrors.people_affected_count && (
+                  <span className="field-error-text">
+                    {formErrors.people_affected_count}
+                  </span>
+                )}
+              </div>
+
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label" htmlFor="textarea-additional-observations">
+                  Additional Observations <span className="hint">(optional)</span>
+                </label>
+                <input
+                  id="textarea-additional-observations"
+                  type="text"
+                  placeholder="e.g., Water rising rapidly, smells like gas"
+                  className="form-input"
+                  value={formData.additional_observations}
+                  onChange={(e) => setFormData({ ...formData, additional_observations: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* ─────────────────────────────────────────────────────────────────
+              SECTION E: Photo Attachments
+              ───────────────────────────────────────────────────────────────── */}
+          <div className="facility-form-section">
+            <div className="facility-form-section-title">E. Photo Attachments</div>
+
+            <p style={{ margin: '0 0 0.85rem 0', fontSize: '0.82rem', color: 'var(--text-muted, #6e5c53)' }}>
               Attach clear pictures of the observed hazard, flood level, or damage. Maximum 5MB per image. Permitted formats: JPG, PNG, WebP.
             </p>
 
             {/* File Upload Zone */}
             <div
               style={{
-                border: '2px dashed var(--border-medium)',
+                border: '2px dashed var(--border-medium, #e0d5c7)',
                 borderRadius: '8px',
                 padding: '1.25rem',
                 textAlign: 'center',
-                background: 'var(--bg-surface-subtle)',
+                background: 'var(--bg-surface-subtle, #faf7f2)',
                 marginBottom: '1rem'
               }}
             >
@@ -1586,30 +1640,30 @@ export function CitizenIncidentReports() {
                   padding: '8px 16px',
                   borderRadius: '6px',
                   background: '#ffffff',
-                  border: '1px solid var(--border-medium)',
-                  color: 'var(--color-espresso-dark)',
+                  border: '1px solid var(--border-medium, #e0d5c7)',
+                  color: 'var(--color-espresso-dark, #22120c)',
                   fontWeight: 600,
                   fontSize: '0.86rem',
                   cursor: 'pointer',
                   boxShadow: 'var(--shadow-sm)'
                 }}
               >
-                <Upload size={16} color="var(--color-terracotta)" />
+                <Upload size={16} color="var(--color-terracotta, #8b3a2b)" />
                 <span>Select Photographs</span>
               </label>
-              <span style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: 6 }}>
+              <span style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted, #6e5c53)', marginTop: 6 }}>
                 Drag and drop or browse files from your device
               </span>
             </div>
 
-            {/* Selected Photo Thumbnails with preview & remove */}
+            {/* Selected Photo Thumbnails */}
             {formData.photos.length > 0 && (
               <div
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
                   gap: '10px',
-                  marginBottom: '0.5rem'
+                  marginBottom: '0.75rem'
                 }}
               >
                 {formData.photos.map((photo) => (
@@ -1619,7 +1673,7 @@ export function CitizenIncidentReports() {
                       position: 'relative',
                       borderRadius: '6px',
                       overflow: 'hidden',
-                      border: '1px solid var(--border-medium)',
+                      border: '1px solid var(--border-medium, #e0d5c7)',
                       background: '#000000',
                       aspectRatio: '1 / 1'
                     }}
@@ -1676,9 +1730,9 @@ export function CitizenIncidentReports() {
             <div
               style={{
                 fontSize: '0.74rem',
-                color: 'var(--text-muted)',
+                color: 'var(--text-muted, #6e5c53)',
                 lineHeight: 1.4,
-                borderTop: '1px solid var(--border-light)',
+                borderTop: '1px solid var(--border-light, #ece3d8)',
                 paddingTop: '0.5rem'
               }}
             >
@@ -1687,61 +1741,89 @@ export function CitizenIncidentReports() {
           </div>
 
           {/* ─────────────────────────────────────────────────────────────────
-              SECTION E: Additional Information & Confirmation (Requirement 2.E)
+              SECTION F: Safety & Confirmation
               ───────────────────────────────────────────────────────────────── */}
-          <div
-            style={{
-              background: '#ffffff',
-              border: '1px solid var(--border-medium)',
-              borderRadius: '10px',
-              padding: '1.15rem'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
-              <HelpCircle size={17} color="var(--color-terracotta)" />
-              <h4 style={{ margin: 0, fontSize: '0.98rem', fontWeight: 700, color: 'var(--color-espresso-dark)' }}>
-                Section E: Additional Information & Safety Confirmation
-              </h4>
-            </div>
+          <div className="facility-form-section" style={{ marginBottom: 0 }}>
+            <div className="facility-form-section-title">F. Safety &amp; Confirmation</div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-              <div className="form-group">
-                <label className="form-label">
-                  Is immediate danger present? <span className="required-star">*</span>
+            <div className="facility-form-grid-2">
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label">
+                  Is immediate danger present? <span className="req">*</span>
                 </label>
-                <div style={{ display: 'flex', gap: '10px', marginTop: 4 }}>
-                  {['Yes', 'No', 'Not Sure'].map((opt) => (
-                    <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.86rem', cursor: 'pointer' }}>
-                      <input
-                        type="radio"
-                        name="immediate_danger"
-                        value={opt}
-                        checked={formData.immediate_danger === opt}
-                        onChange={() => setFormData({ ...formData, immediate_danger: opt })}
-                      />
-                      <span>{opt}</span>
-                    </label>
-                  ))}
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '2px' }}>
+                  {['Yes', 'No', 'Not Sure'].map((opt) => {
+                    const isSelected = formData.immediate_danger === opt;
+                    return (
+                      <label
+                        key={opt}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '6px 12px',
+                          borderRadius: '6px',
+                          border: isSelected ? '1px solid var(--color-terracotta, #8b3a2b)' : '1px solid var(--border-medium, #e0d5c7)',
+                          background: isSelected ? 'rgba(139, 58, 43, 0.06)' : '#ffffff',
+                          color: isSelected ? 'var(--color-terracotta, #8b3a2b)' : 'var(--color-espresso-base, #2c1a14)',
+                          fontSize: '0.84rem',
+                          fontWeight: isSelected ? 600 : 400,
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name="immediate_danger"
+                          value={opt}
+                          checked={isSelected}
+                          onChange={() => setFormData({ ...formData, immediate_danger: opt })}
+                          style={{ accentColor: 'var(--color-terracotta, #8b3a2b)' }}
+                        />
+                        <span>{opt}</span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">
-                  Is emergency assistance required? <span className="required-star">*</span>
+              <div className="facility-form-group no-mb">
+                <label className="facility-form-label">
+                  Is emergency assistance required? <span className="req">*</span>
                 </label>
-                <div style={{ display: 'flex', gap: '10px', marginTop: 4 }}>
-                  {['No', 'Yes'].map((opt) => (
-                    <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.86rem', cursor: 'pointer' }}>
-                      <input
-                        type="radio"
-                        name="emergency_assistance_needed"
-                        value={opt}
-                        checked={formData.emergency_assistance_needed === opt}
-                        onChange={() => setFormData({ ...formData, emergency_assistance_needed: opt })}
-                      />
-                      <span>{opt}</span>
-                    </label>
-                  ))}
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '2px' }}>
+                  {['No', 'Yes'].map((opt) => {
+                    const isSelected = formData.emergency_assistance_needed === opt;
+                    return (
+                      <label
+                        key={opt}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '6px 12px',
+                          borderRadius: '6px',
+                          border: isSelected ? '1px solid var(--color-terracotta, #8b3a2b)' : '1px solid var(--border-medium, #e0d5c7)',
+                          background: isSelected ? 'rgba(139, 58, 43, 0.06)' : '#ffffff',
+                          color: isSelected ? 'var(--color-terracotta, #8b3a2b)' : 'var(--color-espresso-base, #2c1a14)',
+                          fontSize: '0.84rem',
+                          fontWeight: isSelected ? 600 : 400,
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name="emergency_assistance_needed"
+                          value={opt}
+                          checked={isSelected}
+                          onChange={() => setFormData({ ...formData, emergency_assistance_needed: opt })}
+                          style={{ accentColor: 'var(--color-terracotta, #8b3a2b)' }}
+                        />
+                        <span>{opt}</span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -1754,7 +1836,7 @@ export function CitizenIncidentReports() {
                   border: '1px solid var(--status-extreme-border)',
                   borderRadius: '8px',
                   padding: '0.85rem 1rem',
-                  marginBottom: '1rem'
+                  marginTop: '0.85rem'
                 }}
               >
                 <p style={{ margin: '0 0 6px 0', fontSize: '0.84rem', color: 'var(--status-extreme)', fontWeight: 700 }}>
@@ -1772,13 +1854,13 @@ export function CitizenIncidentReports() {
             )}
 
             {/* Optional Alternate Contact */}
-            <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-              <label className="form-label" htmlFor="input-alternate-contact">
-                Alternate Contact Phone (optional)
+            <div className="facility-form-group" style={{ marginTop: '0.85rem' }}>
+              <label className="facility-form-label" htmlFor="input-alternate-contact">
+                Alternate Contact Phone <span className="hint">(optional)</span>
               </label>
               <input
                 id="input-alternate-contact"
-                type="text"
+                type="tel"
                 placeholder="Only if different from your profile phone number"
                 className="form-input"
                 value={formData.additional_contact}
@@ -1786,13 +1868,14 @@ export function CitizenIncidentReports() {
               />
             </div>
 
-            {/* Accuracy Confirmation Checkbox (Requirement 2.E & 3) */}
+            {/* Accuracy Confirmation Checkbox */}
             <div
               style={{
-                background: 'var(--bg-surface-subtle)',
-                border: '1px solid var(--border-medium)',
+                background: 'var(--bg-surface-subtle, #faf7f2)',
+                border: '1px solid var(--border-medium, #e0d5c7)',
                 borderRadius: '8px',
-                padding: '0.85rem 1rem'
+                padding: '0.85rem 1rem',
+                marginTop: '0.85rem'
               }}
             >
               <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer' }}>
@@ -1803,70 +1886,23 @@ export function CitizenIncidentReports() {
                     setFormData({ ...formData, accuracy_confirmed: e.target.checked });
                     if (formErrors.accuracy_confirmed) setFormErrors({ ...formErrors, accuracy_confirmed: null });
                   }}
-                  style={{ marginTop: '3px', cursor: 'pointer' }}
+                  style={{ marginTop: '3px', cursor: 'pointer', accentColor: 'var(--color-terracotta, #8b3a2b)' }}
                 />
-                <span style={{ fontSize: '0.86rem', color: 'var(--color-espresso-dark)', fontWeight: 600 }}>
-                  I confirm that the information provided is accurate to the best of my knowledge. <span className="required-star">*</span>
+                <span style={{ fontSize: '0.86rem', color: 'var(--color-espresso-dark, #22120c)', fontWeight: 600 }}>
+                  I confirm that the information provided is accurate to the best of my knowledge. <span className="req">*</span>
                 </span>
               </label>
 
-              <p style={{ margin: '6px 0 0 24px', fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+              <p style={{ margin: '6px 0 0 24px', fontSize: '0.78rem', color: 'var(--text-muted, #6e5c53)', lineHeight: 1.4 }}>
                 Submitting an incident report informs disaster authorities about observed conditions for tracking and resource planning, but does not automatically dispatch personal rescue or medical assistance.
               </p>
 
               {formErrors.accuracy_confirmed && (
-                <span className="field-error-text" style={{ color: 'var(--status-extreme)', fontSize: '0.78rem', display: 'block', marginTop: 4, marginLeft: 24 }}>
+                <span className="field-error-text" style={{ marginLeft: 24 }}>
                   {formErrors.accuracy_confirmed}
                 </span>
               )}
             </div>
-          </div>
-
-          {/* Form Action Buttons (Requirement 3) */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: '12px',
-              paddingTop: '1rem',
-              borderTop: '1px solid var(--border-light)'
-            }}
-          >
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={handleCloseCreateModal}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              id="btn-submit-incident-report"
-              className="btn btn-primary"
-              disabled={isSubmitting}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontWeight: 700,
-                minWidth: '180px',
-                justifyContent: 'center'
-              }}
-            >
-              {isSubmitting ? (
-                <>
-                  <LoadingSpinner size="sm" inline />
-                  <span>Submitting report...</span>
-                </>
-              ) : (
-                <>
-                  <Send size={16} />
-                  <span>Submit Incident Report</span>
-                </>
-              )}
-            </button>
           </div>
         </form>
       </Modal>
